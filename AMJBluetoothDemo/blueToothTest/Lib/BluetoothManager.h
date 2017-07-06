@@ -100,6 +100,8 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
  */
 + (nullable BluetoothManager *)getInstance;
 
+- (void)effect;
+
 /**
  扫描设备
 

@@ -10,7 +10,7 @@
 //如果寻找设备过久,很容易导致控制失败
 #import "BluetoothManager.h"
 #import "NSString+StringOperation.h"
-#import "AppDelegate.h"
+
 static BluetoothManager *shareInstance;
 
 typedef void(^stateValueFailReturn)(NSInteger);
@@ -61,6 +61,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 + (BluetoothManager *)getInstance {
     if (shareInstance == nil) {
         shareInstance = [[BluetoothManager alloc] init];
+        [shareInstance initData];
     }
     return shareInstance;
 }
@@ -94,19 +95,23 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     return _centralManager;
 }
 
-
-+ (void)load
+-(void)effect
 {
-    __block id observer = [[NSNotificationCenter defaultCenter]addObserverForName:UIApplicationDidFinishLaunchingNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-        [BluetoothManager getInstance];
-        [shareInstance initData];
-        [[NSNotificationCenter defaultCenter] removeObserver:observer];
-    }];
+    [[BluetoothManager getInstance] initData];
 }
+
+//+ (void)load
+//{
+//    __block id observer = [[NSNotificationCenter defaultCenter]addObserverForName:UIApplicationDidFinishLaunchingNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+//        [BluetoothManager getInstance];
+//        
+//        [[NSNotificationCenter defaultCenter] removeObserver:observer];
+//    }];
+//}
 
 
 - (void)initData {
-    NSLogMethodArgs(@"%@", self.centralManager.isScanning?@"载入成功,正在扫描":@"正在载入");
+    NSLogMethodArgs(@"%@", self.centralManager.isScanning?@"载入成功,开始扫描":@"正在载入");
 }
 
 - (void)scanPeriherals:(BOOL)isAllowDuplicates AllowPrefix:(NSArray<__kindof NSNumber *> *_Nullable)PrefixArr {
@@ -312,12 +317,13 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 - (void)connect2Peripheral:(CBPeripheral *)curPeripheral {
 
     curPeripheral.delegate = self;
-    NSDictionary *options = @{CBConnectPeripheralOptionNotifyOnConnectionKey: @NO,
-            CBConnectPeripheralOptionNotifyOnDisconnectionKey: @NO,
-            CBConnectPeripheralOptionNotifyOnNotificationKey: @NO};
+    
+//    NSDictionary *options = @{CBConnectPeripheralOptionNotifyOnConnectionKey: @NO,
+//            CBConnectPeripheralOptionNotifyOnDisconnectionKey: @NO,
+//            CBConnectPeripheralOptionNotifyOnNotificationKey: @NO};
     [self setTimeOutWithPeriheral:curPeripheral];
-    [self.centralManager connectPeripheral:curPeripheral options:options];
-
+//    [self.centralManager connectPeripheral:curPeripheral options:options];
+    [self.centralManager connectPeripheral:curPeripheral options:nil];
     double time1 = [[NSDate date] timeIntervalSinceDate:_dataf];
     NSLog(@"STEP1:开始连接:%f  id:%@", time1, curPeripheral.name);
 }
@@ -502,20 +508,21 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 
 #pragma mark -  CBCentralManagerDelegate methodes   主要是发现,主设备动作
 
+
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
     switch (central.state) {
-        case CBCentralManagerStateUnknown: {
+        case CBManagerStateUnknown: {
         }
             break;
-        case CBCentralManagerStateResetting: {
+        case CBManagerStateResetting: {
             NSLog(@"蓝牙重置");
         }
             break;
-        case CBCentralManagerStatePoweredOff: {
+        case CBManagerStatePoweredOff: {
             NSLog(@"蓝牙关闭");
         }
             break;
-        case CBCentralManagerStatePoweredOn: {
+        case CBManagerStatePoweredOn: {
             NSLog(@"蓝牙打开");
             [self scanPeriherals:NO AllowPrefix:@[@(ScanTypeAll)]];
         }
