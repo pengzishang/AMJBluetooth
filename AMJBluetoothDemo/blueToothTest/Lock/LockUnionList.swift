@@ -136,6 +136,7 @@ class LockUnionList: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             devices.remove(at: indexPath.row)
+            UserDefaults.standard.set(devices, forKey: self.deviceID(with: self.deviceInfo))
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
