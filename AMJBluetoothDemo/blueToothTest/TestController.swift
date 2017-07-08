@@ -19,7 +19,7 @@ class TestController: UIViewController,UITableViewDataSource,UITableViewDelegate
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: BlueToothMangerDidDiscoverNewItem), object: nil, queue: nil) { (notice) in
             self.devicesArray.append(notice.userInfo as! [String : Any])
             self.mainTableView.reloadData()
-//            print(notice.userInfo!)//userinfo内有信息
+            print(notice.userInfo!)//userinfo内有信息
         }
         
     }
@@ -50,6 +50,9 @@ class TestController: UIViewController,UITableViewDataSource,UITableViewDelegate
         if self.deviceFullID(with: deviceInfoDic) .contains("Name08") {
             self .performSegue(withIdentifier: "viewLock", sender: indexPath)
         }
+        else if self.deviceFullID(with: deviceInfoDic) .contains("Name19"){
+            self .performSegue(withIdentifier: "union", sender: indexPath)
+        }
         else
         {
             self .performSegue(withIdentifier: "chooseVersion", sender: indexPath)
@@ -61,13 +64,6 @@ class TestController: UIViewController,UITableViewDataSource,UITableViewDelegate
         let advdic=infoDic[AdvertisementData] as! NSDictionary
         return advdic.object(forKey: "kCBAdvDataLocalName") as! String?
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
     
     // MARK: - Navigation
 
@@ -81,6 +77,11 @@ class TestController: UIViewController,UITableViewDataSource,UITableViewDelegate
         else if segue.identifier == "chooseVersion" {
             let deviceInfo=devicesArray[(sender as! NSIndexPath).row]
             let target=segue.destination as! SendController
+            target.deviceInfo = deviceInfo
+        }
+        else if segue.identifier == "union" {
+            let deviceInfo=devicesArray[(sender as! NSIndexPath).row]
+            let target=segue.destination as! LockUnionList
             target.deviceInfo = deviceInfo
         }
 

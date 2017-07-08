@@ -112,9 +112,9 @@ class LockViewController: UITableViewController {
                 return 0
             })
         }
-        else if indexPath.row==4 {
-            self.performSegue(withIdentifier: "lockunion", sender: self.deviceInfo)
-        }
+//        else if indexPath.row==4 {
+//            self.performSegue(withIdentifier: "lockunion", sender: self.deviceInfo)
+//        }
         
     }
     
@@ -131,8 +131,9 @@ class LockViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let target = segue.destination as! LockUnionList
-        target.deviceInfo = sender as! Dictionary<String, Any>
+
+//        let target = segue.destination as! LockUnionList
+//        target.deviceInfo = sender as! Dictionary<String, Any>
         
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.

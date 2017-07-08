@@ -19,6 +19,7 @@
 		3C7C454B1DE8403200A5718C /* SendController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7C454A1DE8403100A5718C /* SendController.swift */; };
 		6446CA4B1F0CCFEC001F1CE5 /* LockUnionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E5A361F0B3B6A00B5B527 /* LockUnionList.swift */; };
 		6446CA4C1F0CCFF0001F1CE5 /* LockAddUnionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E5A381F0B3B6A00B5B527 /* LockAddUnionController.swift */; };
+		6447F4BD1F0F71A4007CB9C8 /* LockListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6447F4BC1F0F71A4007CB9C8 /* LockListController.swift */; };
 		64DA151B1F0B413F008E76FE /* LockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DA151A1F0B408B008E76FE /* LockViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +40,7 @@
 		3C74C9191EFB7B6E00E51CE4 /* NSString+StringOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+StringOperation.m"; sourceTree = "<group>"; };
 		3C74C91C1EFB7B7700E51CE4 /* DeviceTypeList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DeviceTypeList.plist; sourceTree = "<group>"; };
 		3C7C454A1DE8403100A5718C /* SendController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendController.swift; sourceTree = "<group>"; };
+		6447F4BC1F0F71A4007CB9C8 /* LockListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockListController.swift; sourceTree = "<group>"; };
 		647E5A361F0B3B6A00B5B527 /* LockUnionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LockUnionList.swift; path = blueToothTest/Lock/LockUnionList.swift; sourceTree = SOURCE_ROOT; };
 		647E5A381F0B3B6A00B5B527 /* LockAddUnionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LockAddUnionController.swift; path = blueToothTest/Lock/LockAddUnionController.swift; sourceTree = SOURCE_ROOT; };
 		64DA151A1F0B408B008E76FE /* LockViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LockViewController.swift; path = blueToothTest/Lock/LockViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -76,6 +78,7 @@
 		3C009E4B1DE8150F002F15BE /* blueToothTest */ = {
 			isa = PBXGroup;
 			children = (
+				6447F4BB1F0F67FA007CB9C8 /* Union */,
 				64DA151E1F0B435E008E76FE /* AppDelegate+BlueTest.h */,
 				64DA151D1F0B435E008E76FE /* AppDelegate+BlueTest.m */,
 				64DA151C1F0B42D4008E76FE /* Lib */,
@@ -102,14 +105,22 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		6447F4BB1F0F67FA007CB9C8 /* Union */ = {
+			isa = PBXGroup;
+			children = (
+				647E5A381F0B3B6A00B5B527 /* LockAddUnionController.swift */,
+				647E5A361F0B3B6A00B5B527 /* LockUnionList.swift */,
+				6447F4BC1F0F71A4007CB9C8 /* LockListController.swift */,
+			);
+			path = Union;
+			sourceTree = "<group>";
+		};
 		647E5A351F0B3B4800B5B527 /* Lock */ = {
 			isa = PBXGroup;
 			children = (
 				64DA151A1F0B408B008E76FE /* LockViewController.swift */,
-				647E5A381F0B3B6A00B5B527 /* LockAddUnionController.swift */,
-				647E5A361F0B3B6A00B5B527 /* LockUnionList.swift */,
 			);
-			name = Lock;
+			path = Lock;
 			sourceTree = "<group>";
 		};
 		64DA151C1F0B42D4008E76FE /* Lib */ = {
@@ -204,6 +215,7 @@
 				3C009E511DE81510002F15BE /* AppDelegate.m in Sources */,
 				3C009E4E1DE81510002F15BE /* main.m in Sources */,
 				6446CA4B1F0CCFEC001F1CE5 /* LockUnionList.swift in Sources */,
+				6447F4BD1F0F71A4007CB9C8 /* LockListController.swift in Sources */,
 				3C74C91B1EFB7B6E00E51CE4 /* NSString+StringOperation.m in Sources */,
 				64DA151B1F0B413F008E76FE /* LockViewController.swift in Sources */,
 				3C74C91A1EFB7B6E00E51CE4 /* BluetoothManager.m in Sources */,

@@ -28,20 +28,7 @@ class LockUnionList: UITableViewController {
         }
         
     }
-    
-    @IBAction func delRecord(_ sender: UIBarButtonItem) {
-        let lockID  = self.deviceID(with: self.deviceInfo)
-        var command :NSString = "003001"
-        command = command.full(withLengthCountBehide: 30)! as NSString
-        BluetoothManager.getInstance()?.sendByteCommand(with: command as String, deviceID: lockID!, sendType: .lock, success: { (data) in
-            
-        }, fail: { (failCode) -> UInt in
-            
-            return 0
-        })
-        
-        
-    }
+
     func deviceFullID(with infoDic:Dictionary<String, Any>) -> String! {
         let advdic=infoDic[AdvertisementData] as! NSDictionary
         return advdic.object(forKey: "kCBAdvDataLocalName") as! String?
@@ -54,11 +41,27 @@ class LockUnionList: UITableViewController {
         let deviceMACID = deviceID.substring(from: indexOfDeviceID)
         return deviceMACID
     }
-    // MARK: - Table view data source
 
-    @IBAction func addUnion(_ sender: UIBarButtonItem) {
+    @IBAction func relatLock(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "lockList", sender: nil)
+    }
+    
+    @IBAction func deleteAll(_ sender: UIButton) {
+        let lockID  = self.deviceID(with: self.deviceInfo)
+        var command :NSString = "003001"
+        command = command.full(withLengthCountBehide: 30)! as NSString
+        BluetoothManager.getInstance()?.sendByteCommand(with: command as String, deviceID: lockID!, sendType: .lock, success: { (data) in
+            
+        }, fail: { (failCode) -> UInt in
+            
+            return 0
+        })
+    }
+    
+    @IBAction func addUnion(_ sender: UIButton) {
         self.performSegue(withIdentifier: "lockaddunion", sender: nil)
     }
+    
    
     @IBAction func record(_ sender: UIButton) {
         
@@ -83,29 +86,49 @@ class LockUnionList: UITableViewController {
         })
         
     }
-    
+        // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return devices.count
+        return devices.count + 1
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == devices.count{
+            return 100
+        }
+        else
+        {
+            return 60
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "item", for: indexPath)
-        cell.tag = 10000 + indexPath.row
-        let deviceID = cell.viewWithTag(1001) as! UILabel
-        let deviceStatus = cell.viewWithTag(1002) as! UILabel
-        deviceID.text = devices[indexPath.row]["deviceID"]
-        deviceStatus.text = devices[indexPath.row]["deviceStatus"]
-        
-        // Configure the cell...
+        if indexPath.row == devices.count {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "func", for: indexPath)
+            let deviceInfoID = cell.viewWithTag(1001) as! UILabel
+            deviceInfoID.text = "当前取电器: " + self.deviceFullID(with: deviceInfo)
+            return cell
+        }
+        else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "item", for: indexPath)
+            cell.tag = 10000 + indexPath.row
+            let deviceID = cell.viewWithTag(1001) as! UILabel
+            let deviceStatus = cell.viewWithTag(1002) as! UILabel
+            deviceID.text = devices[indexPath.row]["deviceID"]
+            deviceStatus.text = devices[indexPath.row]["deviceStatus"]
+            
+            return cell
 
-        return cell
+        }
+        
     }
     
     
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+        if indexPath.row != devices.count {
+            return true
+        }
+        return false
     }
     
     // Override to support editing the table view.
@@ -124,9 +147,17 @@ class LockUnionList: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let target :LockAddUnionController = segue.destination as! LockAddUnionController
-        target.devices = self.devices
-        target.deviceInfo = self.deviceInfo
+        if segue.identifier == "lockaddunion" {
+            let target :LockAddUnionController = segue.destination as! LockAddUnionController
+            target.devices = self.devices
+            target.deviceInfo = self.deviceInfo
+        }
+        else if segue.identifier == "lockList" {
+            let target :LockListController = segue.destination as! LockListController
+//            target.devices = self.devices
+            target.deviceInfo = self.deviceInfo
+        }
+
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
