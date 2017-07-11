@@ -96,6 +96,7 @@
                         <segue destination="vR3-hl-7to" kind="show" identifier="chooseVersion" id="KjA-YV-x3D"/>
                         <segue destination="fD7-2W-Ji9" kind="show" identifier="viewLock" id="aF3-bG-5T0"/>
                         <segue destination="X1W-eo-Q85" kind="show" identifier="union" id="6aA-86-3w2"/>
+                        <segue destination="6jY-er-bl4" kind="show" id="6XG-N4-hLN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hSa-AC-UXe" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -366,7 +367,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oj6-3Q-HOr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="919" y="-302"/>
+            <point key="canvasLocation" x="1154" y="-1164"/>
         </scene>
         <!--联动列表-->
         <scene sceneID="Lau-t9-ENK">
@@ -502,7 +503,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PCi-vI-I3N" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="943" y="-1025"/>
+            <point key="canvasLocation" x="1178" y="-1886"/>
         </scene>
         <!--未包括设备-->
         <scene sceneID="vof-1A-HJ9">
@@ -549,7 +550,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jFP-CC-85W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1946" y="-718"/>
+            <point key="canvasLocation" x="2089" y="-1519"/>
         </scene>
         <!--设置默认锁-->
         <scene sceneID="37M-Pa-5qJ">
@@ -605,7 +606,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4gN-XX-mKI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1945" y="-1453"/>
+            <point key="canvasLocation" x="2089" y="-2254"/>
         </scene>
         <!--控制字-->
         <scene sceneID="4MD-Ph-0Lt">
@@ -646,12 +647,12 @@ Ctrl: 参考APP控制开关对应的控制字，
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wyd-4b-q8w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2887" y="-1025"/>
+            <point key="canvasLocation" x="3030" y="-1826"/>
         </scene>
-        <!--Send Controller-->
+        <!--发送命令-->
         <scene sceneID="9hr-W1-E4a">
             <objects>
-                <viewController id="vR3-hl-7to" customClass="SendController" customModule="blueToothTest" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="发送命令" id="vR3-hl-7to" customClass="SendController" customModule="blueToothTest" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="iLW-CF-bq0"/>
                         <viewControllerLayoutGuide type="bottom" id="ObZ-dI-bE0"/>
@@ -701,7 +702,50 @@ Ctrl: 参考APP控制开关对应的控制字，
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eHK-H6-OHA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="898" y="508"/>
+            <point key="canvasLocation" x="1154" y="-451"/>
+        </scene>
+        <!--遥控器命令发送-->
+        <scene sceneID="BIQ-OG-ZaH">
+            <objects>
+                <viewController id="6jY-er-bl4" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="p06-dI-Jyv"/>
+                        <viewControllerLayoutGuide type="bottom" id="Xut-EA-2mn"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" id="2ff-OJ-0xs">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="快速发码功能" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mSs-st-6HT">
+                                <rect key="frame" x="36" y="94" width="303" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hEj-Rq-Qwf">
+                                <rect key="frame" x="87.5" y="132" width="200" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="rMn-9n-dWc"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="mSs-st-6HT" firstAttribute="centerX" secondItem="2ff-OJ-0xs" secondAttribute="centerX" id="HUA-S9-G8Q"/>
+                            <constraint firstItem="hEj-Rq-Qwf" firstAttribute="centerX" secondItem="mSs-st-6HT" secondAttribute="centerX" id="ZtY-yK-rIY"/>
+                            <constraint firstItem="mSs-st-6HT" firstAttribute="top" secondItem="p06-dI-Jyv" secondAttribute="bottom" constant="30" id="nIt-pi-zfx"/>
+                            <constraint firstItem="mSs-st-6HT" firstAttribute="leading" secondItem="2ff-OJ-0xs" secondAttribute="leadingMargin" constant="20" id="skh-zl-dly"/>
+                            <constraint firstItem="hEj-Rq-Qwf" firstAttribute="top" secondItem="mSs-st-6HT" secondAttribute="bottom" constant="20" id="wfX-4b-PbY"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="遥控器命令发送" id="pXX-du-vvr"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fpk-hB-Zbk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1154" y="262"/>
         </scene>
     </scenes>
 </document>

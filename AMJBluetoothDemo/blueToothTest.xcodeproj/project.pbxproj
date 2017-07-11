@@ -41,8 +41,8 @@
 		3C74C91C1EFB7B7700E51CE4 /* DeviceTypeList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DeviceTypeList.plist; sourceTree = "<group>"; };
 		3C7C454A1DE8403100A5718C /* SendController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendController.swift; sourceTree = "<group>"; };
 		6447F4BC1F0F71A4007CB9C8 /* LockListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockListController.swift; sourceTree = "<group>"; };
-		647E5A361F0B3B6A00B5B527 /* LockUnionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LockUnionList.swift; path = blueToothTest/Lock/LockUnionList.swift; sourceTree = SOURCE_ROOT; };
-		647E5A381F0B3B6A00B5B527 /* LockAddUnionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LockAddUnionController.swift; path = blueToothTest/Lock/LockAddUnionController.swift; sourceTree = SOURCE_ROOT; };
+		647E5A361F0B3B6A00B5B527 /* LockUnionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LockUnionList.swift; path = blueToothTest/Union/LockUnionList.swift; sourceTree = SOURCE_ROOT; };
+		647E5A381F0B3B6A00B5B527 /* LockAddUnionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LockAddUnionController.swift; path = blueToothTest/Union/LockAddUnionController.swift; sourceTree = SOURCE_ROOT; };
 		64DA151A1F0B408B008E76FE /* LockViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LockViewController.swift; path = blueToothTest/Lock/LockViewController.swift; sourceTree = SOURCE_ROOT; };
 		64DA151D1F0B435E008E76FE /* AppDelegate+BlueTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+BlueTest.m"; sourceTree = "<group>"; };
 		64DA151E1F0B435E008E76FE /* AppDelegate+BlueTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+BlueTest.h"; sourceTree = "<group>"; };

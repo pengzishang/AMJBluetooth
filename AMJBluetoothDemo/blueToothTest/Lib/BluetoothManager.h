@@ -163,6 +163,9 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
                           success:(void (^ _Nullable)(NSData *__nullable stateData))success
                              fail:(NSUInteger (^ _Nullable)(NSString *__nullable stateCode))fail;
 
+
+
+
 /**
  刷新多个设备状态
 

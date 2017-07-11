@@ -53,6 +53,10 @@ class TestController: UIViewController,UITableViewDataSource,UITableViewDelegate
         else if self.deviceFullID(with: deviceInfoDic) .contains("Name19"){
             self .performSegue(withIdentifier: "union", sender: indexPath)
         }
+        else if self.deviceFullID(with: deviceInfoDic) .contains("IrRemoteControllerA"){
+            self .performSegue(withIdentifier: "union", sender: indexPath)
+        }
+            
         else
         {
             self .performSegue(withIdentifier: "chooseVersion", sender: indexPath)
