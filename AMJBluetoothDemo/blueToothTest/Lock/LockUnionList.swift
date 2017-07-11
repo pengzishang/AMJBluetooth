@@ -155,7 +155,6 @@ class LockUnionList: UITableViewController {
         }
         else if segue.identifier == "lockList" {
             let target :LockListController = segue.destination as! LockListController
-//            target.devices = self.devices
             target.deviceInfo = self.deviceInfo
         }
 
