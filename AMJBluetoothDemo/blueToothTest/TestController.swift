@@ -54,7 +54,7 @@ class TestController: UIViewController,UITableViewDataSource,UITableViewDelegate
             self .performSegue(withIdentifier: "union", sender: indexPath)
         }
         else if self.deviceFullID(with: deviceInfoDic) .contains("IrRemoteControllerA"){
-            self .performSegue(withIdentifier: "union", sender: indexPath)
+            self .performSegue(withIdentifier: "irremote", sender: indexPath)
         }
             
         else

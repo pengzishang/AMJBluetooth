@@ -96,7 +96,7 @@
                         <segue destination="vR3-hl-7to" kind="show" identifier="chooseVersion" id="KjA-YV-x3D"/>
                         <segue destination="fD7-2W-Ji9" kind="show" identifier="viewLock" id="aF3-bG-5T0"/>
                         <segue destination="X1W-eo-Q85" kind="show" identifier="union" id="6aA-86-3w2"/>
-                        <segue destination="6jY-er-bl4" kind="show" id="6XG-N4-hLN"/>
+                        <segue destination="6jY-er-bl4" kind="show" identifier="irremote" id="6XG-N4-hLN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hSa-AC-UXe" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -707,38 +707,64 @@ Ctrl: 参考APP控制开关对应的控制字，
         <!--遥控器命令发送-->
         <scene sceneID="BIQ-OG-ZaH">
             <objects>
-                <viewController id="6jY-er-bl4" sceneMemberID="viewController">
+                <viewController id="6jY-er-bl4" customClass="IRRemoteController" customModule="blueToothTest" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="p06-dI-Jyv"/>
                         <viewControllerLayoutGuide type="bottom" id="Xut-EA-2mn"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" id="2ff-OJ-0xs">
+                    <view key="view" contentMode="scaleToFill" id="2ff-OJ-0xs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="快速发码功能" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mSs-st-6HT">
-                                <rect key="frame" x="36" y="94" width="303" height="18"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <rect key="frame" x="36" y="94" width="303" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hEj-Rq-Qwf">
-                                <rect key="frame" x="87.5" y="132" width="200" height="30"/>
+                                <rect key="frame" x="56" y="134.5" width="263" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="rMn-9n-dWc"/>
+                                    <constraint firstAttribute="height" constant="40" id="KnV-5L-50G"/>
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" autocorrectionType="no" keyboardType="alphabet" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <action selector="didFinishEdit:" destination="6jY-er-bl4" eventType="editingDidEndOnExit" id="BxR-fc-EG0"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="下载遥控器" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Paz-tV-zbP">
+                                <rect key="frame" x="36" y="214.5" width="303" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="k0U-qt-7wa">
+                                <rect key="frame" x="56" y="255.5" width="263" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="w1E-Xq-a3P"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" autocorrectionType="no" keyboardType="alphabet" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Paz-tV-zbP" firstAttribute="leading" secondItem="2ff-OJ-0xs" secondAttribute="leadingMargin" constant="20" id="49g-FJ-Oor"/>
                             <constraint firstItem="mSs-st-6HT" firstAttribute="centerX" secondItem="2ff-OJ-0xs" secondAttribute="centerX" id="HUA-S9-G8Q"/>
+                            <constraint firstItem="k0U-qt-7wa" firstAttribute="height" secondItem="hEj-Rq-Qwf" secondAttribute="height" id="Hz4-Bh-RZ2"/>
+                            <constraint firstItem="k0U-qt-7wa" firstAttribute="width" secondItem="hEj-Rq-Qwf" secondAttribute="width" id="JG2-pr-B6O"/>
+                            <constraint firstItem="k0U-qt-7wa" firstAttribute="top" secondItem="Paz-tV-zbP" secondAttribute="bottom" constant="20" id="Jd4-H4-w1t"/>
+                            <constraint firstItem="k0U-qt-7wa" firstAttribute="centerX" secondItem="2ff-OJ-0xs" secondAttribute="centerX" id="VZ8-wb-GYq"/>
                             <constraint firstItem="hEj-Rq-Qwf" firstAttribute="centerX" secondItem="mSs-st-6HT" secondAttribute="centerX" id="ZtY-yK-rIY"/>
+                            <constraint firstItem="Paz-tV-zbP" firstAttribute="top" secondItem="hEj-Rq-Qwf" secondAttribute="bottom" constant="40" id="cqZ-3T-yB1"/>
                             <constraint firstItem="mSs-st-6HT" firstAttribute="top" secondItem="p06-dI-Jyv" secondAttribute="bottom" constant="30" id="nIt-pi-zfx"/>
                             <constraint firstItem="mSs-st-6HT" firstAttribute="leading" secondItem="2ff-OJ-0xs" secondAttribute="leadingMargin" constant="20" id="skh-zl-dly"/>
+                            <constraint firstItem="Paz-tV-zbP" firstAttribute="centerX" secondItem="2ff-OJ-0xs" secondAttribute="centerX" id="vTH-u9-9dk"/>
                             <constraint firstItem="hEj-Rq-Qwf" firstAttribute="top" secondItem="mSs-st-6HT" secondAttribute="bottom" constant="20" id="wfX-4b-PbY"/>
+                            <constraint firstItem="hEj-Rq-Qwf" firstAttribute="leading" secondItem="2ff-OJ-0xs" secondAttribute="leadingMargin" constant="40" id="ypS-TZ-O4L"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="遥控器命令发送" id="pXX-du-vvr"/>
