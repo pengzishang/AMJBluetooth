@@ -23,6 +23,7 @@ class IRRemoteController: UIViewController {
             let command = ("254168001003002001002189001" as NSString).full(withLengthCountBehide: 57)
             sender.text = command
             let deviceID = self.deviceID(with: self.deviceInfo)
+
             
             BluetoothManager.getInstance()?.sendByteCommand(with: command!, deviceID: deviceID!, sendType: .remoteNew, retryTime: 3, success: { (data) in
                 print(data!)

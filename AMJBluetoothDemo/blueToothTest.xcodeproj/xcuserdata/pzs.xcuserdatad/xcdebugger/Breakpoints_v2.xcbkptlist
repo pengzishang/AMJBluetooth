@@ -281,23 +281,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "368"
             endingLineNumber = "368"
-            landmarkName = "-sendMutiCommandWithSingleDeviceID:sendType:retryTime:commands:success:fail:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "blueToothTest/Lib/BluetoothManager.m"
-            timestampString = "521969879.480192"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "392"
-            endingLineNumber = "392"
-            landmarkName = "-sendMutiCommandWithSingleDeviceID:sendType:retryTime:commands:success:fail:"
+            landmarkName = "-sendMutiCommands:withMutiDevices:withSendTypes:report:finish:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -313,7 +297,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "852"
             endingLineNumber = "852"
-            landmarkName = "-centralManager:didDisconnectPeripheral:error:"
+            landmarkName = "-peripheral:didDiscoverCharacteristicsForService:error:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -329,7 +313,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "533"
             endingLineNumber = "533"
-            landmarkName = "-initCommandWithStr:UDID:deviceIndex:isLast:"
+            landmarkName = "-returnRemote:length:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -344,9 +328,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "992"
-            endingLineNumber = "992"
-            landmarkName = "-peripheral:didUpdateValueForCharacteristic:error:"
-            landmarkType = "7">
+            endingLineNumber = "992">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -361,8 +343,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "167"
             endingLineNumber = "167"
-            landmarkName = "-disconnectPeriheral:"
-            landmarkType = "7">
+            landmarkName = "BluetoothManager"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -404,28 +386,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/Lib/BluetoothManager.m"
-            timestampString = "521969879.488112"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "298"
-            endingLineNumber = "298"
-            landmarkName = "-sendByteCommandWithString:deviceID:sendType:retryTime:success:fail:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "blueToothTest/Lib/BluetoothManager.m"
             timestampString = "521969879.489573"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "829"
             endingLineNumber = "829"
-            landmarkName = "-centralManager:didDisconnectPeripheral:error:"
+            landmarkName = "-peripheral:didDiscoverCharacteristicsForService:error:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -441,23 +407,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "833"
             endingLineNumber = "833"
-            landmarkName = "-centralManager:didDisconnectPeripheral:error:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "blueToothTest/Lib/BluetoothManager.m"
-            timestampString = "521969879.492359"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "384"
-            endingLineNumber = "384"
-            landmarkName = "-sendMutiCommandWithSingleDeviceID:sendType:retryTime:commands:success:fail:"
+            landmarkName = "-peripheral:didDiscoverCharacteristicsForService:error:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -473,39 +423,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "358"
             endingLineNumber = "358"
-            landmarkName = "-sendMutiCommandWithSingleDeviceID:sendType:retryTime:commands:success:fail:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "blueToothTest/Lib/BluetoothManager.m"
-            timestampString = "521969879.495796"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "416"
-            endingLineNumber = "416"
-            landmarkName = "-sendMutiCommandWithSingleDeviceID:sendType:retryTime:commands:success:fail:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "blueToothTest/Lib/BluetoothManager.m"
-            timestampString = "521969879.496951"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "443"
-            endingLineNumber = "443"
-            landmarkName = "-sendCommmandWithDeviceID:sendType:deviceIndex:command:isLast:"
+            landmarkName = "-sendMutiCommands:withMutiDevices:withSendTypes:report:finish:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -521,7 +439,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "558"
             endingLineNumber = "558"
-            landmarkName = "-initCommandWithStr:UDID:deviceIndex:isLast:"
+            landmarkName = "-refreshMutiDeviceInfo:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -536,9 +454,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "990"
-            endingLineNumber = "990"
-            landmarkName = "-peripheral:didUpdateValueForCharacteristic:error:"
-            landmarkType = "7">
+            endingLineNumber = "990">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -553,7 +469,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "877"
             endingLineNumber = "877"
-            landmarkName = "-returnIndexOfDeviceWithPeripheral:"
+            landmarkName = "-peripheral:didWriteValueForCharacteristic:error:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -569,23 +485,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "528"
             endingLineNumber = "528"
-            landmarkName = "-initCommandWithStr:UDID:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "blueToothTest/Lib/BluetoothManager.m"
-            timestampString = "521969879.503658"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "293"
-            endingLineNumber = "293"
-            landmarkName = "-sendByteCommandWithString:deviceID:sendType:retryTime:success:fail:"
+            landmarkName = "-returnRemote:length:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

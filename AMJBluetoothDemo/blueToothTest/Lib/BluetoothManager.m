@@ -39,8 +39,8 @@ typedef void(^localFailReturn)(NSUInteger deviceIndex,NSUInteger failCode);
     
 }
 
-@property(copy, nonatomic, nonnull) stateValueSuccessReturn successControl;
-@property(copy, nonatomic, nonnull) stateValueFailReturn failControl;
+//@property(copy, nonatomic, nonnull) stateValueSuccessReturn successControl;
+//@property(copy, nonatomic, nonnull) stateValueFailReturn failControl;
 
 @property(copy, nonatomic, nonnull) localSuccessReturn partSuccess;
 @property(copy, nonatomic, nonnull) localFailReturn partFail;
@@ -90,11 +90,13 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     return _dataArr;
 }
 
-- (NSMutableArray *)peripheralsInfo {
+
+- (NSMutableArray<NSDictionary<NSString *,id> *> *)peripheralsInfo
+{
     if (!_peripheralsInfo) {
-        _peripheralsInfo = [NSMutableArray array];
+         _peripheralsInfo = [NSMutableArray array];
     }
-    return _peripheralsInfo;
+        return _peripheralsInfo;
 }
 
 - (CBCentralManager *)centralManager {
@@ -172,99 +174,31 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 - (void)connect2Peripheral:(CBPeripheral *)curPeripheral {
     
     curPeripheral.delegate = self;
-    
-    //    NSDictionary *options = @{CBConnectPeripheralOptionNotifyOnConnectionKey: @NO,
-    //            CBConnectPeripheralOptionNotifyOnDisconnectionKey: @NO,
-    //            CBConnectPeripheralOptionNotifyOnNotificationKey: @NO};
-    
-        [self setTimeOutWithPeriheral:curPeripheral];
-    
-    
-    //    [self.centralManager connectPeripheral:curPeripheral options:options];
+    [self setTimeOutWithPeriheral:curPeripheral];
     [self.centralManager connectPeripheral:curPeripheral options:nil];
     double time1 = [[NSDate date] timeIntervalSinceDate:_dataf];
     NSLog(@"STEP1:开始连接:%f  id:%@", time1, curPeripheral.name);
 }
 
-- (void)queryDeviceStatus:(NSString *)deviceID
-                  success:(void (^ _Nullable)(NSData *_Nullable))success
-                     fail:(NSUInteger (^ _Nullable)(NSString *_Nullable))fail
-{
-//    [self queryDeviceStatus:deviceID retryTime:3 success:success fail:fail];
-    _sendType = SendTypeQuery;
-    [self sendMutiCommandWithSingleDeviceID:deviceID sendType:_sendType retryTime:3 commands:nil success:success fail:fail];
-}
-
-- (void)queryDeviceStatus:(nonnull NSString *)deviceID retryTime:(NSUInteger)retryTime
-                  success:(void (^ _Nullable)(NSData *_Nullable data))success
-                     fail:(NSUInteger(^ _Nullable)(NSString * __nonnull statusCode))fail
-{
-    _sendType = SendTypeQuery;
-    _isWritingSuccess = YES;
-    _isConnectingSuccess = NO;
-    _isDiscoverSuccess = NO;
-    [self.dataArr removeAllObjects];
-    _dataf = [NSDate date];
-    if (success) {
-        __block BluetoothManager *blockManger = self;
-        blockManger.successControl = ^(NSData *stateData) {
-            //返回成功
-            success(stateData);
-        };
-    }
-    
-    if (fail) {
-        __block BluetoothManager *blockManger = self;
-        blockManger.failControl = ^(NSInteger stateCode) {
-            NSString *stateCodeStr = @(stateCode).stringValue;
-            //返回错误状态码
-//            fail(stateCodeStr);
-            static NSUInteger failRetryTime = 0;
-            if (failRetryTime<retryTime) {
-                failRetryTime +=1;
-            }
-            else{
-                failRetryTime = 0;
-            }
-            if (failRetryTime != 0 && [stateCodeStr integerValue] != 404 && [stateCodeStr integerValue] != 403) {
-                CBPeripheral *curPeripheral = [self isAvailableID:deviceID];
-                [self connect2Peripheral:curPeripheral];
-            } else {
-                fail(stateCodeStr);
-                NSLog(@"重试次数为0或者不在范围,错误代码:%@",stateCodeStr);
-            }
-        };
-    }
-    
-    
-    if (self.centralManager.state != CBCentralManagerStatePoweredOn) {
-        if (self.failControl) {
-            _failControl(403);
-        }
-    }
-    
-    CBPeripheral *curPeripheral = [self isAvailableID:deviceID];
-    
-    if (curPeripheral) {
-        [self connect2Peripheral:curPeripheral];
-    } else {//超出范围
-        if (self.failControl) {
-            self.failControl(404);
-        }
-    }
-
-}
-
-
-
 - (void)setTimeOutWithPeriheral:(CBPeripheral *)periheral {
-
+    
     _timeOutTimer = nil;
-        [_timeOutTimer invalidate];
+    [_timeOutTimer invalidate];
     _timeOutTimer = [NSTimer timerWithTimeInterval:3.0 target:self selector:@selector(disconnectPeriheral:) userInfo:periheral repeats:NO];
     [[NSRunLoop currentRunLoop] addTimer:_timeOutTimer forMode:NSDefaultRunLoopMode];
 }
 
+#pragma mark 查询命令
+- (void)queryDeviceStatus:(NSString *)deviceID
+                  success:(void (^ _Nullable)(NSData *_Nullable))success
+                     fail:(NSUInteger (^ _Nullable)(NSString *_Nullable))fail
+{
+    _sendType = SendTypeQuery;
+    [self sendMutiCommandWithSingleDeviceID:deviceID sendType:_sendType retryTime:3 commands:nil success:success fail:fail];
+}
+
+
+#pragma mark 发送命令
 
 - (void)sendByteCommandWithString:(NSString *)commandStr
                          deviceID:(NSString *)deviceID
@@ -272,78 +206,14 @@ NSString *_Nonnull const ScanTypeDescription[] = {
                           success:(void (^)(NSData *_Nullable))success
                              fail:(NSUInteger (^)(NSString *_Nullable))fail
 {
-//    [self sendByteCommandWithString:commandStr deviceID:deviceID sendType:sendType retryTime:3 success:success fail:fail];
-    
     [self sendMutiCommandWithSingleDeviceID:deviceID sendType:sendType retryTime:3 commands:@[commandStr] success:success fail:fail];
 }
 
-- (void)sendByteCommandWithString:(NSString *__nonnull)commandStr
-                         deviceID:(NSString *__nonnull)deviceID
-                         sendType:(SendType)sendType retryTime:(NSUInteger)retryTime
-                          success:(void (^ _Nullable)(NSData *__nullable stateData))success
-                             fail:(NSUInteger (^ _Nullable)(NSString *__nullable stateCode))fail
+-(void)sendByteCommandWithString:(NSString *)commandStr deviceID:(NSString *)deviceID sendType:(SendType)sendType retryTime:(NSUInteger)retryTime success:(void (^)(NSData * _Nullable))success fail:(NSUInteger (^)(NSString * _Nullable))fail
 {
-    //命令处理
-    _isDiscoverSuccess = NO;
-    _isWritingSuccess = NO;
-    _isConnectingSuccess = NO;
-    NSLog(@"当前的DeviceID:%@   命令:%@", deviceID, commandStr);
-    _sendType = sendType;
-    [self.dataArr removeAllObjects];
-    
-    //计时器
-    _dataf = [NSDate date];
-    
-    if (success) {
-        __block BluetoothManager *blockManger = self;
-        blockManger.successControl = ^(NSData *stateData) {
-            //返回成功
-            success(stateData);
-        };
-    }
-    if (fail) {
-        __block BluetoothManager *blockManger = self;
-        blockManger.failControl = ^(NSInteger stateCode) {
-            NSString *stateCodeStr = @(stateCode).stringValue;
-            //返回错误状态码
-//            NSUInteger failRetryTime = fail(stateCodeStr);
-            
-            static NSUInteger failRetryTime = 0;
-            if (failRetryTime<retryTime) {
-                failRetryTime +=1;
-            }
-            else{
-                failRetryTime = 0;
-            }
-
-            if (failRetryTime != 0 && [stateCodeStr integerValue] != 404 && [stateCodeStr integerValue] != 403) {
-                CBPeripheral *curPeripheral = [self isAvailableID:deviceID];
-                if (curPeripheral) {
-                    [self connect2Peripheral:curPeripheral];
-                }
-            } else {
-                fail(stateCodeStr);
-                NSLog(@"重试次数为0或者不在范围,错误代码:%@",stateCodeStr);
-            }
-        };
-    }
-    if (self.centralManager.state != CBCentralManagerStatePoweredOn) {
-        if (self.failControl) {
-            _failControl(403);
-        }
-    }
-    
-    CBPeripheral *curPeripheral = [self isAvailableID:deviceID];
-    if (curPeripheral) {
-        NSString *udid = curPeripheral.identifier.UUIDString;
-        [self initCommandWithStr:commandStr UDID:udid];
-        [self connect2Peripheral:curPeripheral];
-    } else {
-        if (self.failControl) {
-            self.failControl(404);
-        }
-    }
+    [self sendMutiCommandWithSingleDeviceID:deviceID sendType:sendType retryTime:retryTime commands:@[commandStr] success:success fail:fail];
 }
+
 
 - (void)sendMutiCommandWithSingleDeviceID:(NSString *__nonnull)deviceID
                                  sendType:(SendType)sendType
@@ -412,9 +282,6 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         [self sendCommmandWithDeviceID:deviceID sendType:sendType deviceIndex:0 command:commands.firstObject isLast:isLast];
     }
     
-    
-    
-    
 }
 
 
@@ -449,63 +316,75 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 }
 
 
-- (void)mutiCommandControlWithStringArr:(NSArray <NSDictionary <NSString *,id>*> *__nullable)commandArr resultList:(void (^ _Nullable)(NSArray *_Nullable))resultList; {
-    _dataf = [NSDate date];
-    NSUInteger totalCount = commandArr.count;
-    if (commandArr.count == 0) {
-        return;
-    }
+#pragma mark 多个设备多个命令
 
-    __block NSUInteger operationIndex = 0;
-    __block NSMutableDictionary *operationDic = [NSMutableDictionary dictionaryWithDictionary:commandArr[operationIndex]];
-    __block NSString *operationDeviceID = commandArr[operationIndex][@"deviceID"];
-    __block NSString *operationCommand = commandArr[operationIndex][@"deviceCommand"];
-    __block NSUInteger operationDeviceType = [commandArr[operationIndex][@"deviceType"] integerValue];
-    __block NSMutableArray *requestArr = [NSMutableArray array];
-
-    [self
-     sendByteCommandWithString:operationCommand
-     deviceID:operationDeviceID
-     sendType:SendTypeSingle
-     success:^(NSData *_Nullable stateData) {
-         operationDic = [NSMutableDictionary dictionaryWithDictionary:commandArr[operationIndex]];
-         operationDic[@"stateCode"] = [self returnStateCodeWithData:stateData btnCount:operationDeviceType];
-         [requestArr addObject:operationDic];
-         if (operationIndex + 1 < totalCount) {
-             operationIndex++;
-             operationDeviceID = commandArr[operationIndex][@"deviceID"];
-             operationCommand = commandArr[operationIndex][@"deviceCommand"];
-             operationDeviceType = [commandArr[operationIndex][@"deviceType"] integerValue];
-             [self sendByteCommandWithString:operationCommand deviceID:operationDeviceID sendType:SendTypeSingle success:nil fail:nil];
-         }
-         else
-         {
-             operationIndex = 0;
-             if (resultList) {
-                 resultList(requestArr);
-             }
-         }
-     }
-     fail:^NSUInteger(NSString *_Nullable stateCode) {
-         
-         operationDic = [NSMutableDictionary dictionaryWithDictionary:commandArr[operationIndex]];
-         operationDic[@"stateCode"] = @(stateCode.integerValue);//待修改
-         [requestArr addObject:operationDic];
-         if (operationIndex + 1 < totalCount) {
-             operationIndex++;
-             operationDeviceID = commandArr[operationIndex][@"deviceID"];
-             operationCommand = commandArr[operationIndex][@"deviceCommand"];
-             operationDeviceType = [commandArr[operationIndex][@"deviceType"] integerValue];
-             [self sendByteCommandWithString:operationCommand deviceID:operationDeviceID sendType:SendTypeSingle success:nil fail:nil];
-         } else {
-             operationIndex = 0;
-             if (resultList) {
-                 resultList(requestArr);
-             }
-         }
-         return 0;
-     }];
+-(void)sendMutiCommands:(NSArray<NSString *> *)commands
+        withMutiDevices:(NSArray<NSString *> *)devices
+          withSendTypes:(NSArray<NSNumber *> * _Nonnull)sendTypes
+                  retry:(NSUInteger)retryTime
+                 report:(void (^)(NSUInteger, BOOL, id _Nullable))report
+                 finish:(void (^)(BOOL))finish
+{
+    __block BluetoothManager *blockManger = self;
+    static NSUInteger failTime = 0;
+    self.partSuccess = ^(NSUInteger deviceIndex, NSData *feedbackCode) {
+        _isDiscoverSuccess = NO;
+        _isWritingSuccess = NO;
+        _isConnectingSuccess = NO;
+        if (report) {
+            report(deviceIndex,YES,feedbackCode);
+        }
+        deviceIndex += 1;
+        failTime = 0;
+        if (deviceIndex<commands.count) {
+//            BOOL isLast = (deviceIndex == commands.count-1)?YES:NO;
+            SendType type = (SendType)sendTypes[deviceIndex].integerValue;
+            [blockManger sendCommmandWithDeviceID:devices[deviceIndex] sendType:type deviceIndex:deviceIndex command:commands[deviceIndex] isLast:YES];
+        }
+        else
+        {
+            if (finish) {
+                finish(YES);
+            }
+        }
+    };
     
+    self.partFail = ^(NSUInteger deviceIndex, NSUInteger failCode) {
+        _isDiscoverSuccess = NO;
+        _isWritingSuccess = NO;
+        _isConnectingSuccess = NO;
+        NSLog(@"\n*******************************发生错误,错误代码:%zd*******************************\n",failCode);
+        
+        if (failCode == 403 ||failCode == 404) {
+            failTime = 0 ;
+            if (report) {
+                report(deviceIndex,NO,@(failCode));
+            }
+            deviceIndex ++;
+            SendType type = (SendType)sendTypes[deviceIndex].integerValue;
+            [blockManger sendCommmandWithDeviceID:devices[deviceIndex] sendType:type deviceIndex:deviceIndex command:commands[deviceIndex] isLast:YES];
+        }
+        else {
+            if (failTime < retryTime) {//情况1,出错但是最后一个  情况2:发到一半出错,断开还是不断开?
+                failTime ++;
+                NSLog(@"\n*******************************第%zd次重试*******************************\n",failTime);
+//                BOOL isLast = (deviceIndex == commands.count-1)?YES:NO;
+                SendType type = (SendType)sendTypes[deviceIndex].integerValue;
+                [blockManger sendCommmandWithDeviceID:devices[deviceIndex] sendType:type deviceIndex:deviceIndex command:commands[deviceIndex] isLast:YES];
+            }
+            else
+            {
+                failTime = 0;
+                if (report) {
+                    report(deviceIndex,NO,@(failCode));
+                }
+                deviceIndex ++;
+                SendType type = (SendType)sendTypes[deviceIndex].integerValue;
+                [blockManger sendCommmandWithDeviceID:devices[deviceIndex] sendType:type deviceIndex:deviceIndex command:commands[deviceIndex] isLast:YES];
+            }
+            
+        }
+    };
 }
 
 
@@ -800,13 +679,9 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     double time1 = [[NSDate date] timeIntervalSinceDate:_dataf];
     NSLogMethodArgs(@"STEP7:断开设备:%f,ID:%@", time1,peripheral.name)
     if (error) {
-        if (self.failControl) {
-            //结束失败
-            self.failControl(107);
-            NSLogMethodArgs(@"异常断开连接 --- %@,ID:%@", error,peripheral.name);
-        }
         if (self.partFail) {
             self.partFail([self returnIndexOfDeviceWithPeripheral:peripheral], 107);
+            NSLogMethodArgs(@"异常断开连接 --- %@,ID:%@", error,peripheral.name);
         }
         
     } else {
@@ -816,9 +691,6 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         }
         if (_isDiscoverSuccess && _isWritingSuccess && isResponse &&_isConnectingSuccess) {
             if ((_sendType == SendTypeQuery&&!_isGetValueSuccess)) {
-                if (self.failControl) {
-                    self.failControl(105);
-                }
                 if (self.partFail) {
                     [self.centralManager cancelPeripheralConnection:peripheral];
                     self.partFail([self returnIndexOfDeviceWithPeripheral:peripheral], 105);
@@ -826,10 +698,6 @@ NSString *_Nonnull const ScanTypeDescription[] = {
             }
             else
             {
-                if (self.successControl) {
-                    self.successControl(_stateData);
-                    NSLogMethodArgs(@"正常断开,ID:%@",peripheral.name);
-                }
                 if (self.partSuccess) {
                     self.partSuccess([self returnIndexOfDeviceWithPeripheral:peripheral], _stateData);
                 }
@@ -837,33 +705,20 @@ NSString *_Nonnull const ScanTypeDescription[] = {
             
         } else {
             if (!_isDiscoverSuccess) {//防止未发现服务提前中止造成正常连接的误报
-                if (self.failControl) {
-                    self.failControl(103);
-                }
                 if (self.partFail) {
                     [self.centralManager cancelPeripheralConnection:peripheral];
                     self.partFail([self returnIndexOfDeviceWithPeripheral:peripheral], 103);
                 }
             } else if (!_isWritingSuccess) {
-                if (self.failControl) {
-                    [self.centralManager cancelPeripheralConnection:peripheral];
-                    self.failControl(104);
-                }
                 if (self.partFail) {
                     self.partFail([self returnIndexOfDeviceWithPeripheral:peripheral], 104);
                 }
             } else if (!isResponse) {
-                if (self.failControl) {
-                    self.failControl(106);
-                }
                 if (self.partFail) {
                     [self.centralManager cancelPeripheralConnection:peripheral];
                     self.partFail([self returnIndexOfDeviceWithPeripheral:peripheral], 106);
                 }
             } else if (!_isConnectingSuccess){
-                if (self.failControl) {
-                    self.failControl(102);
-                }
                 if (self.partFail) {
                     self.partFail([self returnIndexOfDeviceWithPeripheral:peripheral], 102);
                 }
@@ -880,9 +735,6 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
     if (error) {
-        if (self.failControl) {
-            self.failControl(102);
-        }
         if (self.partFail) {
             self.partFail([self returnIndexOfDeviceWithPeripheral:peripheral], 102);
         }
@@ -899,12 +751,6 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     if (peripheral.services.count == 0) {
         NSLogMethodArgs(@"设备找不到服务");
         [self.centralManager cancelPeripheralConnection:peripheral];
-//        if (self.failControl) {
-//            [self.centralManager cancelPeripheralConnection:peripheral];
-//        }
-//        if (self.partFail) {
-//            self.partFail([self returnIndexOfDeviceWithPeripheral:peripheral], 103);
-//        }
     }
     for (CBService *service in peripheral.services) {
         NSString *serviceID = service.UUID.UUIDString;
@@ -1002,9 +848,6 @@ NSString *_Nonnull const ScanTypeDescription[] = {
             }
             
         }
-//        if (self.partFail) {
-//            self.partFail([self returnIndexOfDeviceWithPeripheral:peripheral], 888);
-//        }
     }
 }
 

@@ -30,7 +30,7 @@ class SendController: UIViewController {
         
         if deviceID.contains("Name26") {
             command.text = "203237038002002000001000000000"
-            test?.sendByteCommand(with: command.text!, deviceID: deviceMACID, sendType: .sellMachine, success: { (data) in
+            test?.sendByteCommand(with: command.text!, deviceID: deviceMACID, sendType: .sellMachine, retryTime: 3, success: { (data) in
                 print("成功后的返回值:" + (data?.description)!)
             }, fail: { (failStr) -> UInt in
                 return 0
@@ -38,7 +38,7 @@ class SendController: UIViewController {
         }
         else
         {
-            test?.sendByteCommand(with: command.text!, deviceID: deviceID, sendType: SendType.single, success: { (stateCode) in
+            test?.sendByteCommand(with: command.text!, deviceID: deviceID, sendType: SendType.single, retryTime: 3, success: { (stateCode) in
                 print(stateCode!)
             }, fail: { (errorCode) -> UInt in
                 return 0
