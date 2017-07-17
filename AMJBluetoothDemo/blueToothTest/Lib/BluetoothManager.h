@@ -28,9 +28,10 @@
  - SendTypeInfrared: 控制红外设备
  - SendTypeLock: 控制锁
  - SendTypeQuery: 查询锁
- SendTypeRemote = 遥控器指令
+ SendTypeRemote = 遥控器指令 //20个字符
  SendTypeRemoteTemp = 7
  SendTypeSellMachine 售货机
+ SendTypeRemoteNew 最新无需升级硬件的对吗机
  */
 typedef NS_ENUM(NSUInteger, SendType) {
     SendTypeSingle = 0,
@@ -41,7 +42,8 @@ typedef NS_ENUM(NSUInteger, SendType) {
     SendTypeQuery = 5,
     SendTypeRemote = 6,
     SendTypeRemoteTemp = 7,
-    SendTypeSellMachine = 8
+    SendTypeSellMachine = 8,
+    SendTypeRemoteNew = 9
 };
 
 
@@ -120,7 +122,7 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
 
  @param peripheral <#peripheral description#>
  */
-- (void)disconnectPeriheral:(NSTimer *__nonnull)peripheral;
+//- (void)disconnectPeriheral:(NSTimer *__nonnull)peripheral;
 
 
 /**
@@ -162,6 +164,13 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
                          sendType:(SendType)sendType retryTime:(NSUInteger)retryTime
                           success:(void (^ _Nullable)(NSData *__nullable stateData))success
                              fail:(NSUInteger (^ _Nullable)(NSString *__nullable stateCode))fail;
+
+- (void)sendMutiCommandWithSingleDeviceID:(NSString *__nonnull)deviceID
+                                 sendType:(SendType)sendType
+                                retryTime:(NSUInteger)retryTime
+                                 commands:(NSArray <__kindof NSString *>* _Nullable)commands
+                                  success:(void (^ _Nullable)(NSData *__nullable stateData))success
+                                     fail:(NSUInteger (^ _Nullable)(NSString *__nullable stateCode))fail;
 
 /**
  刷新多个设备状态

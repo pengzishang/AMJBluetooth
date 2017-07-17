@@ -128,9 +128,6 @@
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="锁内时间:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gk1-rx-McK">
                                                     <rect key="frame" x="28" y="19" width="74" height="21"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="74" id="wIW-hX-abY"/>
-                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -138,7 +135,7 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tQd-uY-hvc">
                                                     <rect key="frame" x="311" y="15" width="44" height="30"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="Pjz-EU-71f"/>
+                                                        <constraint firstAttribute="width" constant="44" id="Pjz-EU-71f"/>
                                                     </constraints>
                                                     <state key="normal" title="重试"/>
                                                     <connections>
@@ -146,7 +143,7 @@
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="载入中..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FD9-GR-x8L">
-                                                    <rect key="frame" x="242" y="21.5" width="59" height="18"/>
+                                                    <rect key="frame" x="112" y="21.5" width="59" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="59" id="qtt-X5-2i1"/>
                                                     </constraints>
@@ -156,8 +153,8 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="tQd-uY-hvc" firstAttribute="leading" secondItem="FD9-GR-x8L" secondAttribute="trailing" constant="10" id="6aH-DK-6Ks"/>
                                                 <constraint firstItem="gk1-rx-McK" firstAttribute="leading" secondItem="T2d-QR-NkU" secondAttribute="leadingMargin" constant="20" id="9CU-qj-rNp"/>
+                                                <constraint firstItem="FD9-GR-x8L" firstAttribute="leading" secondItem="gk1-rx-McK" secondAttribute="trailing" constant="10" id="IIV-8g-PCV"/>
                                                 <constraint firstItem="FD9-GR-x8L" firstAttribute="centerY" secondItem="T2d-QR-NkU" secondAttribute="centerY" id="Pcx-j8-xsH"/>
                                                 <constraint firstItem="gk1-rx-McK" firstAttribute="centerY" secondItem="T2d-QR-NkU" secondAttribute="centerY" id="Q18-dm-WkP"/>
                                                 <constraint firstItem="tQd-uY-hvc" firstAttribute="centerY" secondItem="T2d-QR-NkU" secondAttribute="centerY" id="a9J-cF-PSe"/>
@@ -722,8 +719,8 @@ Ctrl: 参考APP控制开关对应的控制字，
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hEj-Rq-Qwf">
-                                <rect key="frame" x="56" y="134.5" width="263" height="40"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="直接点击发送即可" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hEj-Rq-Qwf">
+                                <rect key="frame" x="66" y="134.5" width="243" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="KnV-5L-50G"/>
                                 </constraints>
@@ -740,23 +737,58 @@ Ctrl: 参考APP控制开关对应的控制字，
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="k0U-qt-7wa">
-                                <rect key="frame" x="56" y="255.5" width="263" height="40"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="直接点击发送即可" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="k0U-qt-7wa">
+                                <rect key="frame" x="66" y="255.5" width="243" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="w1E-Xq-a3P"/>
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" autocorrectionType="no" keyboardType="alphabet" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <action selector="mutiCommands:" destination="6jY-er-bl4" eventType="editingDidEndOnExit" id="GSB-AX-scb"/>
+                                </connections>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CNP-4S-VTG">
+                                <rect key="frame" x="314" y="139" width="50" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="xE1-Ae-TbM"/>
+                                </constraints>
+                                <state key="normal" title="发送"/>
+                                <connections>
+                                    <action selector="sendQuickCommand:" destination="6jY-er-bl4" eventType="touchUpInside" id="GGk-XN-Ait"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C1W-AQ-uf6">
+                                <rect key="frame" x="314" y="260.5" width="50" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="8Xz-t9-g3n"/>
+                                </constraints>
+                                <state key="normal" title="发送"/>
+                                <connections>
+                                    <action selector="sendMutiCommands:" destination="6jY-er-bl4" eventType="touchUpInside" id="I0i-YF-NA6"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HSW-c4-Gky">
+                                <rect key="frame" x="118" y="315.5" width="138" height="30"/>
+                                <state key="normal" title="点击快速寻找遥控器"/>
+                                <connections>
+                                    <action selector="foundRemote:" destination="6jY-er-bl4" eventType="touchUpInside" id="yvx-dh-nw3"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Paz-tV-zbP" firstAttribute="leading" secondItem="2ff-OJ-0xs" secondAttribute="leadingMargin" constant="20" id="49g-FJ-Oor"/>
+                            <constraint firstItem="HSW-c4-Gky" firstAttribute="top" secondItem="k0U-qt-7wa" secondAttribute="bottom" constant="20" id="9Fm-wi-nRa"/>
                             <constraint firstItem="mSs-st-6HT" firstAttribute="centerX" secondItem="2ff-OJ-0xs" secondAttribute="centerX" id="HUA-S9-G8Q"/>
                             <constraint firstItem="k0U-qt-7wa" firstAttribute="height" secondItem="hEj-Rq-Qwf" secondAttribute="height" id="Hz4-Bh-RZ2"/>
+                            <constraint firstItem="CNP-4S-VTG" firstAttribute="centerY" secondItem="hEj-Rq-Qwf" secondAttribute="centerY" id="IFW-yM-uBw"/>
+                            <constraint firstItem="HSW-c4-Gky" firstAttribute="centerX" secondItem="2ff-OJ-0xs" secondAttribute="centerX" id="IaI-Yy-AhQ"/>
+                            <constraint firstItem="CNP-4S-VTG" firstAttribute="leading" secondItem="hEj-Rq-Qwf" secondAttribute="trailing" constant="5" id="IsP-o4-EFS"/>
                             <constraint firstItem="k0U-qt-7wa" firstAttribute="width" secondItem="hEj-Rq-Qwf" secondAttribute="width" id="JG2-pr-B6O"/>
                             <constraint firstItem="k0U-qt-7wa" firstAttribute="top" secondItem="Paz-tV-zbP" secondAttribute="bottom" constant="20" id="Jd4-H4-w1t"/>
+                            <constraint firstItem="C1W-AQ-uf6" firstAttribute="centerY" secondItem="k0U-qt-7wa" secondAttribute="centerY" id="MDV-HF-WX5"/>
                             <constraint firstItem="k0U-qt-7wa" firstAttribute="centerX" secondItem="2ff-OJ-0xs" secondAttribute="centerX" id="VZ8-wb-GYq"/>
                             <constraint firstItem="hEj-Rq-Qwf" firstAttribute="centerX" secondItem="mSs-st-6HT" secondAttribute="centerX" id="ZtY-yK-rIY"/>
                             <constraint firstItem="Paz-tV-zbP" firstAttribute="top" secondItem="hEj-Rq-Qwf" secondAttribute="bottom" constant="40" id="cqZ-3T-yB1"/>
@@ -764,7 +796,8 @@ Ctrl: 参考APP控制开关对应的控制字，
                             <constraint firstItem="mSs-st-6HT" firstAttribute="leading" secondItem="2ff-OJ-0xs" secondAttribute="leadingMargin" constant="20" id="skh-zl-dly"/>
                             <constraint firstItem="Paz-tV-zbP" firstAttribute="centerX" secondItem="2ff-OJ-0xs" secondAttribute="centerX" id="vTH-u9-9dk"/>
                             <constraint firstItem="hEj-Rq-Qwf" firstAttribute="top" secondItem="mSs-st-6HT" secondAttribute="bottom" constant="20" id="wfX-4b-PbY"/>
-                            <constraint firstItem="hEj-Rq-Qwf" firstAttribute="leading" secondItem="2ff-OJ-0xs" secondAttribute="leadingMargin" constant="40" id="ypS-TZ-O4L"/>
+                            <constraint firstItem="C1W-AQ-uf6" firstAttribute="leading" secondItem="k0U-qt-7wa" secondAttribute="trailing" constant="5" id="ySd-ss-3Sm"/>
+                            <constraint firstItem="hEj-Rq-Qwf" firstAttribute="leading" secondItem="2ff-OJ-0xs" secondAttribute="leadingMargin" constant="50" id="ypS-TZ-O4L"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="遥控器命令发送" id="pXX-du-vvr"/>

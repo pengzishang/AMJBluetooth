@@ -19,7 +19,7 @@ class TestController: UIViewController,UITableViewDataSource,UITableViewDelegate
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: BlueToothMangerDidDiscoverNewItem), object: nil, queue: nil) { (notice) in
             self.devicesArray.append(notice.userInfo as! [String : Any])
             self.mainTableView.reloadData()
-            print(notice.userInfo!)//userinfo内有信息
+//            print(notice.userInfo!)//userinfo内有信息
         }
         
     }
@@ -86,6 +86,11 @@ class TestController: UIViewController,UITableViewDataSource,UITableViewDelegate
         else if segue.identifier == "union" {
             let deviceInfo=devicesArray[(sender as! NSIndexPath).row]
             let target=segue.destination as! LockUnionList
+            target.deviceInfo = deviceInfo
+        }
+        else if segue.identifier == "irremote" {
+            let deviceInfo=devicesArray[(sender as! NSIndexPath).row]
+            let target=segue.destination as! IRRemoteController
             target.deviceInfo = deviceInfo
         }
 

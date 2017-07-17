@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>TV</key>
+	<dict>
+		<key>001</key>
+		<dict>
+			<key>use_byte</key>
+			<string>003</string>
+			<key>custom_byte</key>
+			<string>002</string>
+			<key>format_num</key>
+			<string>0</string>
+		</dict>
+		<key>002</key>
+		<dict/>
+		<key>003</key>
+		<dict/>
+		<key>004</key>
+		<dict/>
+		<key>005</key>
+		<dict/>
+		<key>006</key>
+		<dict/>
+	</dict>
+	<key>DVD</key>
+	<array/>
+	<key>AUX</key>
+	<array/>
+	<key>SAT</key>
+	<array/>
+</dict>
+</plist>
