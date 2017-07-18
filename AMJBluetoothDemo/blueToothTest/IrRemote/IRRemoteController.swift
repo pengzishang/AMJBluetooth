@@ -58,16 +58,20 @@ class IRRemoteController: UIViewController {
     }
     @IBAction func mutiCommands(_ sender: UITextField) {
         if sender.text?.characters.count == 0 {
-            let command1 = ("254168001003002001002189001" as NSString).full(withLengthCountBehide: 57)
-            let command2 = ("254168001003002001002189002" as NSString).full(withLengthCountBehide: 57)
-            let command3 = ("254168001003002001002189003" as NSString).full(withLengthCountBehide: 57)
-            let command4 = ("254168001003002001002189004" as NSString).full(withLengthCountBehide: 57)
-            let command5 = ("254168001003002001002189005" as NSString).full(withLengthCountBehide: 57)
-            let commandarr = [command1,command2,command3,command4,command5]
+            
+            //0xfe 0xd3 0x01 0x03 0x02 0x01 0x02 0xbd  0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x10,0x11
+            //0xfe 0xd2 0x12,0x13,0x14,0x15,0x16,0x17, 0x18,0x19,0x20,0x21,0x22,0x23,0x24,0x25,0x26,0x27,0x28,
+            //0xfe 0xd1 0x29,0x30,0x31,0x32,0x33,0x34, 0x35,0x36,0x37,0x38,0x39,0x40,0x41,0x42,0x43,0x44,0x45
+            //0xfe 0xd0 0x46
+            let command1 = ("254211001003002001002189001002003004005006007008009016017" as NSString).full(withLengthCountBehide: 57)
+            let command2 = ("254210001002003004005006007008009016017018019020021022023" as NSString).full(withLengthCountBehide: 57)
+            let command3 = ("254209001002003004005006007008009016017018019020021022023" as NSString).full(withLengthCountBehide: 57)
+            let command4 = ("254208001" as NSString).full(withLengthCountBehide: 57)
+            let commandarr = [command1,command2,command3,command4]
             sender.text = command1
             let deviceID = self.deviceID(with: self.deviceInfo)
             
-            BluetoothManager.getInstance()?.sendMutiCommand(withSingleDeviceID: deviceID!, sendType: .remoteNew, retryTime: 3 ,commands: commandarr as! [String], success: { (data) in
+            BluetoothManager.getInstance()?.sendMutiCommand(withSingleDeviceID: deviceID!, sendType: .remoteNew, retryTime: 3 ,commands: commandarr as? [String], success: { (data) in
                 
             }, fail: { (failCode) -> UInt in
                 return 0
@@ -88,16 +92,15 @@ class IRRemoteController: UIViewController {
     }
     
     @IBAction func sendMutiCommands(_ sender: UIButton) {
-        let command1 = ("254168001003002001002189001" as NSString).full(withLengthCountBehide: 57)
-        let command2 = ("254168001003002001002189002" as NSString).full(withLengthCountBehide: 57)
-        let command3 = ("254168001003002001002189003" as NSString).full(withLengthCountBehide: 57)
-        let command4 = ("254168001003002001002189004" as NSString).full(withLengthCountBehide: 57)
-        let command5 = ("254168001003002001002189005" as NSString).full(withLengthCountBehide: 57)
-        let commandarr = [command1,command2,command3,command4,command5]
+        let command1 = ("254211001003002001002189001002003004005006007008009016017" as NSString).full(withLengthCountBehide: 57)
+        let command2 = ("254210001002003004005006007008009016017018019020021022023" as NSString).full(withLengthCountBehide: 57)
+        let command3 = ("254209001002003004005006007008009016017018019020021022023" as NSString).full(withLengthCountBehide: 57)
+        let command4 = ("254208001" as NSString).full(withLengthCountBehide: 57)
+        let commandarr = [command1,command2,command3,command4]
         
         let deviceID = self.deviceID(with: self.deviceInfo)
         
-        BluetoothManager.getInstance()?.sendMutiCommand(withSingleDeviceID: deviceID!, sendType: .remoteNew, retryTime: 3, commands: commandarr as! [String], success: { (data) in
+        BluetoothManager.getInstance()?.sendMutiCommand(withSingleDeviceID: deviceID!, sendType: .remoteNew, retryTime: 3, commands: commandarr as? [String], success: { (data) in
             
         }, fail: { (failCode) -> UInt in
             return 0

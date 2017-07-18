@@ -19,11 +19,33 @@ class TestController: UIViewController,UITableViewDataSource,UITableViewDelegate
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: BlueToothMangerDidDiscoverNewItem), object: nil, queue: nil) { (notice) in
             self.devicesArray.append(notice.userInfo as! [String : Any])
             self.mainTableView.reloadData()
-//            print(notice.userInfo!)//userinfo内有信息
+            print(notice.userInfo!)//userinfo内有信息
         }
         
     }
-
+    @IBAction func test(_ sender: UIBarButtonItem) {
+        
+        BluetoothManager.getInstance()?.sendMutiCommands(["192","192","192","192"], withMutiDevices: ["7CEC79486F6B","D0B5C2A3FEF0","D0B5C2A40086","D0B5C2A405CF"], withSendTypes: [(0),(0),(0),(0)], retry: 3, report: { (index, isSuccess, userInfo) in
+            
+        }, finish: { (finish) in
+            print("完成")
+        })
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return devicesArray.count;
     }

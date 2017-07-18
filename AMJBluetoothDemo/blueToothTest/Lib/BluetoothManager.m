@@ -197,6 +197,14 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     [self sendMutiCommandWithSingleDeviceID:deviceID sendType:_sendType retryTime:3 commands:nil success:success fail:fail];
 }
 
+- (void)queryMutiDevices:(NSArray <NSString *>*_Nullable)devices
+                   retry:(NSUInteger)retryTime
+                  report:(void (^ _Nullable)(NSUInteger index,BOOL isSuccess,id _Nullable obj))report
+                  finish:(void(^_Nullable)(BOOL isFinish))finish
+{
+    [self sendMutiCommands:nil withMutiDevices:devices withSendTypes:nil retry:3 report:report finish:finish];
+}
+
 
 #pragma mark 发送命令
 
@@ -295,6 +303,9 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 - (void)sendCommmandWithDeviceID:(NSString *__nonnull)deviceID  sendType:(SendType)sendType deviceIndex:(NSUInteger)deviceIndex command:(NSString *)command isLast:(BOOL)isLast
 {
     _sendType = sendType;
+    if(_sendType==SendTypeQuery){
+        _isGetValueSuccess = NO;
+    }
     [self.dataArr removeAllObjects];
     _dataf = [NSDate date];
     NSLog(@"\n*******************************第%zd个设备(命令)*******************************\n",deviceIndex+1);
@@ -320,11 +331,12 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 
 -(void)sendMutiCommands:(NSArray<NSString *> *)commands
         withMutiDevices:(NSArray<NSString *> *)devices
-          withSendTypes:(NSArray<NSNumber *> * _Nonnull)sendTypes
+          withSendTypes:(NSArray<NSNumber *> *)sendTypes
                   retry:(NSUInteger)retryTime
                  report:(void (^)(NSUInteger, BOOL, id _Nullable))report
                  finish:(void (^)(BOOL))finish
 {
+    NSAssert((commands.count == devices.count&&devices.count==sendTypes.count), @"命令,设备,发送类型数量不一致或者缺失");
     __block BluetoothManager *blockManger = self;
     static NSUInteger failTime = 0;
     self.partSuccess = ^(NSUInteger deviceIndex, NSData *feedbackCode) {
@@ -337,8 +349,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         deviceIndex += 1;
         failTime = 0;
         if (deviceIndex<commands.count) {
-//            BOOL isLast = (deviceIndex == commands.count-1)?YES:NO;
-            SendType type = (SendType)sendTypes[deviceIndex].integerValue;
+            SendType type = sendTypes? (SendType)sendTypes[0].integerValue:SendTypeQuery;
             [blockManger sendCommmandWithDeviceID:devices[deviceIndex] sendType:type deviceIndex:deviceIndex command:commands[deviceIndex] isLast:YES];
         }
         else
@@ -361,15 +372,24 @@ NSString *_Nonnull const ScanTypeDescription[] = {
                 report(deviceIndex,NO,@(failCode));
             }
             deviceIndex ++;
-            SendType type = (SendType)sendTypes[deviceIndex].integerValue;
-            [blockManger sendCommmandWithDeviceID:devices[deviceIndex] sendType:type deviceIndex:deviceIndex command:commands[deviceIndex] isLast:YES];
+            if (deviceIndex<commands.count) {
+                SendType type = sendTypes? (SendType)sendTypes[0].integerValue:SendTypeQuery;
+                [blockManger sendCommmandWithDeviceID:devices[deviceIndex] sendType:type deviceIndex:deviceIndex command:commands[deviceIndex] isLast:YES];
+                
+            }
+            else
+            {
+                if (finish) {
+                    finish(YES);
+                }
+            }
+        
         }
         else {
             if (failTime < retryTime) {//情况1,出错但是最后一个  情况2:发到一半出错,断开还是不断开?
                 failTime ++;
                 NSLog(@"\n*******************************第%zd次重试*******************************\n",failTime);
-//                BOOL isLast = (deviceIndex == commands.count-1)?YES:NO;
-                SendType type = (SendType)sendTypes[deviceIndex].integerValue;
+                SendType type = sendTypes? (SendType)sendTypes[0].integerValue:SendTypeQuery;
                 [blockManger sendCommmandWithDeviceID:devices[deviceIndex] sendType:type deviceIndex:deviceIndex command:commands[deviceIndex] isLast:YES];
             }
             else
@@ -379,12 +399,22 @@ NSString *_Nonnull const ScanTypeDescription[] = {
                     report(deviceIndex,NO,@(failCode));
                 }
                 deviceIndex ++;
-                SendType type = (SendType)sendTypes[deviceIndex].integerValue;
-                [blockManger sendCommmandWithDeviceID:devices[deviceIndex] sendType:type deviceIndex:deviceIndex command:commands[deviceIndex] isLast:YES];
+                if (deviceIndex<commands.count) {
+                    SendType type = sendTypes? (SendType)sendTypes[0].integerValue:SendTypeQuery;
+                    [blockManger sendCommmandWithDeviceID:devices[deviceIndex] sendType:type deviceIndex:deviceIndex command:commands[deviceIndex] isLast:YES];
+                }
+                else
+                {
+                    if (finish) {
+                        finish(YES);
+                    }
+                }
             }
             
         }
     };
+    SendType type = sendTypes? (SendType)sendTypes[0].integerValue:SendTypeQuery;
+    [self sendCommmandWithDeviceID:devices[0] sendType:type deviceIndex:0 command:commands[0] isLast:YES];
 }
 
 
@@ -494,21 +524,6 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         return  [NSData dataWithBytes:byteCommand length:10];
     }
 }
-
-
-- (void)refreshMutiDeviceInfo:(CBPeripheral *)peripheral {
-    _sendType = SendTypeSyncdevice;
-    _curPeripheral = peripheral;
-    _curPeripheral.delegate = self;
-    _dataf = [NSDate date];
-    NSDictionary *options = @{CBConnectPeripheralOptionNotifyOnConnectionKey: @YES,
-            CBConnectPeripheralOptionNotifyOnDisconnectionKey: @YES,
-            CBConnectPeripheralOptionNotifyOnNotificationKey: @YES};
-    [self.centralManager connectPeripheral:_curPeripheral options:options];
-    double time1 = [[NSDate date] timeIntervalSinceDate:_dataf];
-    NSLog(@"time1 sync:%f", time1);
-}
-
 
 - (CBPeripheral *)isAvailableID:(NSString *)opeartionDeviceID {
     BOOL isAvailable = NO;
@@ -841,12 +856,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     {
         [_timeOutTimer invalidate];
         if (self.partSuccess) {
-            if (_sendType == SendTypeQuery) {
-                self.partSuccess(0, _stateData);
-            } else {
-                self.partSuccess([self returnIndexOfDeviceWithPeripheral:peripheral], _stateData);
-            }
-            
+            self.partSuccess([self returnIndexOfDeviceWithPeripheral:peripheral], _stateData);
         }
     }
 }

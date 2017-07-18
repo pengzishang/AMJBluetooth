@@ -117,13 +117,6 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
  */
 - (void)stopScan;
 
-/**
- 断开设备
-
- @param peripheral <#peripheral description#>
- */
-//- (void)disconnectPeriheral:(NSTimer *__nonnull)peripheral;
-
 
 /**
  查询设备设备状态
@@ -138,10 +131,19 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
                   success:(void (^ _Nullable)(NSData *_Nullable data))success
                      fail:(NSUInteger(^ _Nullable)(NSString * __nonnull statusCode))fail;
 
-//- (void)queryDeviceStatus:(nonnull NSString *)deviceID retryTime:(NSUInteger)retryTime
-//                  success:(void (^ _Nullable)(NSData *_Nullable data))success
-//                     fail:(NSUInteger(^ _Nullable)(NSString * __nonnull statusCode))fail;
 
+/**
+ 查询多个设备
+
+ @param devices <#devices description#>
+ @param retryTime <#retryTime description#>
+ @param report <#report description#>
+ @param finish <#finish description#>
+ */
+- (void)queryMutiDevices:(NSArray <NSString *>*_Nullable)devices
+                   retry:(NSUInteger)retryTime
+                  report:(void (^ _Nullable)(NSUInteger index,BOOL isSuccess,id _Nullable obj))report
+                  finish:(void(^_Nullable)(BOOL isFinish))finish;
 
 /**
  发送单个控制指令
@@ -165,6 +167,17 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
                           success:(void (^ _Nullable)(NSData *__nullable stateData))success
                              fail:(NSUInteger (^ _Nullable)(NSString *__nullable stateCode))fail;
 
+
+/**
+ 向一个设备发送多个指令
+
+ @param deviceID <#deviceID description#>
+ @param sendType <#sendType description#>
+ @param retryTime <#retryTime description#>
+ @param commands <#commands description#>
+ @param success <#success description#>
+ @param fail <#fail description#>
+ */
 - (void)sendMutiCommandWithSingleDeviceID:(NSString *__nonnull)deviceID
                                  sendType:(SendType)sendType
                                 retryTime:(NSUInteger)retryTime
@@ -172,12 +185,6 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
                                   success:(void (^ _Nullable)(NSData *__nullable stateData))success
                                      fail:(NSUInteger (^ _Nullable)(NSString *__nullable stateCode))fail;
 
-/**
- 刷新多个设备状态
-
- @param peripheral <#peripheral description#>
- */
-- (void)refreshMutiDeviceInfo:(nullable CBPeripheral *)peripheral;
 
 
 /**
@@ -190,17 +197,10 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
  */
 - (void)sendMutiCommands:(NSArray <NSString *>*_Nullable)commands
          withMutiDevices:(NSArray <NSString *>*_Nullable)devices
-           withSendTypes:(NSArray <NSNumber *>*_Nonnull)sendTypes
+           withSendTypes:(NSArray <NSNumber *>*_Nullable)sendTypes
                    retry:(NSUInteger)retryTime
                   report:(void (^ _Nullable)(NSUInteger index,BOOL isSuccess,id _Nullable obj))report
                   finish:(void(^_Nullable)(BOOL isFinish))finish;
 
-/**
- 控制多个设备
-
- @param commandArr <#commandArr description#>
- @param resultList <#resultList description#>
- */
-- (void)mutiCommandControlWithStringArr:(NSArray <NSDictionary <NSString *,id>*> *__nullable)commandArr resultList:(void (^ _Nullable)(NSArray *_Nullable))resultList;
 
 @end
