@@ -50,7 +50,7 @@ class LockUnionList: UITableViewController {
         let lockID  = self.deviceID(with: self.deviceInfo)
         var command :NSString = "003001"
         command = command.full(withLengthCountBehide: 30)! as NSString
-        BluetoothManager.getInstance()?.sendByteCommand(with: command as String, deviceID: lockID!, sendType: .lock, retryTime: 3, success: { (data) in
+        BluetoothManager.getInstance()?.sendByteCommand(with: command as String, deviceID: lockID!, sendType: .lock,  success: { (data) in
             
         }, fail: { (failCode) -> UInt in
             
@@ -76,7 +76,7 @@ class LockUnionList: UITableViewController {
         command.append(NSString.convertMacID(deviceID as String!, reversed: true))
         command.append("255")
         
-        BluetoothManager.getInstance()?.sendByteCommand(with: command, deviceID: lockID!, sendType: .lock, retryTime: 3, success: { (data) in
+        BluetoothManager.getInstance()?.sendByteCommand(with: command, deviceID: lockID!, sendType: .lock, success: { (data) in
             sender.isHidden = false
             acitionIndicator.stopAnimating()
         }, fail: { (failCode) -> UInt in

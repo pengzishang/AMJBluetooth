@@ -36,7 +36,7 @@ class IRRemoteController: UIViewController {
             let deviceID = self.deviceID(with: self.deviceInfo)
             
             
-            BluetoothManager.getInstance()?.sendByteCommand(with: command!, deviceID: deviceID!, sendType: .remoteNew, retryTime: 3, success: { (data) in
+            BluetoothManager.getInstance()?.sendByteCommand(with: command!, deviceID: deviceID!, sendType: .remoteNew,  success: { (data) in
                 print(data!)
             }, fail: { (failcode) -> UInt in
                 return 0
@@ -48,7 +48,7 @@ class IRRemoteController: UIViewController {
             sender.text = command
             let deviceID = self.deviceID(with: self.deviceInfo)
             
-            BluetoothManager.getInstance()?.sendByteCommand(with: command!, deviceID: deviceID!, sendType: .remoteNew, retryTime: 3, success: { (data) in
+            BluetoothManager.getInstance()?.sendByteCommand(with: command!, deviceID: deviceID!, sendType: .remoteNew,  success: { (data) in
                 print(data!)
             }, fail: { (failcode) -> UInt in
                 return 0
@@ -62,7 +62,7 @@ class IRRemoteController: UIViewController {
         let command = ("254168001003002001002189001" as NSString).full(withLengthCountBehide: 57)
         let deviceID = self.deviceID(with: self.deviceInfo)
         BluetoothManager.getInstance()?.setInterval(timeStep.value/1000)
-        BluetoothManager.getInstance()?.sendByteCommand(with: command!, deviceID: deviceID!, sendType: .remoteNew, retryTime: 3, success: { (data) in
+        BluetoothManager.getInstance()?.sendByteCommand(with: command!, deviceID: deviceID!, sendType: .remoteNew,  success: { (data) in
             print(data!)
             sender.isEnabled = true
         }, fail: { (failcode) -> UInt in
@@ -94,7 +94,7 @@ class IRRemoteController: UIViewController {
             sender.text = command1
             let deviceID = self.deviceID(with: self.deviceInfo)
             BluetoothManager.getInstance()?.setInterval(timeStep.value/1000)
-            BluetoothManager.getInstance()?.sendMutiCommand(withSingleDeviceID: deviceID!, sendType: .remoteNew, retryTime: 3 ,commands: commandarr as? [String], success: { (data) in
+            BluetoothManager.getInstance()?.sendMutiCommand(withSingleDeviceID: deviceID!, sendType: .remoteNew, commands: commandarr as? [String], success: { (data) in
                 
             }, fail: { (failCode) -> UInt in
                 
@@ -106,7 +106,7 @@ class IRRemoteController: UIViewController {
             let command = sender.text
             let deviceID = self.deviceID(with: self.deviceInfo)
             
-            BluetoothManager.getInstance()?.sendByteCommand(with: command!, deviceID: deviceID!, sendType: .remoteNew, retryTime: 3, success: { (data) in
+            BluetoothManager.getInstance()?.sendByteCommand(with: command!, deviceID: deviceID!, sendType: .remoteNew, success: { (data) in
                 print(data!)
             }, fail: { (failcode) -> UInt in
                 return 0
@@ -130,7 +130,7 @@ class IRRemoteController: UIViewController {
         
         let deviceID = self.deviceID(with: self.deviceInfo)
         BluetoothManager.getInstance()?.setInterval(timeStep.value/1000)
-        BluetoothManager.getInstance()?.sendMutiCommand(withSingleDeviceID: deviceID!, sendType: .remoteNew, retryTime: 3, commands: commandarr as? [String], success: { (data) in
+        BluetoothManager.getInstance()?.sendMutiCommand(withSingleDeviceID: deviceID!, sendType: .remoteNew,  commands: commandarr as? [String], success: { (data) in
             sender.isEnabled = true
         }, fail: { (failCode) -> UInt in
             sender.isEnabled = true
@@ -150,7 +150,7 @@ class IRRemoteController: UIViewController {
         sender.isEnabled = false
         let command = ("254168" as NSString).full(withLengthCountBehide: 57)
         let deviceID = self.deviceID(with: self.deviceInfo)
-        BluetoothManager.getInstance()?.sendMutiCommand(withSingleDeviceID: deviceID!, sendType: .remoteNew, retryTime: 3, commands: [command!], success: { (data) in
+        BluetoothManager.getInstance()?.sendMutiCommand(withSingleDeviceID: deviceID!, sendType: .remoteNew, commands: [command!], success: { (data) in
             sender.isEnabled = true
         }, fail: { (failCode) -> UInt in
             sender.isEnabled = true

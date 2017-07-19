@@ -72,13 +72,6 @@ typedef NS_ENUM(NSUInteger, ScanType) {
     ScanTypeAll = 8,
 };
 
-
-
-/**
- 发现设备,扫描设备
-
- @param infoDic <#infoDic description#>
- */
 typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
 
 @interface BluetoothManager : NSObject <CBCentralManagerDelegate, CBPeripheralDelegate>
@@ -89,13 +82,6 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
  */
 @property(strong, nonatomic, nullable , readonly) NSMutableArray <__kindof NSDictionary <NSString *,id>*> *peripheralsInfo;
 
-
-/**
- 用这个block触发发现设备
- */
-@property(copy, nonatomic, nullable) detectDevice detectDevice;//发现设备
-
-
 /**
  初始化
 
@@ -103,13 +89,10 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
  */
 + (nullable BluetoothManager *)getInstance;
 
-
 /**
  启用
  */
 - (void)effect;
-
-
 
 /**
  设定间隔
@@ -117,6 +100,18 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
  @param timeInterval <#timeInterval description#>
  */
 - (void)setInterval:(NSTimeInterval)timeInterval;
+
+/**
+ 设定重试次数
+
+ @param retryTime <#retryTime description#>
+ */
+- (void)setRetryTime:(NSUInteger)retryTime;
+
+/**
+ 用这个block触发发现设备
+ */
+@property(copy, nonatomic, nullable) detectDevice detectDevice;//发现设备
 
 /**
  扫描设备
@@ -145,12 +140,10 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
  查询多个设备
 
  @param devices <#devices description#>
- @param retryTime <#retryTime description#>
  @param report <#report description#>
  @param finish <#finish description#>
  */
 - (void)queryMutiDevices:(NSArray <NSString *>*_Nullable)devices
-                   retry:(NSUInteger)retryTime
                   report:(void (^ _Nullable)(NSUInteger index,BOOL isSuccess,id _Nullable obj))report
                   finish:(void(^_Nullable)(BOOL isFinish))finish;
 
@@ -170,26 +163,17 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
                              fail:(NSUInteger (^ _Nullable)(NSString *__nullable stateCode))fail;
 
 
-- (void)sendByteCommandWithString:(NSString *__nonnull)commandStr
-                         deviceID:(NSString *__nonnull)deviceID
-                         sendType:(SendType)sendType retryTime:(NSUInteger)retryTime
-                          success:(void (^ _Nullable)(NSData *__nullable stateData))success
-                             fail:(NSUInteger (^ _Nullable)(NSString *__nullable stateCode))fail;
-
-
 /**
  向一个设备发送多个指令
 
  @param deviceID <#deviceID description#>
  @param sendType <#sendType description#>
- @param retryTime <#retryTime description#>
  @param commands <#commands description#>
  @param success <#success description#>
  @param fail <#fail description#>
  */
 - (void)sendMutiCommandWithSingleDeviceID:(NSString *__nonnull)deviceID
                                  sendType:(SendType)sendType
-                                retryTime:(NSUInteger)retryTime
                                  commands:(NSArray <__kindof NSString *>* _Nullable)commands
                                   success:(void (^ _Nullable)(NSData *__nullable stateData))success
                                      fail:(NSUInteger (^ _Nullable)(NSString *__nullable stateCode))fail;
@@ -207,7 +191,6 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
 - (void)sendMutiCommands:(NSArray <NSString *>*_Nullable)commands
          withMutiDevices:(NSArray <NSString *>*_Nullable)devices
            withSendTypes:(NSArray <NSNumber *>*_Nullable)sendTypes
-                   retry:(NSUInteger)retryTime
                   report:(void (^ _Nullable)(NSUInteger index,BOOL isSuccess,id _Nullable obj))report
                   finish:(void(^_Nullable)(BOOL isFinish))finish;
 

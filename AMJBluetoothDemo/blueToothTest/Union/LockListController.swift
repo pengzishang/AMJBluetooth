@@ -52,7 +52,7 @@ class LockListController: UITableViewController {
         lockID = lockID.substring(from: 7) as NSString
         let command = "003003000" + NSString.convertMacID(lockID as String!, reversed: true) + "255"
 
-        BluetoothManager.getInstance()?.sendByteCommand(with: command, deviceID: unionID!, sendType: .lock, retryTime: 3, success: { (data) in
+        BluetoothManager.getInstance()?.sendByteCommand(with: command, deviceID: unionID!, sendType: .lock, success: { (data) in
             sender.isHidden = false
             acitionIndicator.stopAnimating()
         }, fail: { (failCode) -> UInt in

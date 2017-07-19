@@ -70,7 +70,7 @@ class LockViewController: UITableViewController {
             
             APPOpertingEnterCommandAll = APPOpertingEnterCommandPrefix.appending(NSString.initWith(NSDate(timeIntervalSinceNow: 10000) as Date!, isRemote: false))
             APPOpertingEnterCommandAll = APPOpertingEnterCommandAll.appending(NSString.convertPassWord(openPwdField.text))
-            BluetoothManager.getInstance()?.sendByteCommand(with: APPOpertingEnterCommandAll, deviceID: self.deviceID(with: deviceInfo), sendType: .lock, retryTime: 3, success: { (data) in
+            BluetoothManager.getInstance()?.sendByteCommand(with: APPOpertingEnterCommandAll, deviceID: self.deviceID(with: deviceInfo), sendType: .lock, success: { (data) in
                 
             }, fail: { (failCode) -> UInt in
                 let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
@@ -89,7 +89,7 @@ class LockViewController: UITableViewController {
             APPOpertingEnterCommandPrefix.append("2")
             APPOpertingEnterCommandAll = APPOpertingEnterCommandPrefix.appending(NSString.initWith(NSDate(timeIntervalSinceNow: validTime!) as Date!, isRemote: false))
             APPOpertingEnterCommandAll = APPOpertingEnterCommandAll.appending(NSString.convertPassWord(addPwdField.text))
-            BluetoothManager.getInstance()?.sendByteCommand(with: APPOpertingEnterCommandAll, deviceID: self.deviceID(with: deviceInfo), sendType: .lock, retryTime: 3, success: { (data) in
+            BluetoothManager.getInstance()?.sendByteCommand(with: APPOpertingEnterCommandAll, deviceID: self.deviceID(with: deviceInfo), sendType: .lock, success: { (data) in
                 
             }, fail: { (failCode) -> UInt in
                 let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
@@ -108,7 +108,7 @@ class LockViewController: UITableViewController {
             APPOpertingEnterCommandAll = APPOpertingEnterCommandPrefix.appending(NSString.initWith(NSDate(timeIntervalSinceNow: 10000) as Date!, isRemote: false))
             APPOpertingEnterCommandAll = APPOpertingEnterCommandAll.appending(NSString.convertPassWord("123456"))
             
-            BluetoothManager.getInstance()?.sendByteCommand(with: APPOpertingEnterCommandAll, deviceID: self.deviceID(with: deviceInfo), sendType: .lock, retryTime: 3, success: { (data) in
+            BluetoothManager.getInstance()?.sendByteCommand(with: APPOpertingEnterCommandAll, deviceID: self.deviceID(with: deviceInfo), sendType: .lock, success: { (data) in
                 
             }, fail: { (failCode) -> UInt in
                 let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
@@ -127,7 +127,7 @@ class LockViewController: UITableViewController {
             APPOpertingEnterCommandAll = APPOpertingEnterCommandPrefix.appending(NSString.initWith(Date.init().addingTimeInterval(28800), isRemote: false))
             APPOpertingEnterCommandAll.append("000000000")
             
-            BluetoothManager.getInstance()?.sendByteCommand(with: APPOpertingEnterCommandAll, deviceID: self.deviceID(with: deviceInfo), sendType: .lock, retryTime: 3, success: { (data) in
+            BluetoothManager.getInstance()?.sendByteCommand(with: APPOpertingEnterCommandAll, deviceID: self.deviceID(with: deviceInfo), sendType: .lock,success: { (data) in
                 
             }, fail: { (failCode) -> UInt in
                 let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)

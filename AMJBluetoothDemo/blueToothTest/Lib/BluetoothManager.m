@@ -38,6 +38,7 @@ typedef void(^localFailReturn)(NSUInteger deviceIndex,NSUInteger failCode);
     NSTimer *_refreshTimer;
     NSArray *allAMJDeviceInfo;
     NSTimeInterval _timeInterval;
+    NSUInteger _retryTime;
 }
 
 //@property(copy, nonatomic, nonnull) stateValueSuccessReturn successControl;
@@ -123,6 +124,8 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 
 
 - (void)initData {
+    _retryTime = 3 ;
+    _timeInterval = 0;
     NSLogMethodArgs(@"%@", self.centralManager.isScanning?@"载入成功,开始扫描":@"正在载入");
 }
 
@@ -186,6 +189,11 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     _timeInterval=timeInterval;
 }
 
+-(void)setRetryTime:(NSUInteger)retryTime
+{
+    _retryTime=retryTime;
+}
+
 - (void)setTimeOutWithPeriheral:(CBPeripheral *)periheral {
     
     _timeOutTimer = nil;
@@ -200,15 +208,14 @@ NSString *_Nonnull const ScanTypeDescription[] = {
                      fail:(NSUInteger (^ _Nullable)(NSString *_Nullable))fail
 {
     _sendType = SendTypeQuery;
-    [self sendMutiCommandWithSingleDeviceID:deviceID sendType:_sendType retryTime:3 commands:nil success:success fail:fail];
+    [self sendMutiCommandWithSingleDeviceID:deviceID sendType:_sendType commands:nil success:success fail:fail];
 }
 
 - (void)queryMutiDevices:(NSArray <NSString *>*_Nullable)devices
-                   retry:(NSUInteger)retryTime
                   report:(void (^ _Nullable)(NSUInteger index,BOOL isSuccess,id _Nullable obj))report
                   finish:(void(^_Nullable)(BOOL isFinish))finish
 {
-    [self sendMutiCommands:nil withMutiDevices:devices withSendTypes:nil retry:3 report:report finish:finish];
+    [self sendMutiCommands:nil withMutiDevices:devices withSendTypes:nil report:report finish:finish];
 }
 
 
@@ -220,18 +227,12 @@ NSString *_Nonnull const ScanTypeDescription[] = {
                           success:(void (^)(NSData *_Nullable))success
                              fail:(NSUInteger (^)(NSString *_Nullable))fail
 {
-    [self sendMutiCommandWithSingleDeviceID:deviceID sendType:sendType retryTime:3 commands:@[commandStr] success:success fail:fail];
-}
-
--(void)sendByteCommandWithString:(NSString *)commandStr deviceID:(NSString *)deviceID sendType:(SendType)sendType retryTime:(NSUInteger)retryTime success:(void (^)(NSData * _Nullable))success fail:(NSUInteger (^)(NSString * _Nullable))fail
-{
-    [self sendMutiCommandWithSingleDeviceID:deviceID sendType:sendType retryTime:retryTime commands:@[commandStr] success:success fail:fail];
+    [self sendMutiCommandWithSingleDeviceID:deviceID sendType:sendType commands:@[commandStr] success:success fail:fail];
 }
 
 
 - (void)sendMutiCommandWithSingleDeviceID:(NSString *__nonnull)deviceID
                                  sendType:(SendType)sendType
-                                retryTime:(NSUInteger)retryTime 
                                  commands:(NSArray<__kindof NSString *> * _Nullable)commands
                                   success:(void (^ _Nullable)(NSData * _Nullable))success
                                      fail:(NSUInteger (^ _Nullable)(NSString * _Nullable))fail
@@ -245,7 +246,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     NSDate *startTime = [NSDate date];
     static NSUInteger failTime = 0;
     NSTimeInterval timeInterval=_timeInterval;
-    
+    NSUInteger retryTime = _retryTime;
     self.partSuccess = ^(NSUInteger deviceIndex, NSData *feedbackCode) {
         _isDiscoverSuccess = NO;
         _isWritingSuccess = NO;
@@ -354,7 +355,6 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 -(void)sendMutiCommands:(NSArray<NSString *> *)commands
         withMutiDevices:(NSArray<NSString *> *)devices
           withSendTypes:(NSArray<NSNumber *> *)sendTypes
-                  retry:(NSUInteger)retryTime
                  report:(void (^)(NSUInteger, BOOL, id _Nullable))report
                  finish:(void (^)(BOOL))finish
 {
@@ -362,6 +362,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     __block BluetoothManager *blockManger = self;
     static NSUInteger failTime = 0;
     _dataf = [NSDate date];
+        NSUInteger retryTime = _retryTime;
     self.partSuccess = ^(NSUInteger deviceIndex, NSData *feedbackCode) {
         _isDiscoverSuccess = NO;
         _isWritingSuccess = NO;
