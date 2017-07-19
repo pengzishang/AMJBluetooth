@@ -95,6 +95,7 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
  */
 @property(copy, nonatomic, nullable) detectDevice detectDevice;//发现设备
 
+
 /**
  初始化
 
@@ -102,7 +103,13 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
  */
 + (nullable BluetoothManager *)getInstance;
 
+
+/**
+ 启用
+ */
 - (void)effect;
+
+- (void)setInterval:(NSTimeInterval)timeInterval;
 
 /**
  扫描设备

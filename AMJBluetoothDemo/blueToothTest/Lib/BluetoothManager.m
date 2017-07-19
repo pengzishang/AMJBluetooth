@@ -6,6 +6,7 @@
 //  Copyright (c) 2014年 tts. All rights reserved.
 //
 
+#define intervalTime 0.5
 
 //如果寻找设备过久,很容易导致控制失败
 #import "BluetoothManager.h"
@@ -36,7 +37,7 @@ typedef void(^localFailReturn)(NSUInteger deviceIndex,NSUInteger failCode);
     
     NSTimer *_refreshTimer;
     NSArray *allAMJDeviceInfo;
-    
+    NSTimeInterval _timeInterval;
 }
 
 //@property(copy, nonatomic, nonnull) stateValueSuccessReturn successControl;
@@ -56,15 +57,15 @@ typedef void(^localFailReturn)(NSUInteger deviceIndex,NSUInteger failCode);
 @implementation BluetoothManager
 
 NSString *_Nonnull const ScanTypeDescription[] = {
-        [ScanTypeSocket]            =   @"ScanTypeSocket",
-        [ScanTypeSwitch]            =   @"ScanTypeSwitch",
-        [ScanTypeCurtain]           =   @"ScanTypeCurtain",
-        [ScanTypeWarning]           =   @"ScanTypeWarning",
-        [ScanTypeOther]             =   @"ScanTypeOther",
-        [ScanTypeWIFIControl]       =   @"ScanTypeWIFIControl",
-        [ScanTypeInfraredControl]   =   @"ScanTypeInfraredControl",
-        [ScanTypeRemoteControl]     =   @"ScanTypeRemoteControl",
-        [ScanTypeAll]               =   @"ScanTypeAll",
+    [ScanTypeSocket]            =   @"ScanTypeSocket",
+    [ScanTypeSwitch]            =   @"ScanTypeSwitch",
+    [ScanTypeCurtain]           =   @"ScanTypeCurtain",
+    [ScanTypeWarning]           =   @"ScanTypeWarning",
+    [ScanTypeOther]             =   @"ScanTypeOther",
+    [ScanTypeWIFIControl]       =   @"ScanTypeWIFIControl",
+    [ScanTypeInfraredControl]   =   @"ScanTypeInfraredControl",
+    [ScanTypeRemoteControl]     =   @"ScanTypeRemoteControl",
+    [ScanTypeAll]               =   @"ScanTypeAll",
 };
 
 + (BluetoothManager *)getInstance {
@@ -94,9 +95,9 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 - (NSMutableArray<NSDictionary<NSString *,id> *> *)peripheralsInfo
 {
     if (!_peripheralsInfo) {
-         _peripheralsInfo = [NSMutableArray array];
+        _peripheralsInfo = [NSMutableArray array];
     }
-        return _peripheralsInfo;
+    return _peripheralsInfo;
 }
 
 - (CBCentralManager *)centralManager {
@@ -115,7 +116,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 //{
 //    __block id observer = [[NSNotificationCenter defaultCenter]addObserverForName:UIApplicationDidFinishLaunchingNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
 //        [BluetoothManager getInstance];
-//        
+//
 //        [[NSNotificationCenter defaultCenter] removeObserver:observer];
 //    }];
 //}
@@ -180,6 +181,11 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     NSLog(@"STEP1:开始连接:%f  id:%@", time1, curPeripheral.name);
 }
 
+-(void)setInterval:(NSTimeInterval)timeInterval
+{
+    _timeInterval=timeInterval;
+}
+
 - (void)setTimeOutWithPeriheral:(CBPeripheral *)periheral {
     
     _timeOutTimer = nil;
@@ -225,7 +231,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 
 - (void)sendMutiCommandWithSingleDeviceID:(NSString *__nonnull)deviceID
                                  sendType:(SendType)sendType
-                                retryTime:(NSUInteger)retryTime
+                                retryTime:(NSUInteger)retryTime 
                                  commands:(NSArray<__kindof NSString *> * _Nullable)commands
                                   success:(void (^ _Nullable)(NSData * _Nullable))success
                                      fail:(NSUInteger (^ _Nullable)(NSString * _Nullable))fail
@@ -235,16 +241,31 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     //成功:返回设备序列号,如果序列号和传来的最大数量相等,n那么返回大成功
     //失败:返回设备序列号和失败代码,如果传来设备故障,那么立即返回大失败,如果返回写入失败和任何可持续写入的失败代码,继续重复发送
     __block BluetoothManager *blockManger = self;
+    _dataf = [NSDate date];
+    NSDate *startTime = [NSDate date];
     static NSUInteger failTime = 0;
+    NSTimeInterval timeInterval=_timeInterval;
+    
     self.partSuccess = ^(NSUInteger deviceIndex, NSData *feedbackCode) {
         _isDiscoverSuccess = NO;
         _isWritingSuccess = NO;
         _isConnectingSuccess = NO;
+        _isGetValueSuccess = NO;
         deviceIndex += 1;
+        double time1 = [[NSDate date] timeIntervalSinceDate:startTime];
+        NSLog(@"\n*******************************成功控制第%zd个,总共花费时间:%f*******************************\n", deviceIndex,time1);
         failTime = 0;
         if (deviceIndex<commands.count) {
             BOOL isLast = (deviceIndex == commands.count-1)?YES:NO;
-            [blockManger sendCommmandWithDeviceID:deviceID sendType:sendType deviceIndex:deviceIndex command:commands[deviceIndex] isLast:isLast];
+            
+            //加入时间间隔
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                NSLog(@"\n*******************************间隔时间时间:%f*******************************\n",timeInterval);
+                [NSThread sleepForTimeInterval:timeInterval];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [blockManger sendCommmandWithDeviceID:deviceID sendType:sendType deviceIndex:deviceIndex command:commands[deviceIndex] isLast:isLast];
+                });
+            });
         }
         else
         {
@@ -257,6 +278,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         _isDiscoverSuccess = NO;
         _isWritingSuccess = NO;
         _isConnectingSuccess = NO;
+        _isGetValueSuccess = NO;
         NSLog(@"\n*******************************发生错误,错误代码:%zd*******************************\n",failCode);
         
         if (failCode == 403 ||failCode == 404) {
@@ -295,7 +317,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 
 /**
  通用发送方法
-
+ 
  @param deviceID <#deviceID description#>
  @param deviceIndex <#deviceIndex description#>
  @param command <#command description#>
@@ -307,7 +329,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         _isGetValueSuccess = NO;
     }
     [self.dataArr removeAllObjects];
-    _dataf = [NSDate date];
+    
     NSLog(@"\n*******************************第%zd个设备(命令)*******************************\n",deviceIndex+1);
     if (self.centralManager.state != CBCentralManagerStatePoweredOn) {
         if (self.partFail) {
@@ -339,10 +361,12 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     NSAssert((commands.count == devices.count&&devices.count==sendTypes.count), @"命令,设备,发送类型数量不一致或者缺失");
     __block BluetoothManager *blockManger = self;
     static NSUInteger failTime = 0;
+    _dataf = [NSDate date];
     self.partSuccess = ^(NSUInteger deviceIndex, NSData *feedbackCode) {
         _isDiscoverSuccess = NO;
         _isWritingSuccess = NO;
         _isConnectingSuccess = NO;
+        _isGetValueSuccess = NO;
         if (report) {
             report(deviceIndex,YES,feedbackCode);
         }
@@ -364,6 +388,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         _isDiscoverSuccess = NO;
         _isWritingSuccess = NO;
         _isConnectingSuccess = NO;
+        _isGetValueSuccess = NO;
         NSLog(@"\n*******************************发生错误,错误代码:%zd*******************************\n",failCode);
         
         if (failCode == 403 ||failCode == 404) {
@@ -383,7 +408,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
                     finish(YES);
                 }
             }
-        
+            
         }
         else {
             if (failTime < retryTime) {//情况1,出错但是最后一个  情况2:发到一半出错,断开还是不断开?
@@ -496,7 +521,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 
 -(NSData *)returnRemote:(NSString *)commandStr length:(NSUInteger)length
 {
-    if (length ==20) {
+    if (length ==20) {//需要校验
         Byte *byte1to20 = [NSString translateToByte:commandStr];
         Byte byteCommand[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         for (NSInteger i = 0; i < 19; i++) {
@@ -505,19 +530,18 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         }
         return  [NSData dataWithBytes:byteCommand length:20];
     }
-    else if (length ==19){
+    else if (length ==19){//新遥控器的命令
         Byte *byte1to19 = [NSString translateToByte:commandStr];
-        Byte byteCommand[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        for (NSInteger i = 0; i < 19; i++) {
-            byteCommand[i] = byte1to19[i];
-            byteCommand[18]=(i==0?byteCommand[0]:byteCommand[18] ^ byteCommand[i]);
-        }
-        return  [NSData dataWithBytes:byteCommand length:19];
+//        Byte byteCommand[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+//        for (NSInteger i = 0; i < 19; i++) {
+//            byteCommand[i] = byte1to19[i];
+//        }
+        return  [NSData dataWithBytes:byte1to19 length:19];
     }
     else {//(length==10)
         Byte *byte1to10 = [NSString translateToByte:commandStr];
         Byte byteCommand[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        for (NSInteger i = 0; i < 19; i++) {
+        for (NSInteger i = 0; i < 9; i++) {
             byteCommand[i] = byte1to10[i];
             byteCommand[9]=i==0?byteCommand[i]:byteCommand[9] ^ byteCommand[i];
         }
@@ -597,7 +621,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         NSString *stateCode = [deviceIDFromAdv substringWithRange:NSMakeRange(6, 1)];
         NSString *deviceType = [deviceIDFromAdv substringWithRange:NSMakeRange(5, 1)];//这个以后可能出问题.面对两位的类型
         NSInteger stateIndex = [stateCode characterAtIndex:0];
-
+        
         NSNumber *stateCodeCurrent = [[NSNumber alloc] init];
         if ([deviceType isEqualToString:@"0"] || [deviceType isEqualToString:@"1"]) {
             stateCodeCurrent = @(stateIndex & (0x01));
@@ -607,7 +631,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
             stateCodeCurrent = @(stateIndex & (0x07));
         }
         if ([stateCode isEqualToString:@":"] || [deviceIDFromAdv hasPrefix:@"WIFI"]) {
-//            stateIndex = 48;//48一个不存在的状态
+            //            stateIndex = 48;//48一个不存在的状态
             stateCodeCurrent = @(-1);
             //老设备
         }
@@ -627,11 +651,11 @@ NSString *_Nonnull const ScanTypeDescription[] = {
                     operationIndex = idx;
                     NSLogMethodArgs(@"刷新 %@  强度:%@ 原状态:%@ 现状态:%@", deviceIDFromAdv, RSSI, stateCodeInStore, stateCodeCurrent);
                 }
-
+                
             }
         }];
-
-
+        
+        
         //如果没有与现有或者新发现的设备重复,那么加入全局的周边设备库
         if (!isContain) {
             NSDictionary *peripheralInfo = @{Peripheral: peripheral, AdvertisementData: advertisementData, RSSI_VALUE: RSSI, @"stateCode": stateCodeCurrent};
@@ -648,8 +672,8 @@ NSString *_Nonnull const ScanTypeDescription[] = {
             [[NSNotificationCenter defaultCenter] postNotificationName:BlueToothMangerDidItemChangeInfo object:nil userInfo:peripheralInfo];
         }
     }
-
-        //快速扫描,耗资源
+    
+    //快速扫描,耗资源
     else if (_scaningPreFix.count != 0 && _scanFastSpeed) {
         if (deviceIDFromAdv.length < 6) {
             return;
@@ -657,7 +681,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         NSString *stateCode = [deviceIDFromAdv substringWithRange:NSMakeRange(6, 1)];
         NSString *deviceType = [deviceIDFromAdv substringWithRange:NSMakeRange(5, 1)];
         NSUInteger stateIndex = [stateCode characterAtIndex:0];
-
+        
         NSNumber *stateCodeCurrent = [[NSNumber alloc] init];
         if ([deviceType isEqualToString:@"0"] || [deviceType isEqualToString:@"1"]) {
             stateCodeCurrent = @(stateIndex & (0x01));
@@ -666,7 +690,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         } else {
             stateCodeCurrent = @(stateIndex & (0x07));
         }
-
+        
         if ([stateCode isEqualToString:@":"] || [deviceIDFromAdv hasPrefix:@"WIFI"]) {
             stateIndex = 48;//48一个不存在的状态
             stateCodeCurrent = @(-1);
@@ -677,7 +701,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         if (_detectDevice) {
             _detectDevice(peripheralInfo);
         }
-
+        
     }
 }
 
@@ -846,7 +870,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     }
     double time1 = [[NSDate date] timeIntervalSinceDate:_dataf];
     _isGetValueSuccess = YES;
-    NSLog(@"STEP6:已经获取特征值%@,操作成功,准备断开:%f,ID:%@", _stateData, time1,peripheral.name);
+    NSLog(@"STEP6:已经获取特征值%@,操作成功 单次全程控制时间:%f,ID:%@", _stateData, time1,peripheral.name);
     BOOL isLast = [self.dataArr.firstObject[@"isLast"] boolValue];
     if (isLast) {
         [_timeOutTimer invalidate];
