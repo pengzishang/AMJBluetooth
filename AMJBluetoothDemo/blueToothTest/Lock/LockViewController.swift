@@ -73,6 +73,13 @@ class LockViewController: UITableViewController {
             BluetoothManager.getInstance()?.sendByteCommand(with: APPOpertingEnterCommandAll, deviceID: self.deviceID(with: deviceInfo), sendType: .lock, retryTime: 3, success: { (data) in
                 
             }, fail: { (failCode) -> UInt in
+                let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
+                alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
+                    
+                }))
+                self.present(alert, animated: true, completion: {
+                    
+                })
                 return 0
             })
         }
@@ -85,6 +92,13 @@ class LockViewController: UITableViewController {
             BluetoothManager.getInstance()?.sendByteCommand(with: APPOpertingEnterCommandAll, deviceID: self.deviceID(with: deviceInfo), sendType: .lock, retryTime: 3, success: { (data) in
                 
             }, fail: { (failCode) -> UInt in
+                let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
+                alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
+                    
+                }))
+                self.present(alert, animated: true, completion: {
+                    
+                })
                 return 0
             })
         }
@@ -97,6 +111,13 @@ class LockViewController: UITableViewController {
             BluetoothManager.getInstance()?.sendByteCommand(with: APPOpertingEnterCommandAll, deviceID: self.deviceID(with: deviceInfo), sendType: .lock, retryTime: 3, success: { (data) in
                 
             }, fail: { (failCode) -> UInt in
+                let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
+                alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
+                    
+                }))
+                self.present(alert, animated: true, completion: {
+                    
+                })
                 return 0
             })
         }
@@ -109,6 +130,13 @@ class LockViewController: UITableViewController {
             BluetoothManager.getInstance()?.sendByteCommand(with: APPOpertingEnterCommandAll, deviceID: self.deviceID(with: deviceInfo), sendType: .lock, retryTime: 3, success: { (data) in
                 
             }, fail: { (failCode) -> UInt in
+                let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
+                alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
+                    
+                }))
+                self.present(alert, animated: true, completion: {
+                    
+                })
                 return 0
             })
         }

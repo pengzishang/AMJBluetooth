@@ -109,6 +109,13 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
  */
 - (void)effect;
 
+
+
+/**
+ 设定间隔
+
+ @param timeInterval <#timeInterval description#>
+ */
 - (void)setInterval:(NSTimeInterval)timeInterval;
 
 /**
@@ -118,11 +125,6 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
  @param PrefixArr 一个列表,包括设备类型的NSNumber
  */
 - (void)scanPeriherals:(BOOL)isAllowDuplicates AllowPrefix:(NSArray <__kindof NSNumber *> *_Nullable)PrefixArr;
-
-/**
- 停止扫描
- */
-- (void)stopScan;
 
 
 /**
