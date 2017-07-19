@@ -181,7 +181,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     [self setTimeOutWithPeriheral:curPeripheral];
     [self.centralManager connectPeripheral:curPeripheral options:nil];
     double time1 = [[NSDate date] timeIntervalSinceDate:_dataf];
-    NSLog(@"STEP1:开始连接:%f  id:%@", time1, curPeripheral.name);
+    NSLog(@"Step1:开始连接:%f  id:%@", time1, curPeripheral.name);
 }
 
 -(void)setInterval:(NSTimeInterval)timeInterval
@@ -458,11 +458,6 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     return @(byte);
 }
 
-- (void)initCommandWithStr:(NSString *)commandStr UDID:(NSString *)UDID
-{
-    [self initCommandWithStr:commandStr UDID:UDID deviceIndex:NSUIntegerMax isLast:YES];
-}
-
 - (void)initCommandWithStr:(NSString *)commandStr UDID:(NSString *)UDID deviceIndex:(NSUInteger)deviceIndex isLast:(BOOL)isLast
 {
     if (_sendType==SendTypeLock) {//无验证码,校验
@@ -709,7 +704,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
     double time1 = [[NSDate date] timeIntervalSinceDate:_dataf];
     _isConnectingSuccess = YES;
-    NSLog(@"STEP2:连接设备成功,开始寻找服务:%f,ID:%@", time1,peripheral.name);
+    NSLog(@"Step2:连接设备成功,开始寻找服务:%f,ID:%@", time1,peripheral.name);
     CBUUID *uuid = [CBUUID UUIDWithString:@"FFF0"];
     [peripheral discoverServices:@[uuid]];
 }
@@ -717,7 +712,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
     double time1 = [[NSDate date] timeIntervalSinceDate:_dataf];
-    NSLogMethodArgs(@"STEP7:断开设备:%f,ID:%@", time1,peripheral.name)
+    NSLog(@"Step7:断开设备:%f,ID:%@", time1,peripheral.name);
     if (error) {
         if (self.partFail) {
             self.partFail([self returnIndexOfDeviceWithPeripheral:peripheral], 107);
@@ -750,7 +745,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
                     self.partFail([self returnIndexOfDeviceWithPeripheral:peripheral], 103);
                 }
             } else if (!_isWritingSuccess) {
-                if (self.partFail) {
+                if (self.partFail) {//重写一次就好
                     self.partFail([self returnIndexOfDeviceWithPeripheral:peripheral], 104);
                 }
             } else if (!isResponse) {
@@ -787,7 +782,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error {
     double time1 = [[NSDate date] timeIntervalSinceDate:_dataf];
-    NSLog(@"STEP3:已经发现服务 寻找特征字:%f,ID:%@", time1,peripheral.name);
+    NSLog(@"Step3:已经发现服务 寻找特征字:%f,ID:%@", time1,peripheral.name);
     if (peripheral.services.count == 0) {
         NSLogMethodArgs(@"设备找不到服务");
         [self.centralManager cancelPeripheralConnection:peripheral];
@@ -808,7 +803,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error {
     _isDiscoverSuccess = YES;
     double time1 = [[NSDate date] timeIntervalSinceDate:_dataf];
-    NSLog(@"STEP4:已经发现特征字,准备写入值:%f,ID:%@", time1,peripheral.name);
+    NSLog(@"Step4:已经发现特征字,准备写入值:%f,ID:%@", time1,peripheral.name);
     for (CBCharacteristic *character in service.characteristics) {
         NSString *characterID = character.UUID.UUIDString;
         NSData *controlData = [self returnWithDeviceID:peripheral.identifier.UUIDString];
@@ -854,7 +849,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         [peripheral readValueForCharacteristic:characteristic];
         _isWritingSuccess = YES;
         double time1 = [[NSDate date] timeIntervalSinceDate:_dataf];
-        NSLog(@"STEP5:写入特征字成功 等待读取特征值:%f,ID:%@", time1,peripheral.name);
+        NSLog(@"Step5:写入特征字成功 等待读取特征值:%f,ID:%@", time1,peripheral.name);
     } else {
         NSLogMethodArgs(@"写操作失败");
     }
@@ -871,7 +866,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     }
     double time1 = [[NSDate date] timeIntervalSinceDate:_dataf];
     _isGetValueSuccess = YES;
-    NSLog(@"STEP6:已经获取特征值%@,操作成功 单次全程控制时间:%f,ID:%@", _stateData, time1,peripheral.name);
+    NSLog(@"Step6:已经获取特征值%@,操作成功 单次全程控制时间:%f,ID:%@", _stateData, time1,peripheral.name);
     BOOL isLast = [self.dataArr.firstObject[@"isLast"] boolValue];
     if (isLast) {
         [_timeOutTimer invalidate];
