@@ -20,13 +20,17 @@ class LockViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         BluetoothManager.getInstance()?.queryDeviceStatus(self.deviceID(with: deviceInfo), success: { (data) in
-            let dataNS = NSData.init(data: data!)
-            let subdata = dataNS.subdata(with: NSRange.init(location: 6, length: 4))
-            let dataToNow = NSString.data(toInt: subdata);
-            let data = NSDate.init(timeIntervalSince1970: 946684800)
-            let dataNow = data.addingTimeInterval(TimeInterval(dataToNow))
-            print(dataNow)
-            self.timeLab.text = dataNow.description
+            if data != nil
+            {
+                let dataNS = NSData.init(data: data!)
+                let subdata = dataNS.subdata(with: NSRange.init(location: 6, length: 4))
+                let dataToNow = NSString.data(toInt: subdata);
+                let data = NSDate.init(timeIntervalSince1970: 946684800)
+                let dataNow = data.addingTimeInterval(TimeInterval(dataToNow))
+                print(dataNow)
+                self.timeLab.text = dataNow.description
+            }
+
         }, fail: { (failCode) -> UInt in
             print(">>>>>>" + failCode)
             return 0 
@@ -40,13 +44,17 @@ class LockViewController: UITableViewController {
     
     @IBAction func retry(_ sender: UIButton) {
         BluetoothManager.getInstance()?.queryDeviceStatus(self.deviceID(with: deviceInfo), success: { (data) in
-            let dataNS = NSData.init(data: data!)
-            let subdata = dataNS.subdata(with: NSRange.init(location: 6, length: 4))
-            let dataToNow = NSString.data(toInt: subdata);
-            let data = NSDate.init(timeIntervalSince1970: 946684800)
-            let dataNow = data.addingTimeInterval(TimeInterval(dataToNow))
-            print(dataNow)
-            self.timeLab.text = dataNow.description
+            if data != nil
+            {
+                let dataNS = NSData.init(data: data!)
+                let subdata = dataNS.subdata(with: NSRange.init(location: 6, length: 4))
+                let dataToNow = NSString.data(toInt: subdata);
+                let data = NSDate.init(timeIntervalSince1970: 946684800)
+                let dataNow = data.addingTimeInterval(TimeInterval(dataToNow))
+                print(dataNow)
+                self.timeLab.text = dataNow.description
+            }
+            
         }, fail: { (failCode) -> UInt in
             print(">>>>>>" + failCode)
             return 0
@@ -124,7 +132,7 @@ class LockViewController: UITableViewController {
         else if indexPath.row==3 {
             //同步时间
             APPOpertingEnterCommandPrefix.append("8")
-            APPOpertingEnterCommandAll = APPOpertingEnterCommandPrefix.appending(NSString.initWith(Date.init().addingTimeInterval(28800), isRemote: false))
+            APPOpertingEnterCommandAll = APPOpertingEnterCommandPrefix.appending(NSString.initWith(Date.init(), isRemote: false))
             APPOpertingEnterCommandAll.append("000000000")
             
             BluetoothManager.getInstance()?.sendByteCommand(with: APPOpertingEnterCommandAll, deviceID: self.deviceID(with: deviceInfo), sendType: .lock,success: { (data) in

@@ -12,11 +12,34 @@
 #import "BluetoothManager.h"
 #import "NSString+StringOperation.h"
 
+/**
+ 扫描类型
+ 
+ - ScanTypeSocket: 只扫描插座
+ - ScanTypeSwitch: 只扫描开关
+ - ScanTypeCurtain: 窗帘
+ - ScanTypeWarning: 报警
+ - ScanTypeOther: 其他设备
+ - ScanTypeWIFIControl: 远程控制器
+ - ScanTypeInfraredControl:红外控制器
+ - ScanTypeRemoteControl: 遥控器
+ - ScanTypeAll: 全部
+ */
+typedef NS_ENUM(NSUInteger, ScanType) {
+    ScanTypeSocket = 0,
+    ScanTypeSwitch = 1,
+    ScanTypeCurtain = 2,
+    ScanTypeWarning = 3,
+    ScanTypeOther = 4,
+    ScanTypeWIFIControl = 5,
+    ScanTypeInfraredControl = 6,
+    ScanTypeRemoteControl = 7,
+    ScanTypeAll = 8,
+};
+
 static BluetoothManager *shareInstance;
 
-typedef void(^stateValueFailReturn)(NSInteger);
-
-typedef void(^stateValueSuccessReturn)(NSData *);
+//typedef void(^detectDevice)(NSDictionary * infoDic);
 
 typedef void(^localSuccessReturn)(NSUInteger deviceIndex,NSData *feedbackCode);
 
@@ -41,11 +64,9 @@ typedef void(^localFailReturn)(NSUInteger deviceIndex,NSUInteger failCode);
     NSUInteger _retryTime;
 }
 
-//@property(copy, nonatomic, nonnull) stateValueSuccessReturn successControl;
-//@property(copy, nonatomic, nonnull) stateValueFailReturn failControl;
-
 @property(copy, nonatomic, nonnull) localSuccessReturn partSuccess;
 @property(copy, nonatomic, nonnull) localFailReturn partFail;
+//@property(copy, nonatomic, nullable) detectDevice detectDevice;//发现设备
 
 /**
  扫描的设备种类
@@ -126,6 +147,11 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 - (void)initData {
     _retryTime = 3 ;
     _timeInterval = 0;
+    NSDictionary *optionsDic = @{CBCentralManagerScanOptionAllowDuplicatesKey: @(NO)};
+    //代理触发更新了
+    [_refreshTimer invalidate];
+    _refreshTimer=[NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(refreshNearDevice:) userInfo:optionsDic repeats:YES];
+    [_refreshTimer fire];
     NSLogMethodArgs(@"%@", self.centralManager.isScanning?@"载入成功,开始扫描":@"正在载入");
 }
 
@@ -134,12 +160,8 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     //任意扫描
     [self initPreFix:PrefixArr];
     _scanFastSpeed = isAllowDuplicates;
-    NSDictionary *optionsDic = @{CBCentralManagerScanOptionAllowDuplicatesKey: @(isAllowDuplicates)};
-    //代理触发更新了
-    [_refreshTimer invalidate];
-    _refreshTimer=[NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(refreshNearDevice:) userInfo:optionsDic repeats:YES];
-    [_refreshTimer fire];
 }
+
 
 -(void)refreshNearDevice:(NSTimer *)sender
 {
@@ -192,6 +214,14 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 -(void)setRetryTime:(NSUInteger)retryTime
 {
     _retryTime=retryTime;
+}
+
+
+- (void)setScanMode:(BOOL)isFast
+{
+    _scanFastSpeed = isFast;
+    NSDictionary *optionsDic = @{CBCentralManagerScanOptionAllowDuplicatesKey: @(isFast)};
+    [self.centralManager scanForPeripheralsWithServices:nil options:optionsDic];
 }
 
 - (void)setTimeOutWithPeriheral:(CBPeripheral *)periheral {
@@ -288,6 +318,12 @@ NSString *_Nonnull const ScanTypeDescription[] = {
                 fail([NSString stringWithFormat:@"%zd",failCode]);
             }
         }
+//        else if (failCode == 107){//107要特殊处理
+//            failTime = 0 ;
+//            if (success) {
+//                success(nil);
+//            }
+//        }
         else {
             if (failTime < retryTime) {//情况1,出错但是最后一个  情况2:发到一半出错,断开还是不断开?
                 failTime ++;
@@ -306,7 +342,8 @@ NSString *_Nonnull const ScanTypeDescription[] = {
             
         }
     };
-    BOOL isLast = (commands.count ==1)?YES:NO;
+    BOOL isLast = (commands.count ==1||commands == nil)?YES:NO;
+    _sendType = sendType;
     if (_sendType == SendTypeQuery) {
         [self sendCommmandWithDeviceID:deviceID sendType:sendType deviceIndex:0 command:nil isLast:isLast];
     } else {
@@ -362,7 +399,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     __block BluetoothManager *blockManger = self;
     static NSUInteger failTime = 0;
     _dataf = [NSDate date];
-        NSUInteger retryTime = _retryTime;
+    NSUInteger retryTime = _retryTime;
     self.partSuccess = ^(NSUInteger deviceIndex, NSData *feedbackCode) {
         _isDiscoverSuccess = NO;
         _isWritingSuccess = NO;
@@ -528,10 +565,10 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     }
     else if (length ==19){//新遥控器的命令
         Byte *byte1to19 = [NSString translateToByte:commandStr];
-//        Byte byteCommand[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-//        for (NSInteger i = 0; i < 19; i++) {
-//            byteCommand[i] = byte1to19[i];
-//        }
+        //        Byte byteCommand[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        //        for (NSInteger i = 0; i < 19; i++) {
+        //            byteCommand[i] = byte1to19[i];
+        //        }
         return  [NSData dataWithBytes:byte1to19 length:19];
     }
     else {//(length==10)
@@ -591,11 +628,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI {
     NSString *deviceIDFromAdv = [advertisementData[@"kCBAdvDataLocalName"] stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSString *deviceIDFromPeripheral = [peripheral.name stringByReplacingOccurrencesOfString:@" " withString:@""];
-    if ([RSSI integerValue] <= -115 || [RSSI integerValue] == 127) {
-        return;
-    }
-    if ([deviceIDFromAdv length] < 15 && deviceIDFromPeripheral.length < 15) {
+    if ([RSSI integerValue] <= -115 || [RSSI integerValue] == 127||[deviceIDFromAdv length] < 6) {
         return;
     }
     __block BOOL isSelectPreFix = NO;
@@ -611,26 +644,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     }
     //慢速,监测扫描,
     if (!_scanFastSpeed) {
-        if (deviceIDFromAdv.length < 6) {
-            return;
-        }
-        NSString *stateCode = [deviceIDFromAdv substringWithRange:NSMakeRange(6, 1)];
-        NSString *deviceType = [deviceIDFromAdv substringWithRange:NSMakeRange(5, 1)];//这个以后可能出问题.面对两位的类型
-        NSInteger stateIndex = [stateCode characterAtIndex:0];
-        
-        NSNumber *stateCodeCurrent = [[NSNumber alloc] init];
-        if ([deviceType isEqualToString:@"0"] || [deviceType isEqualToString:@"1"]) {
-            stateCodeCurrent = @(stateIndex & (0x01));
-        } else if ([deviceType isEqualToString:@"2"]) {
-            stateCodeCurrent = @(stateIndex & (0x03));
-        } else {
-            stateCodeCurrent = @(stateIndex & (0x07));
-        }
-        if ([stateCode isEqualToString:@":"] || [deviceIDFromAdv hasPrefix:@"WIFI"]) {
-            //            stateIndex = 48;//48一个不存在的状态
-            stateCodeCurrent = @(-1);
-            //老设备
-        }
+        NSNumber *stateCodeCurrent = [self getStateCodeCurrent:deviceIDFromAdv];
         __block BOOL isContain = NO;
         __block BOOL isStatusSame = NO;
         __block NSUInteger operationIndex = 0;
@@ -668,38 +682,41 @@ NSString *_Nonnull const ScanTypeDescription[] = {
             [[NSNotificationCenter defaultCenter] postNotificationName:BlueToothMangerDidItemChangeInfo object:nil userInfo:peripheralInfo];
         }
     }
-    
     //快速扫描,耗资源
     else if (_scaningPreFix.count != 0 && _scanFastSpeed) {
-        if (deviceIDFromAdv.length < 6) {
-            return;
-        }
-        NSString *stateCode = [deviceIDFromAdv substringWithRange:NSMakeRange(6, 1)];
-        NSString *deviceType = [deviceIDFromAdv substringWithRange:NSMakeRange(5, 1)];
-        NSUInteger stateIndex = [stateCode characterAtIndex:0];
-        
-        NSNumber *stateCodeCurrent = [[NSNumber alloc] init];
-        if ([deviceType isEqualToString:@"0"] || [deviceType isEqualToString:@"1"]) {
-            stateCodeCurrent = @(stateIndex & (0x01));
-        } else if ([deviceType isEqualToString:@"2"]) {
-            stateCodeCurrent = @(stateIndex & (0x03));
-        } else {
-            stateCodeCurrent = @(stateIndex & (0x07));
-        }
-        
-        if ([stateCode isEqualToString:@":"] || [deviceIDFromAdv hasPrefix:@"WIFI"]) {
-            stateIndex = 48;//48一个不存在的状态
-            stateCodeCurrent = @(-1);
-            //老设备
-        }
+        NSNumber *stateCodeCurrent = [self getStateCodeCurrent:deviceIDFromAdv];
         NSLog(@"快速扫描 %@|  强度:%@  状态:%@", deviceIDFromAdv, RSSI, stateCodeCurrent);
         NSDictionary *peripheralInfo = @{Peripheral: peripheral, AdvertisementData: advertisementData, RSSI_VALUE: RSSI, @"stateCode": stateCodeCurrent};
-        if (_detectDevice) {
-            _detectDevice(peripheralInfo);
-        }
-        
+        [[NSNotificationCenter defaultCenter] postNotificationName:BlueToothMangerDidItemChangeInfo object:nil userInfo:peripheralInfo];
     }
 }
+
+-(NSNumber *)getStateCodeCurrent:(NSString *)deviceIDFromAdv
+{
+    NSString *stateCode = [deviceIDFromAdv substringWithRange:NSMakeRange(6, 1)];
+    NSString *deviceType = [deviceIDFromAdv substringWithRange:NSMakeRange(4, 2)];
+    NSUInteger stateIndex = [stateCode characterAtIndex:0];
+    
+    NSNumber *stateCodeCurrent = [[NSNumber alloc] init];
+    if ([deviceType isEqualToString:@"00"] || [deviceType isEqualToString:@"01"]|| [deviceType isEqualToString:@"11"]|| [deviceType isEqualToString:@"21"])
+    {
+        stateCodeCurrent = @(stateIndex & (0x01));
+    }
+    else if ([deviceType isEqualToString:@"02"]||[deviceType isEqualToString:@"12"]||[deviceType isEqualToString:@"22"])
+    {
+        stateCodeCurrent = @(stateIndex & (0x03));
+    }
+    else {
+        stateCodeCurrent = @(stateIndex & (0x07));
+    }
+    if ([stateCode isEqualToString:@":"] || [deviceIDFromAdv hasPrefix:@"WIFI"]) {
+        //            stateIndex = 48;//48一个不存在的状态
+        stateCodeCurrent = @(-1);
+        //老设备
+    }
+    return stateCodeCurrent;
+}
+
 
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
     double time1 = [[NSDate date] timeIntervalSinceDate:_dataf];
@@ -808,7 +825,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         NSString *characterID = character.UUID.UUIDString;
         NSData *controlData = [self returnWithDeviceID:peripheral.identifier.UUIDString];
         if ([characterID isEqualToString:@"FFF1"] && [controlData length] == 1) {//短数据
-            NSLog(@"写入1bit数据");
+            NSLog(@"写入1bit数据:%@",controlData);
             [peripheral writeValue:controlData forCharacteristic:character type:CBCharacteristicWriteWithResponse];
             _isWritingSuccess = YES;
             break;

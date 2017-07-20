@@ -90,8 +90,15 @@ class IRRemoteController: UIViewController {
             let command1 = ("254210001003002001004253001002003004005006007008009016017" as NSString).full(withLengthCountBehide: 57)
             let command2 = ("254209018019020021022023024025032033034035036037038039040" as NSString).full(withLengthCountBehide: 57)
             let command3 = ("254208041048049050051052053054055056057064065066067068069" as NSString).full(withLengthCountBehide: 57)
-            let commandarr = [command1,command2,command3]
-            sender.text = command1
+            let command4 = ("254211041048049050051052053054055056057064065066067068069" as NSString).full(withLengthCountBehide: 57)
+            let command5 = ("254212041048049050051052053054055056057064065066067068069" as NSString).full(withLengthCountBehide: 57)
+            let command6 = ("254213041048049050051052053054055056057064065066067068069" as NSString).full(withLengthCountBehide: 57)
+            let command7 = ("254214041048049050051052053054055056057064065066067068069" as NSString).full(withLengthCountBehide: 57)
+            let command8 = ("254215041048049050051052053054055056057064065066067068069" as NSString).full(withLengthCountBehide: 57)
+            let command9 = ("254216041048049050051052053054055056057064065066067068069" as NSString).full(withLengthCountBehide: 57)
+            let command10 = ("254217041048049050051052053054055056057064065066067068069" as NSString).full(withLengthCountBehide: 57)
+            let commandarr = [command1,command2,command3,command4,command5,command6,command7,command8,command9,command10]
+//            sender.text = command1
             let deviceID = self.deviceID(with: self.deviceInfo)
             BluetoothManager.getInstance()?.setInterval(timeStep.value/1000)
             BluetoothManager.getInstance()?.sendMutiCommand(withSingleDeviceID: deviceID!, sendType: .remoteNew, commands: commandarr as? [String], success: { (data) in
@@ -125,7 +132,14 @@ class IRRemoteController: UIViewController {
         let command1 = ("254210001003002001004253001002003004005006007008009016017" as NSString).full(withLengthCountBehide: 57)
         let command2 = ("254209018019020021022023024025032033034035036037038039040" as NSString).full(withLengthCountBehide: 57)
         let command3 = ("254208041048049050051052053054055056057064065066067068069" as NSString).full(withLengthCountBehide: 57)
-        let commandarr = [command1,command2,command3]
+        let command4 = ("254211041048049050051052053054055056057064065066067068069" as NSString).full(withLengthCountBehide: 57)
+        let command5 = ("254212041048049050051052053054055056057064065066067068069" as NSString).full(withLengthCountBehide: 57)
+        let command6 = ("254213041048049050051052053054055056057064065066067068069" as NSString).full(withLengthCountBehide: 57)
+        let command7 = ("254214041048049050051052053054055056057064065066067068069" as NSString).full(withLengthCountBehide: 57)
+        let command8 = ("254215041048049050051052053054055056057064065066067068069" as NSString).full(withLengthCountBehide: 57)
+        let command9 = ("254216041048049050051052053054055056057064065066067068069" as NSString).full(withLengthCountBehide: 57)
+        let command10 = ("254217041048049050051052053054055056057064065066067068069" as NSString).full(withLengthCountBehide: 57)
+        let commandarr = [command1,command2,command3,command4,command5,command6,command7,command8,command9,command10]
         
         
         let deviceID = self.deviceID(with: self.deviceInfo)

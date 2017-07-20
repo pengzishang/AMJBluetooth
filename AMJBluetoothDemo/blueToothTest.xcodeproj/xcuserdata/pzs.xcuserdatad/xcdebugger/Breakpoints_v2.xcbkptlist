@@ -260,11 +260,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/IrRemote/IRRemoteController.swift"
-            timestampString = "522139910.136114"
+            timestampString = "522228329.64568"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "162"
-            endingLineNumber = "162"
+            startingLineNumber = "176"
+            endingLineNumber = "176"
             landmarkName = "IRRemoteController"
             landmarkType = "3">
          </BreakpointContent>
@@ -304,31 +304,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "blueToothTest/IrRemote/IRRemoteController.swift"
-            timestampString = "522139910.156952"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
-            landmarkName = "sendMutiCommands(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/IrRemote/IRRemoteController.swift"
-            timestampString = "522139910.171105"
+            timestampString = "522223604.714214"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "mutiCommands(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -340,11 +324,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/Lib/BluetoothManager.m"
-            timestampString = "522122470.377054"
+            timestampString = "522231799.351205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "539"
-            endingLineNumber = "539"
+            startingLineNumber = "576"
+            endingLineNumber = "576"
             landmarkName = "-returnRemote:length:"
             landmarkType = "7">
          </BreakpointContent>
@@ -356,11 +340,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/Lib/BluetoothManager.m"
-            timestampString = "522122470.378085"
+            timestampString = "522231799.351205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "264"
-            endingLineNumber = "264"
+            startingLineNumber = "294"
+            endingLineNumber = "294"
             landmarkName = "-sendMutiCommandWithSingleDeviceID:sendType:commands:success:fail:"
             landmarkType = "7">
          </BreakpointContent>
@@ -371,46 +355,174 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "blueToothTest/Lib/BluetoothManager.m"
-            timestampString = "522122470.378797"
+            filePath = "blueToothTest/Lock/LockViewController.swift"
+            timestampString = "522225280.284011"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "248"
-            endingLineNumber = "248"
-            landmarkName = "-sendMutiCommandWithSingleDeviceID:sendType:commands:success:fail:"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "tableView(_:didSelectRowAt:)"
             landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "-[BluetoothManager sendMutiCommandWithSingleDeviceID:sendType:retryTime:commands:success:fail:]"
+                  symbolName = "blueToothTest.LockViewController.tableView (__ObjC.UITableView, didSelectRowAt : Foundation.IndexPath) -&gt; ()"
                   moduleName = "blueToothTest"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/pzs/Desktop/%E4%BB%A3%E7%A0%81%E6%96%87%E4%BB%B6%E5%A4%B9/AMJBluetooth/AMJBluetoothDemo/blueToothTest/Lib/BluetoothManager.m"
-                  timestampString = "522066151.912701"
+                  urlString = "file:///Users/pzs/Desktop/%E4%BB%A3%E7%A0%81%E6%96%87%E4%BB%B6%E5%A4%B9/AMJBluetooth/AMJBluetoothDemo/blueToothTest/Lock/LockViewController.swift"
+                  timestampString = "522225298.855142"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "249"
-                  endingLineNumber = "249"
-                  offsetFromSymbolStart = "412">
+                  startingLineNumber = "138"
+                  endingLineNumber = "138"
+                  offsetFromSymbolStart = "7228">
                </Location>
                <Location
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__95-[BluetoothManager sendMutiCommandWithSingleDeviceID:sendType:retryTime:commands:success:fail:]_block_invoke"
+                  symbolName = "blueToothTest.LockViewController.(tableView (__ObjC.UITableView, didSelectRowAt : Foundation.IndexPath) -&gt; ()).(closure #7)"
                   moduleName = "blueToothTest"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/pzs/Desktop/%E4%BB%A3%E7%A0%81%E6%96%87%E4%BB%B6%E5%A4%B9/AMJBluetooth/AMJBluetoothDemo/blueToothTest/Lib/BluetoothManager.m"
-                  timestampString = "522066151.917447"
+                  urlString = "file:///Users/pzs/Desktop/%E4%BB%A3%E7%A0%81%E6%96%87%E4%BB%B6%E5%A4%B9/AMJBluetooth/AMJBluetoothDemo/blueToothTest/Lock/LockViewController.swift"
+                  timestampString = "522225298.857394"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "249"
-                  endingLineNumber = "249"
-                  offsetFromSymbolStart = "24">
+                  startingLineNumber = "140"
+                  endingLineNumber = "140"
+                  offsetFromSymbolStart = "16">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "blueToothTest/Lib/BluetoothManager.m"
+            timestampString = "522231799.351205"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "501"
+            endingLineNumber = "501"
+            landmarkName = "-initCommandWithStr:UDID:deviceIndex:isLast:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "blueToothTest/Lib/BluetoothManager.m"
+            timestampString = "522232348.629447"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "737"
+            endingLineNumber = "737"
+            landmarkName = "-centralManager:didDisconnectPeripheral:error:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "blueToothTest/Lib/BluetoothManager.m"
+            timestampString = "522232348.629447"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "732"
+            endingLineNumber = "732"
+            landmarkName = "-centralManager:didDisconnectPeripheral:error:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "blueToothTest/Lib/BluetoothManager.m"
+            timestampString = "522231799.351205"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "535"
+            endingLineNumber = "535"
+            landmarkName = "-returnLockControl:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "blueToothTest/Lock/LockViewController.swift"
+            timestampString = "522225670.733392"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
+            landmarkName = "tableView(_:didSelectRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "blueToothTest/Lib/BluetoothManager.m"
+            timestampString = "522232348.629447"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "889"
+            endingLineNumber = "889"
+            landmarkName = "-peripheral:didUpdateValueForCharacteristic:error:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "blueToothTest/Lib/BluetoothManager.m"
+            timestampString = "522232348.629447"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "894"
+            endingLineNumber = "894"
+            landmarkName = "-peripheral:didUpdateValueForCharacteristic:error:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "blueToothTest/Lib/BluetoothManager.m"
+            timestampString = "522232348.629447"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
+            landmarkName = "-scanPeriherals:AllowPrefix:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

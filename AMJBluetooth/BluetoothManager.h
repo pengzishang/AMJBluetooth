@@ -28,9 +28,10 @@
  - SendTypeInfrared: 控制红外设备
  - SendTypeLock: 控制锁
  - SendTypeQuery: 查询锁
- SendTypeRemote = 遥控器指令
+ SendTypeRemote = 遥控器指令 //20个字符
  SendTypeRemoteTemp = 7
  SendTypeSellMachine 售货机
+ SendTypeRemoteNew 最新无需升级硬件的对吗机
  */
 typedef NS_ENUM(NSUInteger, SendType) {
     SendTypeSingle = 0,
@@ -41,7 +42,8 @@ typedef NS_ENUM(NSUInteger, SendType) {
     SendTypeQuery = 5,
     SendTypeRemote = 6,
     SendTypeRemoteTemp = 7,
-    SendTypeSellMachine = 8
+    SendTypeSellMachine = 8,
+    SendTypeRemoteNew = 9
 };
 
 
@@ -70,13 +72,6 @@ typedef NS_ENUM(NSUInteger, ScanType) {
     ScanTypeAll = 8,
 };
 
-
-
-/**
- 发现设备,扫描设备
-
- @param infoDic <#infoDic description#>
- */
 typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
 
 @interface BluetoothManager : NSObject <CBCentralManagerDelegate, CBPeripheralDelegate>
@@ -87,12 +82,6 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
  */
 @property(strong, nonatomic, nullable , readonly) NSMutableArray <__kindof NSDictionary <NSString *,id>*> *peripheralsInfo;
 
-
-/**
- 用这个block触发发现设备
- */
-@property(copy, nonatomic, nullable) detectDevice detectDevice;//发现设备
-
 /**
  初始化
 
@@ -100,7 +89,29 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
  */
 + (nullable BluetoothManager *)getInstance;
 
+/**
+ 启用
+ */
 - (void)effect;
+
+/**
+ 设定间隔
+
+ @param timeInterval <#timeInterval description#>
+ */
+- (void)setInterval:(NSTimeInterval)timeInterval;
+
+/**
+ 设定重试次数
+
+ @param retryTime <#retryTime description#>
+ */
+- (void)setRetryTime:(NSUInteger)retryTime;
+
+/**
+ 用这个block触发发现设备
+ */
+@property(copy, nonatomic, nullable) detectDevice detectDevice;//发现设备
 
 /**
  扫描设备
@@ -109,18 +120,6 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
  @param PrefixArr 一个列表,包括设备类型的NSNumber
  */
 - (void)scanPeriherals:(BOOL)isAllowDuplicates AllowPrefix:(NSArray <__kindof NSNumber *> *_Nullable)PrefixArr;
-
-/**
- 停止扫描
- */
-- (void)stopScan;
-
-/**
- 断开设备
-
- @param peripheral <#peripheral description#>
- */
-- (void)disconnectPeriheral:(NSTimer *__nonnull)peripheral;
 
 
 /**
@@ -136,10 +135,17 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
                   success:(void (^ _Nullable)(NSData *_Nullable data))success
                      fail:(NSUInteger(^ _Nullable)(NSString * __nonnull statusCode))fail;
 
-- (void)queryDeviceStatus:(nonnull NSString *)deviceID retryTime:(NSUInteger)retryTime
-                  success:(void (^ _Nullable)(NSData *_Nullable data))success
-                     fail:(NSUInteger(^ _Nullable)(NSString * __nonnull statusCode))fail;
 
+/**
+ 查询多个设备
+
+ @param devices <#devices description#>
+ @param report <#report description#>
+ @param finish <#finish description#>
+ */
+- (void)queryMutiDevices:(NSArray <NSString *>*_Nullable)devices
+                  report:(void (^ _Nullable)(NSUInteger index,BOOL isSuccess,id _Nullable obj))report
+                  finish:(void(^_Nullable)(BOOL isFinish))finish;
 
 /**
  发送单个控制指令
@@ -157,26 +163,36 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
                              fail:(NSUInteger (^ _Nullable)(NSString *__nullable stateCode))fail;
 
 
-- (void)sendByteCommandWithString:(NSString *__nonnull)commandStr
-                         deviceID:(NSString *__nonnull)deviceID
-                         sendType:(SendType)sendType retryTime:(NSUInteger)retryTime
-                          success:(void (^ _Nullable)(NSData *__nullable stateData))success
-                             fail:(NSUInteger (^ _Nullable)(NSString *__nullable stateCode))fail;
-
 /**
- 刷新多个设备状态
+ 向一个设备发送多个指令
 
- @param peripheral <#peripheral description#>
+ @param deviceID <#deviceID description#>
+ @param sendType <#sendType description#>
+ @param commands <#commands description#>
+ @param success <#success description#>
+ @param fail <#fail description#>
  */
-- (void)refreshMutiDeviceInfo:(nullable CBPeripheral *)peripheral;
+- (void)sendMutiCommandWithSingleDeviceID:(NSString *__nonnull)deviceID
+                                 sendType:(SendType)sendType
+                                 commands:(NSArray <__kindof NSString *>* _Nullable)commands
+                                  success:(void (^ _Nullable)(NSData *__nullable stateData))success
+                                     fail:(NSUInteger (^ _Nullable)(NSString *__nullable stateCode))fail;
+
 
 
 /**
  控制多个设备
 
- @param commandArr <#commandArr description#>
- @param resultList <#resultList description#>
+ @param commands <#commands description#>
+ @param devices <#devices description#>
+ @param report <#report description#>
+ @param finish <#finish description#>
  */
-- (void)mutiCommandControlWithStringArr:(NSArray <NSDictionary <NSString *,id>*> *__nullable)commandArr resultList:(void (^ _Nullable)(NSArray *_Nullable))resultList;
+- (void)sendMutiCommands:(NSArray <NSString *>*_Nullable)commands
+         withMutiDevices:(NSArray <NSString *>*_Nullable)devices
+           withSendTypes:(NSArray <NSNumber *>*_Nullable)sendTypes
+                  report:(void (^ _Nullable)(NSUInteger index,BOOL isSuccess,id _Nullable obj))report
+                  finish:(void(^_Nullable)(BOOL isFinish))finish;
+
 
 @end

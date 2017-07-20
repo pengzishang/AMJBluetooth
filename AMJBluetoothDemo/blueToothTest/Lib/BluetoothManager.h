@@ -47,33 +47,6 @@ typedef NS_ENUM(NSUInteger, SendType) {
 };
 
 
-/**
- 扫描类型
-
- - ScanTypeSocket: 只扫描插座
- - ScanTypeSwitch: 只扫描开关
- - ScanTypeCurtain: 窗帘
- - ScanTypeWarning: 报警
- - ScanTypeOther: 其他设备
- - ScanTypeWIFIControl: 远程控制器
- - ScanTypeInfraredControl:红外控制器
- - ScanTypeRemoteControl: 遥控器
- - ScanTypeAll: 全部
- */
-typedef NS_ENUM(NSUInteger, ScanType) {
-    ScanTypeSocket = 0,
-    ScanTypeSwitch = 1,
-    ScanTypeCurtain = 2,
-    ScanTypeWarning = 3,
-    ScanTypeOther = 4,
-    ScanTypeWIFIControl = 5,
-    ScanTypeInfraredControl = 6,
-    ScanTypeRemoteControl = 7,
-    ScanTypeAll = 8,
-};
-
-typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
-
 @interface BluetoothManager : NSObject <CBCentralManagerDelegate, CBPeripheralDelegate>
 
 
@@ -108,18 +81,13 @@ typedef void(^detectDevice)(NSDictionary *__nullable infoDic);
  */
 - (void)setRetryTime:(NSUInteger)retryTime;
 
-/**
- 用这个block触发发现设备
- */
-@property(copy, nonatomic, nullable) detectDevice detectDevice;//发现设备
 
 /**
- 扫描设备
+ 扫描模式切换,快速下能监测细微广播变化,但是消耗资源
 
- @param isAllowDuplicates NO的时候是低功耗扫描 YES为快速扫描
- @param PrefixArr 一个列表,包括设备类型的NSNumber
+ @param isFast 是否启动耗资远模式
  */
-- (void)scanPeriherals:(BOOL)isAllowDuplicates AllowPrefix:(NSArray <__kindof NSNumber *> *_Nullable)PrefixArr;
+- (void)setScanMode:(BOOL)isFast;
 
 
 /**
