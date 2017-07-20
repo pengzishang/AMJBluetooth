@@ -39,8 +39,6 @@ typedef NS_ENUM(NSUInteger, ScanType) {
 
 static BluetoothManager *shareInstance;
 
-//typedef void(^detectDevice)(NSDictionary * infoDic);
-
 typedef void(^localSuccessReturn)(NSUInteger deviceIndex,NSData *feedbackCode);
 
 typedef void(^localFailReturn)(NSUInteger deviceIndex,NSUInteger failCode);
@@ -66,7 +64,6 @@ typedef void(^localFailReturn)(NSUInteger deviceIndex,NSUInteger failCode);
 
 @property(copy, nonatomic, nonnull) localSuccessReturn partSuccess;
 @property(copy, nonatomic, nonnull) localFailReturn partFail;
-//@property(copy, nonatomic, nullable) detectDevice detectDevice;//发现设备
 
 /**
  扫描的设备种类
@@ -318,12 +315,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
                 fail([NSString stringWithFormat:@"%zd",failCode]);
             }
         }
-//        else if (failCode == 107){//107要特殊处理
-//            failTime = 0 ;
-//            if (success) {
-//                success(nil);
-//            }
-//        }
+
         else {
             if (failTime < retryTime) {//情况1,出错但是最后一个  情况2:发到一半出错,断开还是不断开?
                 failTime ++;
@@ -583,12 +575,14 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 }
 
 - (CBPeripheral *)isAvailableID:(NSString *)opeartionDeviceID {
+    opeartionDeviceID = [opeartionDeviceID stringByReplacingOccurrencesOfString:@" " withString:@""];
     BOOL isAvailable = NO;
     CBPeripheral *curPeripheral;
     for (NSDictionary *perInfo in self.peripheralsInfo) {
         NSDictionary *peripheralInfo = perInfo[AdvertisementData];
+        
         NSString *deviceIDFromAdv = [peripheralInfo[@"kCBAdvDataLocalName"] stringByReplacingOccurrencesOfString:@" " withString:@""];
-        if (deviceIDFromAdv.length > 7) {
+        if (deviceIDFromAdv.length >= 7) {
             if ([deviceIDFromAdv containsString:opeartionDeviceID]) {
                 curPeripheral = perInfo[Peripheral];
                 isAvailable = YES;
