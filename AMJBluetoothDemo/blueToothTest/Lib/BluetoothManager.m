@@ -6,8 +6,6 @@
 //  Copyright (c) 2014年 tts. All rights reserved.
 //
 
-#define intervalTime 0.5
-
 //如果寻找设备过久,很容易导致控制失败
 #import "BluetoothManager.h"
 #import "NSString+StringOperation.h"
@@ -144,11 +142,6 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 - (void)initData {
     _retryTime = 3 ;
     _timeInterval = 0;
-    NSDictionary *optionsDic = @{CBCentralManagerScanOptionAllowDuplicatesKey: @(NO)};
-    //代理触发更新了
-    [_refreshTimer invalidate];
-    _refreshTimer=[NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(refreshNearDevice:) userInfo:optionsDic repeats:YES];
-    [_refreshTimer fire];
     NSLogMethodArgs(@"%@", self.centralManager.isScanning?@"载入成功,开始扫描":@"正在载入");
 }
 
@@ -160,6 +153,11 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 }
 
 
+/**
+ 定时刷新
+
+ @param sender <#sender description#>
+ */
 -(void)refreshNearDevice:(NSTimer *)sender
 {
     [self.centralManager scanForPeripheralsWithServices:nil options:sender.userInfo];
@@ -218,6 +216,11 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 {
     _scanFastSpeed = isFast;
     NSDictionary *optionsDic = @{CBCentralManagerScanOptionAllowDuplicatesKey: @(isFast)};
+    
+    [_refreshTimer invalidate];
+    _refreshTimer=[NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(refreshNearDevice:) userInfo:optionsDic repeats:YES];
+    [_refreshTimer fire];
+    
     [self.centralManager scanForPeripheralsWithServices:nil options:optionsDic];
 }
 
@@ -315,7 +318,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
                 fail([NSString stringWithFormat:@"%zd",failCode]);
             }
         }
-
+        
         else {
             if (failTime < retryTime) {//情况1,出错但是最后一个  情况2:发到一半出错,断开还是不断开?
                 failTime ++;
@@ -557,10 +560,6 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     }
     else if (length ==19){//新遥控器的命令
         Byte *byte1to19 = [NSString translateToByte:commandStr];
-        //        Byte byteCommand[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        //        for (NSInteger i = 0; i < 19; i++) {
-        //            byteCommand[i] = byte1to19[i];
-        //        }
         return  [NSData dataWithBytes:byte1to19 length:19];
     }
     else {//(length==10)
@@ -580,7 +579,6 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     CBPeripheral *curPeripheral;
     for (NSDictionary *perInfo in self.peripheralsInfo) {
         NSDictionary *peripheralInfo = perInfo[AdvertisementData];
-        
         NSString *deviceIDFromAdv = [peripheralInfo[@"kCBAdvDataLocalName"] stringByReplacingOccurrencesOfString:@" " withString:@""];
         if (deviceIDFromAdv.length >= 7) {
             if ([deviceIDFromAdv containsString:opeartionDeviceID]) {
@@ -613,6 +611,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         case CBManagerStatePoweredOn: {
             NSLog(@"蓝牙打开");
             [self scanPeriherals:NO AllowPrefix:@[@(ScanTypeAll)]];
+            [self setScanMode:NO];
         }
             break;
         default:
@@ -622,67 +621,80 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI {
     NSString *deviceIDFromAdv = [advertisementData[@"kCBAdvDataLocalName"] stringByReplacingOccurrencesOfString:@" " withString:@""];
-    if ([RSSI integerValue] <= -115 || [RSSI integerValue] == 127||[deviceIDFromAdv length] < 6) {
+    if ([RSSI integerValue] <= -115 ||[RSSI integerValue] == 127||
+        [deviceIDFromAdv length] < 6||![self isContainSelectPreFix:deviceIDFromAdv]) {
         return;
     }
+    
+    NSNumber *stateCodeCurrent = [self getStateCodeCurrent:deviceIDFromAdv];
+    NSLog(@">>>>>>>%@ %@",deviceIDFromAdv,stateCodeCurrent);
+    
+    NSMutableDictionary *peripheralInfo = [self isContain:peripheral].mutableCopy;
+    if (peripheralInfo) {
+        //包括
+        NSUInteger operationIndex = [self.peripheralsInfo indexOfObject:peripheralInfo];
+        NSNumber *stateCodeInStore = @([peripheralInfo[@"stateCode"] integerValue]);
+        [peripheralInfo setObject:@(NO) forKey:@"isContain"];
+        if ([stateCodeCurrent isEqualToNumber:stateCodeInStore] && ![deviceIDFromAdv containsString:@"Lock"]) {
+            //含有Lock是开门状态
+            if (_scanFastSpeed) {//状态相同情况下,快速扫描一样广播出去
+                [[NSNotificationCenter defaultCenter]postNotificationName:BlueToothMangerDidDiscoverNewItem object:nil userInfo:peripheralInfo];
+            }
+        }
+        else
+        {//状态不同
+            [[NSNotificationCenter defaultCenter] postNotificationName:BlueToothMangerDidItemChangeInfo object:nil userInfo:peripheralInfo];
+            NSLogMethodArgs(@"刷新 %@  强度:%@ 原状态:%@ 现状态:%@", deviceIDFromAdv, RSSI, stateCodeInStore, stateCodeCurrent);
+        }
+        [self.peripheralsInfo replaceObjectAtIndex:operationIndex withObject:peripheralInfo];
+    }
+    else {
+        //不包括
+        NSDictionary *peripheralInfo = @{Peripheral: peripheral, AdvertisementData: advertisementData, RSSI_VALUE: RSSI, @"stateCode": stateCodeCurrent,@"isContain":@(NO)};
+        [[NSNotificationCenter defaultCenter]postNotificationName:BlueToothMangerDidDiscoverNewItem object:nil userInfo:peripheralInfo];
+        [[self mutableArrayValueForKey:@"peripheralsInfo"] addObject:peripheralInfo];//数组,观察者
+    }
+}
+
+#pragma mark 设备过滤
+
+/**
+ 是否包含指定前缀
+
+ @param deviceIDFromAdv 设备完整ID
+ @return <#return value description#>
+ */
+-(BOOL)isContainSelectPreFix:(NSString *)deviceIDFromAdv
+{
     __block BOOL isSelectPreFix = NO;
-    //检查前缀是否符合条件
     [_scaningPreFix enumerateObjectsUsingBlock:^(__kindof NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
         if ([deviceIDFromAdv hasPrefix:obj]) {
             isSelectPreFix = YES;
             *stop = YES;
         }
     }];
-    if (!isSelectPreFix) {
-        return;
-    }
-    //慢速,监测扫描,
-    if (!_scanFastSpeed) {
-        NSNumber *stateCodeCurrent = [self getStateCodeCurrent:deviceIDFromAdv];
-        __block BOOL isContain = NO;
-        __block BOOL isStatusSame = NO;
-        __block NSUInteger operationIndex = 0;
-        [self.peripheralsInfo enumerateObjectsUsingBlock:^(NSDictionary *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-            CBPeripheral *peripheralInStore = obj[Peripheral];
-            NSString *pIdentiferInStore = peripheralInStore.identifier.UUIDString;
-            NSString *pIdentiferCurrent = peripheral.identifier.UUIDString;
-            if ([pIdentiferInStore isEqual:pIdentiferCurrent]) {
-                isContain = YES;
-                NSNumber *stateCodeInStore = @([obj[@"stateCode"] integerValue]);
-                if ([stateCodeCurrent isEqualToNumber:stateCodeInStore] && ![deviceIDFromAdv containsString:@"Lock"]) {//含有Lock是开门状态
-                    isStatusSame = YES;
-                } else {
-                    operationIndex = idx;
-                    NSLogMethodArgs(@"刷新 %@  强度:%@ 原状态:%@ 现状态:%@", deviceIDFromAdv, RSSI, stateCodeInStore, stateCodeCurrent);
-                }
-                
-            }
-        }];
-        
-        
-        //如果没有与现有或者新发现的设备重复,那么加入全局的周边设备库
-        if (!isContain) {
-            NSDictionary *peripheralInfo = @{Peripheral: peripheral, AdvertisementData: advertisementData, RSSI_VALUE: RSSI, @"stateCode": stateCodeCurrent};
-            [[NSNotificationCenter defaultCenter]postNotificationName:BlueToothMangerDidDiscoverNewItem object:nil userInfo:peripheralInfo];
-            [[self mutableArrayValueForKey:@"peripheralsInfo"] addObject:peripheralInfo];//数组,观察者
-        } else if (isContain && !isStatusSame) {
-            //不一样
-            if ([deviceIDFromAdv containsString:@"Lock"]) {
-                stateCodeCurrent = @(1);//1为开门状态
-            }
-            
-            NSDictionary *peripheralInfo = @{Peripheral: peripheral, AdvertisementData: advertisementData, RSSI_VALUE: RSSI, @"stateCode": stateCodeCurrent};
-            [self.peripheralsInfo replaceObjectAtIndex:operationIndex withObject:peripheralInfo];
-            [[NSNotificationCenter defaultCenter] postNotificationName:BlueToothMangerDidItemChangeInfo object:nil userInfo:peripheralInfo];
+    return isSelectPreFix;
+}
+
+/**
+ 如果包括的话,返回数据,不包括的话,返回nil
+
+ @param peripheral <#peripheral description#>
+ @return <#return value description#>
+ */
+- (NSDictionary *)isContain:(CBPeripheral *)peripheral
+{
+    __block NSDictionary *infoDic = nil;
+    [self.peripheralsInfo enumerateObjectsUsingBlock:^(__kindof NSDictionary<NSString *,id> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        CBPeripheral *peripheralInStore = obj[Peripheral];
+        NSString *pIdentiferInStore = peripheralInStore.identifier.UUIDString;
+        NSString *pIdentiferCurrent = peripheral.identifier.UUIDString;
+        if ([pIdentiferInStore isEqual:pIdentiferCurrent]) {
+            *stop = YES;
+            infoDic = obj;
         }
-    }
-    //快速扫描,耗资源
-    else if (_scaningPreFix.count != 0 && _scanFastSpeed) {
-        NSNumber *stateCodeCurrent = [self getStateCodeCurrent:deviceIDFromAdv];
-        NSLog(@"快速扫描 %@|  强度:%@  状态:%@", deviceIDFromAdv, RSSI, stateCodeCurrent);
-        NSDictionary *peripheralInfo = @{Peripheral: peripheral, AdvertisementData: advertisementData, RSSI_VALUE: RSSI, @"stateCode": stateCodeCurrent};
-        [[NSNotificationCenter defaultCenter] postNotificationName:BlueToothMangerDidItemChangeInfo object:nil userInfo:peripheralInfo];
-    }
+    }];
+    return infoDic;
 }
 
 -(NSNumber *)getStateCodeCurrent:(NSString *)deviceIDFromAdv
@@ -692,6 +704,15 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     NSUInteger stateIndex = [stateCode characterAtIndex:0];
     
     NSNumber *stateCodeCurrent = [[NSNumber alloc] init];
+    if ([deviceIDFromAdv containsString:@"Lock"]) {
+        stateCodeCurrent = @(1);//1为开门状态
+        return stateCodeCurrent;
+    }
+    if ([stateCode isEqualToString:@":"] || [deviceIDFromAdv hasPrefix:@"WIFI"]) {
+        //            stateIndex = 48;//48一个不存在的状态
+        stateCodeCurrent = @(-1);
+        return stateCodeCurrent;
+    }
     if ([deviceType isEqualToString:@"00"] || [deviceType isEqualToString:@"01"]|| [deviceType isEqualToString:@"11"]|| [deviceType isEqualToString:@"21"])
     {
         stateCodeCurrent = @(stateIndex & (0x01));
@@ -703,14 +724,11 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     else {
         stateCodeCurrent = @(stateIndex & (0x07));
     }
-    if ([stateCode isEqualToString:@":"] || [deviceIDFromAdv hasPrefix:@"WIFI"]) {
-        //            stateIndex = 48;//48一个不存在的状态
-        stateCodeCurrent = @(-1);
-        //老设备
-    }
     return stateCodeCurrent;
 }
 
+
+#pragma mark 连接回调
 
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
     double time1 = [[NSDate date] timeIntervalSinceDate:_dataf];
@@ -751,8 +769,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
             
         } else {
             if (!_isDiscoverSuccess) {//防止未发现服务提前中止造成正常连接的误报
-                if (self.partFail) {
-                    [self.centralManager cancelPeripheralConnection:peripheral];
+                if (self.partFail) {//已经前面终止了
                     self.partFail([self returnIndexOfDeviceWithPeripheral:peripheral], 103);
                 }
             } else if (!_isWritingSuccess) {
@@ -787,7 +804,6 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     }
     NSLogMethodArgs(@"连接失败 --- %@,ID:%@", error.localizedDescription,peripheral.name);
 }
-
 
 #pragma mark -  CBPeripheralDelegate methodes 主要是控制
 

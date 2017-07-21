@@ -16,31 +16,21 @@ class TestController: UIViewController,UITableViewDataSource,UITableViewDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        BluetoothManager.getInstance()?.setScanMode(true)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: BlueToothMangerDidDiscoverNewItem), object: nil, queue: nil) { (notice) in
-            self.devicesArray.append(notice.userInfo as! [String : Any])
-            self.mainTableView.reloadData()
-//            print(notice.userInfo!)//userinfo内有信息
+            let infoDic = notice.userInfo;
+            let isContain = (infoDic?["isContain"] as! NSNumber).boolValue
+            if !isContain {
+                self.devicesArray.append(notice.userInfo as! [String : Any])
+                self.mainTableView.reloadData()
+            }
+            print(notice.userInfo!)//userinfo内有信息
         }
         
     }
     @IBAction func test(_ sender: UIBarButtonItem) {
-        
-        BluetoothManager.getInstance()?.sendMutiCommands(["192","192","192","192"], withMutiDevices: ["7CEC79486F6B","D0B5C2A3FEF0","D0B5C2A40086","D0B5C2A405CF"], withSendTypes: [(0),(0),(0),(0)], report: { (index, isSuccess, userInfo) in
-            
-        }, finish: { (finish) in
-            print("完成")
-        })
-        
+        BluetoothManager.getInstance()?.setScanMode(true)
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
