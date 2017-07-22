@@ -24,6 +24,10 @@
 		6447F4BD1F0F71A4007CB9C8 /* LockListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6447F4BC1F0F71A4007CB9C8 /* LockListController.swift */; };
 		64A492E21F14B5B000DC9147 /* IRRemoteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A492E11F14B5B000DC9147 /* IRRemoteController.swift */; };
 		64DA151B1F0B413F008E76FE /* LockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DA151A1F0B408B008E76FE /* LockViewController.swift */; };
+		64FFC7EF1F21F48900EE1406 /* AMP.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64FFC7EB1F21F48800EE1406 /* AMP.plist */; };
+		64FFC7F01F21F48900EE1406 /* DVD.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64FFC7EC1F21F48800EE1406 /* DVD.plist */; };
+		64FFC7F11F21F48900EE1406 /* SAT.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64FFC7ED1F21F48800EE1406 /* SAT.plist */; };
+		64FFC7F21F21F48900EE1406 /* TV.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64FFC7EE1F21F48800EE1406 /* TV.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +56,10 @@
 		64DA151A1F0B408B008E76FE /* LockViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LockViewController.swift; path = blueToothTest/Lock/LockViewController.swift; sourceTree = SOURCE_ROOT; };
 		64DA151D1F0B435E008E76FE /* AppDelegate+BlueTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+BlueTest.m"; sourceTree = "<group>"; };
 		64DA151E1F0B435E008E76FE /* AppDelegate+BlueTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+BlueTest.h"; sourceTree = "<group>"; };
+		64FFC7EB1F21F48800EE1406 /* AMP.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AMP.plist; sourceTree = "<group>"; };
+		64FFC7EC1F21F48800EE1406 /* DVD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DVD.plist; sourceTree = "<group>"; };
+		64FFC7ED1F21F48800EE1406 /* SAT.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SAT.plist; sourceTree = "<group>"; };
+		64FFC7EE1F21F48800EE1406 /* TV.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TV.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +149,10 @@
 		64DA151C1F0B42D4008E76FE /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				64FFC7EB1F21F48800EE1406 /* AMP.plist */,
+				64FFC7EC1F21F48800EE1406 /* DVD.plist */,
+				64FFC7ED1F21F48800EE1406 /* SAT.plist */,
+				64FFC7EE1F21F48800EE1406 /* TV.plist */,
 				641CCC291F186BFC006B18AC /* InfraredBrandList.plist */,
 				3C74C9161EFB7B6E00E51CE4 /* BluetoothManager.h */,
 				3C74C9171EFB7B6E00E51CE4 /* BluetoothManager.m */,
@@ -213,7 +225,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				641CCC2C1F1870F3006B18AC /* RemoteData.plist in Resources */,
+				64FFC7F01F21F48900EE1406 /* DVD.plist in Resources */,
+				64FFC7EF1F21F48900EE1406 /* AMP.plist in Resources */,
 				3C74C91D1EFB7B7700E51CE4 /* DeviceTypeList.plist in Resources */,
+				64FFC7F21F21F48900EE1406 /* TV.plist in Resources */,
+				64FFC7F11F21F48900EE1406 /* SAT.plist in Resources */,
 				3C009E5C1DE81510002F15BE /* LaunchScreen.storyboard in Resources */,
 				3C009E591DE81510002F15BE /* Assets.xcassets in Resources */,
 				641CCC2A1F186BFC006B18AC /* InfraredBrandList.plist in Resources */,

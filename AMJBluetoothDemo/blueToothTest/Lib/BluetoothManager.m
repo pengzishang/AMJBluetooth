@@ -627,7 +627,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     }
     
     NSNumber *stateCodeCurrent = [self getStateCodeCurrent:deviceIDFromAdv];
-    NSLog(@">>>>>>>%@ %@",deviceIDFromAdv,stateCodeCurrent);
+//    NSLog(@">>>>>>>%@ %@",deviceIDFromAdv,stateCodeCurrent);
     
     NSMutableDictionary *peripheralInfo = [self isContain:peripheral].mutableCopy;
     if (peripheralInfo) {
@@ -699,32 +699,31 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 
 -(NSNumber *)getStateCodeCurrent:(NSString *)deviceIDFromAdv
 {
+    if (deviceIDFromAdv.length <=6) {
+        return @(-1);
+    }
     NSString *stateCode = [deviceIDFromAdv substringWithRange:NSMakeRange(6, 1)];
     NSString *deviceType = [deviceIDFromAdv substringWithRange:NSMakeRange(4, 2)];
     NSUInteger stateIndex = [stateCode characterAtIndex:0];
     
-    NSNumber *stateCodeCurrent = [[NSNumber alloc] init];
     if ([deviceIDFromAdv containsString:@"Lock"]) {
-        stateCodeCurrent = @(1);//1为开门状态
-        return stateCodeCurrent;
+        return @(1);//1为开门状态
     }
     if ([stateCode isEqualToString:@":"] || [deviceIDFromAdv hasPrefix:@"WIFI"]) {
         //            stateIndex = 48;//48一个不存在的状态
-        stateCodeCurrent = @(-1);
-        return stateCodeCurrent;
+        return @(-1);
     }
     if ([deviceType isEqualToString:@"00"] || [deviceType isEqualToString:@"01"]|| [deviceType isEqualToString:@"11"]|| [deviceType isEqualToString:@"21"])
     {
-        stateCodeCurrent = @(stateIndex & (0x01));
+        return @(stateIndex & (0x01));
     }
     else if ([deviceType isEqualToString:@"02"]||[deviceType isEqualToString:@"12"]||[deviceType isEqualToString:@"22"])
     {
-        stateCodeCurrent = @(stateIndex & (0x03));
+        return @(stateIndex & (0x03));
     }
     else {
-        stateCodeCurrent = @(stateIndex & (0x07));
+        return @(stateIndex & (0x07));
     }
-    return stateCodeCurrent;
 }
 
 

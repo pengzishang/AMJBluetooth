@@ -142,17 +142,20 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tQd-uY-hvc">
-                                                    <rect key="frame" x="311" y="15" width="44" height="30"/>
+                                                    <rect key="frame" x="295" y="15" width="60" height="30"/>
+                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="44" id="Pjz-EU-71f"/>
+                                                        <constraint firstAttribute="width" constant="60" id="udJ-LN-mVR"/>
                                                     </constraints>
-                                                    <state key="normal" title="重试"/>
+                                                    <state key="normal" title="重试">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
                                                     <connections>
                                                         <action selector="retry:" destination="fD7-2W-Ji9" eventType="touchUpInside" id="iX5-sM-hto"/>
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="载入中..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FD9-GR-x8L">
-                                                    <rect key="frame" x="112" y="22.5" width="189" height="16"/>
+                                                    <rect key="frame" x="112" y="22.5" width="173" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -365,6 +368,7 @@
                         <outlet property="addPwdField" destination="A4M-6M-Vbf" id="KDJ-gS-I5x"/>
                         <outlet property="navTitle" destination="7r6-Zt-6AF" id="mPL-Pe-am9"/>
                         <outlet property="openPwdField" destination="5kt-Pj-maK" id="HeV-LX-frh"/>
+                        <outlet property="retryBtn" destination="tQd-uY-hvc" id="dQu-pL-Lev"/>
                         <outlet property="timeLab" destination="FD9-GR-x8L" id="Nf2-rM-CLg"/>
                         <outlet property="timePwdField" destination="PPK-Hu-dI2" id="KW5-lJ-xKf"/>
                     </connections>
