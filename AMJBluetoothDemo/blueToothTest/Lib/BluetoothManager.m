@@ -492,6 +492,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 
 - (void)initCommandWithStr:(NSString *)commandStr UDID:(NSString *)UDID deviceIndex:(NSUInteger)deviceIndex isLast:(BOOL)isLast
 {
+    NSAssert(commandStr.length%3 ==0, @"命令长度不是3的倍数");
     if (_sendType==SendTypeLock) {//无验证码,校验
         [self.dataArr addObject:@{@"Data": [self returnLockControl:commandStr], @"ID": UDID,@"deviceIndex":@(deviceIndex),@"isLast":@(isLast)}];
     }
@@ -634,7 +635,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         //包括
         NSUInteger operationIndex = [self.peripheralsInfo indexOfObject:peripheralInfo];
         NSNumber *stateCodeInStore = @([peripheralInfo[@"stateCode"] integerValue]);
-        [peripheralInfo setObject:@(NO) forKey:@"isContain"];
+        peripheralInfo = @{Peripheral: peripheral, AdvertisementData: advertisementData, RSSI_VALUE: RSSI, @"stateCode": stateCodeCurrent,@"isContain":@(YES)}.mutableCopy;
         if ([stateCodeCurrent isEqualToNumber:stateCodeInStore] && ![deviceIDFromAdv containsString:@"Lock"]) {
             //含有Lock是开门状态
             if (_scanFastSpeed) {//状态相同情况下,快速扫描一样广播出去

@@ -169,9 +169,21 @@ class LockViewController: UITableViewController {
                 return 0
             })
         }
-//        else if indexPath.row==4 {
-//            self.performSegue(withIdentifier: "lockunion", sender: self.deviceInfo)
-//        }
+        else if indexPath.row==4 {
+            APPOpertingEnterCommandAll = "100255255255255255255255255255"
+            BluetoothManager.getInstance()?.sendByteCommand(with: APPOpertingEnterCommandAll, deviceID: self.deviceID(with: deviceInfo), sendType: .lock,success: { (data) in
+                
+            }, fail: { (failCode) -> UInt in
+                let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
+                alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
+                    
+                }))
+                self.present(alert, animated: true, completion: {
+                    
+                })
+                return 0
+            })
+        }
         
     }
     

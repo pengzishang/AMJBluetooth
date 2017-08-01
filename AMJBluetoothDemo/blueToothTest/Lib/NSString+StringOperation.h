@@ -30,7 +30,6 @@
  */
 -(NSString *)fullWithLengthCountBehide:(NSUInteger)length;
 
-//-(NSString *(^)(NSUInteger length))fullWithLengthCountBehide;
 
 /**
  转化时间为锁指定字符串
@@ -73,8 +72,6 @@
 
 +(NSString *)ListNameWithPrefix:(NSString *)prefix;
 
-//+(NSDate *)initCommandWithStr:(NSString *)commandStr deviceID:(NSString *)deviceID;
-
 +(Byte *)translateToByte:(NSString *)part;
 
 +(NSString *)translateRemoteID:(NSString *)remoteID;
@@ -83,4 +80,5 @@
 
 +(NSInteger)dataToInt:(NSData *)data;
 
++(NSString *)getJsonTable:(NSString *)tableName title:(NSString *)title;
 @end

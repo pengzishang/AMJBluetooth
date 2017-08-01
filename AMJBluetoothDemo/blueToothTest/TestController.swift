@@ -24,7 +24,7 @@ class TestController: UIViewController,UITableViewDataSource,UITableViewDelegate
                 self.devicesArray.append(notice.userInfo as! [String : Any])
                 self.mainTableView.reloadData()
             }
-            print(notice.userInfo!)//userinfo内有信息
+//            print(notice.userInfo!)//userinfo内有信息
         }
         
     }
@@ -59,7 +59,7 @@ class TestController: UIViewController,UITableViewDataSource,UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView .deselectRow(at: indexPath, animated: true)
         let deviceInfoDic=devicesArray[indexPath.row]
-        if self.deviceFullID(with: deviceInfoDic) .contains("Name08") {
+        if self.deviceFullID(with: deviceInfoDic) .contains("Name08")||self.deviceFullID(with: deviceInfoDic) .contains("AMJe08") {
             self .performSegue(withIdentifier: "viewLock", sender: indexPath)
         }
         else if self.deviceFullID(with: deviceInfoDic) .contains("Name19"){

@@ -284,4 +284,14 @@
     return dataStr.integerValue;
 }
 
++(NSString *)getJsonTable:(NSString *)tableName title:(NSString *)title
+{
+    NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"DeviceTypeList" ofType:@"plist"];
+    NSData *data = [[NSFileManager defaultManager] contentsAtPath:dataPath];
+    NSError *error;
+    NSArray *questionnaireArr = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+    NSLog(@"%@",questionnaireArr);
+    return nil;
+}
+
 @end

@@ -7,11 +7,11 @@
 //
 
 #import "AppDelegate+BlueTest.h"
-
 @implementation AppDelegate (BlueTest)
 
 -(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
     return YES;
 }
 
