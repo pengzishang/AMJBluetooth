@@ -18,7 +18,11 @@
 		3C74C91D1EFB7B7700E51CE4 /* DeviceTypeList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3C74C91C1EFB7B7700E51CE4 /* DeviceTypeList.plist */; };
 		3C7C454B1DE8403200A5718C /* SendController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7C454A1DE8403100A5718C /* SendController.swift */; };
 		641CCC2A1F186BFC006B18AC /* InfraredBrandList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 641CCC291F186BFC006B18AC /* InfraredBrandList.plist */; };
-		641CCC2C1F1870F3006B18AC /* RemoteData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 641CCC2B1F1870F3006B18AC /* RemoteData.plist */; };
+		64277D4B1F317FED00A9E54B /* ToolsFuntion.m in Sources */ = {isa = PBXBuildFile; fileRef = 64277D4A1F317FED00A9E54B /* ToolsFuntion.m */; };
+		643E25151F331BDB005C2337 /* AUX.json in Resources */ = {isa = PBXBuildFile; fileRef = 64277D4E1F31A19E00A9E54B /* AUX.json */; };
+		643E25161F331BDB005C2337 /* DVD.json in Resources */ = {isa = PBXBuildFile; fileRef = 64277D4F1F31A19F00A9E54B /* DVD.json */; };
+		643E25171F331BDB005C2337 /* SAT.json in Resources */ = {isa = PBXBuildFile; fileRef = 64277D4D1F31A19E00A9E54B /* SAT.json */; };
+		643E25181F331BDB005C2337 /* TV.json in Resources */ = {isa = PBXBuildFile; fileRef = 64277D4C1F31A19D00A9E54B /* TV.json */; };
 		6446CA4B1F0CCFEC001F1CE5 /* LockUnionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E5A361F0B3B6A00B5B527 /* LockUnionList.swift */; };
 		6446CA4C1F0CCFF0001F1CE5 /* LockAddUnionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E5A381F0B3B6A00B5B527 /* LockAddUnionController.swift */; };
 		6447F4BD1F0F71A4007CB9C8 /* LockListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6447F4BC1F0F71A4007CB9C8 /* LockListController.swift */; };
@@ -44,12 +48,13 @@
 		3C74C91C1EFB7B7700E51CE4 /* DeviceTypeList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DeviceTypeList.plist; sourceTree = "<group>"; };
 		3C7C454A1DE8403100A5718C /* SendController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendController.swift; sourceTree = "<group>"; };
 		641CCC291F186BFC006B18AC /* InfraredBrandList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = InfraredBrandList.plist; sourceTree = "<group>"; };
-		641CCC2B1F1870F3006B18AC /* RemoteData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RemoteData.plist; sourceTree = "<group>"; };
+		64277D491F317FED00A9E54B /* ToolsFuntion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToolsFuntion.h; sourceTree = "<group>"; };
+		64277D4A1F317FED00A9E54B /* ToolsFuntion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToolsFuntion.m; sourceTree = "<group>"; };
+		64277D4C1F31A19D00A9E54B /* TV.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TV.json; sourceTree = "<group>"; };
+		64277D4D1F31A19E00A9E54B /* SAT.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SAT.json; sourceTree = "<group>"; };
+		64277D4E1F31A19E00A9E54B /* AUX.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AUX.json; sourceTree = "<group>"; };
+		64277D4F1F31A19F00A9E54B /* DVD.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DVD.json; sourceTree = "<group>"; };
 		6447F4BC1F0F71A4007CB9C8 /* LockListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockListController.swift; sourceTree = "<group>"; };
-		646C169D1F302D2300974584 /* SAT.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SAT.json; sourceTree = "<group>"; };
-		646C169E1F302D2300974584 /* DVD.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DVD.json; sourceTree = "<group>"; };
-		646C169F1F302D2300974584 /* AUX.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AUX.json; sourceTree = "<group>"; };
-		646C16A01F302D2300974584 /* TV.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TV.json; sourceTree = "<group>"; };
 		647E5A361F0B3B6A00B5B527 /* LockUnionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LockUnionList.swift; path = blueToothTest/Union/LockUnionList.swift; sourceTree = SOURCE_ROOT; };
 		647E5A381F0B3B6A00B5B527 /* LockAddUnionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LockAddUnionController.swift; path = blueToothTest/Union/LockAddUnionController.swift; sourceTree = SOURCE_ROOT; };
 		64A492E11F14B5B000DC9147 /* IRRemoteController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IRRemoteController.swift; sourceTree = "<group>"; };
@@ -145,17 +150,18 @@
 		64DA151C1F0B42D4008E76FE /* Lib */ = {
 			isa = PBXGroup;
 			children = (
-				646C169F1F302D2300974584 /* AUX.json */,
-				646C169E1F302D2300974584 /* DVD.json */,
-				646C169D1F302D2300974584 /* SAT.json */,
-				646C16A01F302D2300974584 /* TV.json */,
+				64277D4E1F31A19E00A9E54B /* AUX.json */,
+				64277D4F1F31A19F00A9E54B /* DVD.json */,
+				64277D4D1F31A19E00A9E54B /* SAT.json */,
+				64277D4C1F31A19D00A9E54B /* TV.json */,
 				641CCC291F186BFC006B18AC /* InfraredBrandList.plist */,
 				3C74C9161EFB7B6E00E51CE4 /* BluetoothManager.h */,
 				3C74C9171EFB7B6E00E51CE4 /* BluetoothManager.m */,
+				64277D491F317FED00A9E54B /* ToolsFuntion.h */,
+				64277D4A1F317FED00A9E54B /* ToolsFuntion.m */,
 				3C74C9181EFB7B6E00E51CE4 /* NSString+StringOperation.h */,
 				3C74C9191EFB7B6E00E51CE4 /* NSString+StringOperation.m */,
 				3C74C91C1EFB7B7700E51CE4 /* DeviceTypeList.plist */,
-				641CCC2B1F1870F3006B18AC /* RemoteData.plist */,
 			);
 			path = Lib;
 			sourceTree = "<group>";
@@ -220,11 +226,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				641CCC2C1F1870F3006B18AC /* RemoteData.plist in Resources */,
+				643E25171F331BDB005C2337 /* SAT.json in Resources */,
+				643E25151F331BDB005C2337 /* AUX.json in Resources */,
 				3C74C91D1EFB7B7700E51CE4 /* DeviceTypeList.plist in Resources */,
+				643E25181F331BDB005C2337 /* TV.json in Resources */,
 				3C009E5C1DE81510002F15BE /* LaunchScreen.storyboard in Resources */,
 				3C009E591DE81510002F15BE /* Assets.xcassets in Resources */,
 				641CCC2A1F186BFC006B18AC /* InfraredBrandList.plist in Resources */,
+				643E25161F331BDB005C2337 /* DVD.json in Resources */,
 				3C009E571DE81510002F15BE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -245,6 +254,7 @@
 				6446CA4B1F0CCFEC001F1CE5 /* LockUnionList.swift in Sources */,
 				6447F4BD1F0F71A4007CB9C8 /* LockListController.swift in Sources */,
 				3C74C91B1EFB7B6E00E51CE4 /* NSString+StringOperation.m in Sources */,
+				64277D4B1F317FED00A9E54B /* ToolsFuntion.m in Sources */,
 				64DA151B1F0B413F008E76FE /* LockViewController.swift in Sources */,
 				3C74C91A1EFB7B6E00E51CE4 /* BluetoothManager.m in Sources */,
 			);

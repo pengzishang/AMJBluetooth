@@ -8,7 +8,11 @@
 
 import UIKit
 
-class IRRemoteController: UIViewController {
+class IRRemoteController: UIViewController , UIPickerViewDelegate , UIPickerViewDataSource{
+    
+    
+    
+    @IBOutlet weak var deviceChoose: UIPickerView!
     
     var deviceInfo = Dictionary<String, Any>.init()
     
@@ -22,6 +26,36 @@ class IRRemoteController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    
+    @IBAction func sendFastCode(_ sender: UIButton) {
+        let deviceType = RemoteDevice.init(rawValue: UInt(deviceChoose.selectedRow(inComponent: 0)))
+        let deviceIndex = deviceChoose.selectedRow(inComponent: 1);
+        let deviceIndexString = ToolsFuntion.getAllDeviceNum(withDeviceType: deviceType!)[deviceIndex]
+        let codeString =  ToolsFuntion.getFastCodeDeviceIndex(deviceIndexString, deviceType: deviceType!, keynum: 22)
+        let deviceID = self.deviceID(with: self.deviceInfo)
+        BluetoothManager.getInstance()?.sendByteCommand(with: codeString!, deviceID: deviceID!, sendType: .remoteNew, success: { (data) in
+            print(data!)
+        }, fail: { (failcode) -> UInt in
+            return 0
+        })
+    }
+    
+    @IBAction func sendDownload(_ sender: UIButton) {
+        let deviceType = RemoteDevice.init(rawValue: UInt(deviceChoose.selectedRow(inComponent: 0)))
+        let deviceIndex = deviceChoose.selectedRow(inComponent: 1);
+        let deviceIndexString = ToolsFuntion.getAllDeviceNum(withDeviceType: deviceType!)[deviceIndex]
+        let codeStrings = ToolsFuntion.getDownloadCode(withDeviceIndex: deviceIndexString, deviceType: deviceType!)
+        let deviceID = self.deviceID(with: self.deviceInfo)
+        BluetoothManager.getInstance()?.setInterval(1)
+        BluetoothManager.getInstance()?.sendMutiCommand(withSingleDeviceID: deviceID!, sendType: .remoteNew, commands: codeStrings, success: { (data) in
+            
+        }, fail: { (failcode) -> UInt in
+            return 0
+        })
+    }
+    
+    
+    
     @IBAction func changeInterval(_ sender: UIStepper) {
         timeForInterval.text = sender.value.description + "毫秒";
     }
@@ -34,7 +68,6 @@ class IRRemoteController: UIViewController {
             let command = ("254168001003002001002189001" as NSString).full(withLengthCountBehide: 57)
             sender.text = command
             let deviceID = self.deviceID(with: self.deviceInfo)
-            
             
             BluetoothManager.getInstance()?.sendByteCommand(with: command!, deviceID: deviceID!, sendType: .remoteNew,  success: { (data) in
                 print(data!)
@@ -182,9 +215,61 @@ class IRRemoteController: UIViewController {
         return deviceMACID
     }
     
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 2
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if component == 0 {
+            return 4
+        }
+        else if component == 1 {
+            let selectLine = pickerView.selectedRow(inComponent: 0)
+            if selectLine == 0 {
+                return 311
+            }
+            else if selectLine == 1 {
+                return 162
+            }
+            else if selectLine == 2 {
+                return 30
+            }
+            else if selectLine == 3 {
+                return 301
+            }
+            else {
+                return 0
+            }
+        }
+        else {
+            return 0
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if component == 0 {
+            return ["TV","DVD","AUX","SAT"][row]
+        }
+        else {
+            let selectRow = pickerView.selectedRow(inComponent: 0)
+            let titles = ToolsFuntion.getAllDeviceNum(withDeviceType: RemoteDevice.init(rawValue: UInt(selectRow))!)
+            return titles?[row]
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if component == 0 {
+            pickerView.selectRow(0, inComponent: 1, animated: false)
+            pickerView.reloadComponent(1)
+        }
+    }
+    
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
+    
+    
     
     // MARK: - Navigation
     

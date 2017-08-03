@@ -79,6 +79,23 @@
     return dateFinal;
 }
 
+-(NSUInteger)ToIntWithHex
+{
+    NSUInteger finally = 0;
+    for (NSInteger i=self.length-1; i>=0; i--) {
+        NSInteger j = self.length - i-1;
+        NSInteger ascllCode = [self characterAtIndex:i];
+        if (ascllCode >=65) {//字母
+            finally +=  (ascllCode - 65 + 10)*pow(16, j);
+        }
+        else
+        {
+            finally +=  (ascllCode - 48)*pow(16, j);
+        }
+    }
+    return finally;
+}
+
 +(NSString *)ToHex:(NSUInteger)tmpid
 {
     NSString *nLetterValue;
@@ -282,16 +299,6 @@
     dataStr = [NSString stringWithFormat:@"%lu",strtoul([dataStr UTF8String], 0, 16)];
     NSLog(@">>>>%@",dataStr);
     return dataStr.integerValue;
-}
-
-+(NSString *)getJsonTable:(NSString *)tableName title:(NSString *)title
-{
-    NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"DeviceTypeList" ofType:@"plist"];
-    NSData *data = [[NSFileManager defaultManager] contentsAtPath:dataPath];
-    NSError *error;
-    NSArray *questionnaireArr = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-    NSLog(@"%@",questionnaireArr);
-    return nil;
 }
 
 @end

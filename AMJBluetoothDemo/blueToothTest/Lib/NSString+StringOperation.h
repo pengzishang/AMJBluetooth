@@ -31,6 +31,15 @@
 -(NSString *)fullWithLengthCountBehide:(NSUInteger)length;
 
 
+
+/**
+  转成10进制
+
+ @param hexStr <#hexStr description#>
+ @return <#return value description#>
+ */
+-(NSUInteger)ToIntWithHex;
+
 /**
  转化时间为锁指定字符串
 
