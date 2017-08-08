@@ -49,7 +49,15 @@
     };
 }
 
-//将日期转化为锁的字符串
+
+
+/**
+ //将日期转化为锁的字符串
+
+ @param date <#date description#>
+ @param isRemote <#isRemote description#>
+ @return <#return value description#>
+ */
 +(NSString *)initWithDate:(NSDate *)date isRemote:(BOOL)isRemote
 {
     NSDateFormatter *lockFormatter=[[NSDateFormatter alloc]init];
@@ -66,7 +74,7 @@
         }
     }
     else
-    {
+    {//单纯把年月日各变成3位
         while (dateFull.length>0) {
             NSString *tempStr=[dateFull substringToIndex:2];
             dateFull=[dateFull substringFromIndex:2];
@@ -301,4 +309,18 @@
     return dataStr.integerValue;
 }
 
+/**
+ 将data转string
+
+ @param data <#data description#>
+ @return <#return value description#>
+ */
++(NSString *)dataToString:(NSData *)data
+{
+    NSString *dataStr = data.description;
+    dataStr=[dataStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+    dataStr=[dataStr stringByReplacingOccurrencesOfString:@"<" withString:@""];
+    dataStr=[dataStr stringByReplacingOccurrencesOfString:@">" withString:@""];
+    return dataStr;
+}
 @end

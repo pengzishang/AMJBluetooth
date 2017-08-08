@@ -40,14 +40,26 @@
  */
 -(NSUInteger)ToIntWithHex;
 
+
+
+
 /**
- 转化时间为锁指定字符串
+ 转16进制
 
- @param date     <#date description#>
- @param isRemote <#isRemote description#>
-
+ @param tmpid <#tmpid description#>
  @return <#return value description#>
  */
++(NSString *)ToHex:(NSUInteger)tmpid;
+
+/**
+ 转化时间为锁指定字符串
+ 
+ @param date     <#date description#>
+ @param isRemote <#isRemote description#>
+ 
+ @return <#return value description#>
+ */
+
 +(NSString *)initWithDate:(NSDate *)date isRemote:(BOOL)isRemote;
 
 
@@ -89,5 +101,6 @@
 
 +(NSInteger)dataToInt:(NSData *)data;
 
-+(NSString *)getJsonTable:(NSString *)tableName title:(NSString *)title;
++(NSString *)dataToString:(NSData *)data;
+
 @end

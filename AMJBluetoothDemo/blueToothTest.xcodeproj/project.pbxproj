@@ -17,6 +17,7 @@
 		3C74C91B1EFB7B6E00E51CE4 /* NSString+StringOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C74C9191EFB7B6E00E51CE4 /* NSString+StringOperation.m */; };
 		3C74C91D1EFB7B7700E51CE4 /* DeviceTypeList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3C74C91C1EFB7B7700E51CE4 /* DeviceTypeList.plist */; };
 		3C7C454B1DE8403200A5718C /* SendController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7C454A1DE8403100A5718C /* SendController.swift */; };
+		641C20801F38782400430854 /* LockHistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641C207F1F38782300430854 /* LockHistoryController.swift */; };
 		641CCC2A1F186BFC006B18AC /* InfraredBrandList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 641CCC291F186BFC006B18AC /* InfraredBrandList.plist */; };
 		64277D4B1F317FED00A9E54B /* ToolsFuntion.m in Sources */ = {isa = PBXBuildFile; fileRef = 64277D4A1F317FED00A9E54B /* ToolsFuntion.m */; };
 		643E25151F331BDB005C2337 /* AUX.json in Resources */ = {isa = PBXBuildFile; fileRef = 64277D4E1F31A19E00A9E54B /* AUX.json */; };
@@ -47,6 +48,7 @@
 		3C74C9191EFB7B6E00E51CE4 /* NSString+StringOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+StringOperation.m"; sourceTree = "<group>"; };
 		3C74C91C1EFB7B7700E51CE4 /* DeviceTypeList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DeviceTypeList.plist; sourceTree = "<group>"; };
 		3C7C454A1DE8403100A5718C /* SendController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendController.swift; sourceTree = "<group>"; };
+		641C207F1F38782300430854 /* LockHistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockHistoryController.swift; sourceTree = "<group>"; };
 		641CCC291F186BFC006B18AC /* InfraredBrandList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = InfraredBrandList.plist; sourceTree = "<group>"; };
 		64277D491F317FED00A9E54B /* ToolsFuntion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToolsFuntion.h; sourceTree = "<group>"; };
 		64277D4A1F317FED00A9E54B /* ToolsFuntion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToolsFuntion.m; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				64DA151A1F0B408B008E76FE /* LockViewController.swift */,
+				641C207F1F38782300430854 /* LockHistoryController.swift */,
 			);
 			path = Lock;
 			sourceTree = "<group>";
@@ -245,6 +248,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				641C20801F38782400430854 /* LockHistoryController.swift in Sources */,
 				6446CA4C1F0CCFF0001F1CE5 /* LockAddUnionController.swift in Sources */,
 				3C009E681DE8179A002F15BE /* TestController.swift in Sources */,
 				64A492E21F14B5B000DC9147 /* IRRemoteController.swift in Sources */,

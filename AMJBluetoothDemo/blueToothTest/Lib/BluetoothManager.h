@@ -90,6 +90,11 @@ typedef NS_ENUM(NSUInteger, SendType) {
 - (void)setScanMode:(BOOL)isFast;
 
 
+
+/**
+ 中断当前操作
+ */
+- (void)interruptCurrentOpertion;
 /**
  查询设备设备状态
 
@@ -143,8 +148,9 @@ typedef NS_ENUM(NSUInteger, SendType) {
 - (void)sendMutiCommandWithSingleDeviceID:(NSString *__nonnull)deviceID
                                  sendType:(SendType)sendType
                                  commands:(NSArray <__kindof NSString *>* _Nullable)commands
-                                  success:(void (^ _Nullable)(NSData *__nullable stateData))success
-                                     fail:(NSUInteger (^ _Nullable)(NSString *__nullable stateCode))fail;
+                                  success:(void (^ _Nullable)(NSUInteger currentDeviceIndex,NSData *__nullable stateData ))success
+                                     fail:(NSUInteger (^ _Nullable)(NSString *__nullable stateCode))fail
+                                   finish:(void(^_Nullable)(BOOL isFinish))finish;
 
 
 
