@@ -52,6 +52,22 @@ typedef NS_ENUM(NSUInteger, RemoteDevice) {
 
 + (NSArray <NSString *>*)getDownloadCodeWithDeviceIndex:(NSString *)deviceIndexStr deviceType:(RemoteDevice)deviceType;
 
+/**
+ 得到一条编码顺序
+ 
+ @param deviceType <#deviceType description#>
+ @return <#return value description#>
+ */
++ (NSArray<NSString *> *)getOriginOrder:(RemoteDevice)deviceType;
+
+/**
+ 得到功能序号
+ 
+ @param deviceType <#deviceType description#>
+ @return <#return value description#>
+ */
++ (NSArray<NSString *> *)getfuntionOrder:(RemoteDevice)deviceType;
+
 
 /**
  得到相应设备的字典
