@@ -15,17 +15,21 @@ class LockViewController: UITableViewController {
     
     @IBOutlet weak var timeLab: UILabel!
     @IBOutlet weak var retryBtn: UIButton!
+    @IBOutlet weak var lockActivity: UIActivityIndicatorView!
     
     @IBOutlet weak var checkInTimeLab: UILabel!
     @IBOutlet weak var checkInTimeRetryBtn: UIButton!
+    @IBOutlet weak var checkInActivity: UIActivityIndicatorView!
     
     @IBOutlet weak var checkOutTimeLab: UILabel!
     @IBOutlet weak var checkOutTimeBtn: UIButton!
+    @IBOutlet weak var checkOutActivity: UIActivityIndicatorView!
     
     
     @IBOutlet weak var batteryLifeLab: UILabel!
     @IBOutlet weak var hardWareLab: UILabel!
     @IBOutlet weak var versionLab: UILabel!
+    @IBOutlet weak var batteryActivity: UIActivityIndicatorView!
     
     
     @IBOutlet weak var timePwdField: UITextField!
@@ -33,10 +37,10 @@ class LockViewController: UITableViewController {
     @IBOutlet weak var openPwdField: UITextField!
 
     
+    @IBOutlet weak var refreshBtn: UIBarButtonItem!
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        BluetoothManager.getInstance()?.setInterval(1)
         BluetoothManager.getInstance()?.queryDeviceStatus(self.deviceID(with: deviceInfo), success: { (data) in
             let dataStr  = NSString.data(toString: data) as NSString?
             self.batteryLifeLab.text = dataStr?.substring(with: NSMakeRange(8, 2))
@@ -65,11 +69,12 @@ class LockViewController: UITableViewController {
         self.setEditing(false, animated: true)
     }
     
-    
-    @IBAction func test(_ sender: Any) {
+    @IBAction func refreshAll(_ sender: UIBarButtonItem) {
+        sender.isEnabled = false
         self.getTime()
     }
     
+
     @IBAction func test1(_ sender: Any) {
         let code = ToolsFuntion.queryOpenTimeCode()
         BluetoothManager.getInstance()?.sendByteCommand(with: code!, deviceID: self.deviceID(with: deviceInfo), sendType: .lock, success: { (data) in
@@ -113,7 +118,9 @@ class LockViewController: UITableViewController {
         }, fail: { (failCode) -> UInt in
             return 0
         }, finish: { (finish) in
-            
+            if !self.refreshBtn.isEnabled {
+                self.refreshBtn.isEnabled = true
+            }
         })
     }
     
@@ -133,14 +140,16 @@ class LockViewController: UITableViewController {
     
     
     @IBAction func retry(_ sender: UIButton) {
-        sender.isEnabled = false
-        
+        sender.isHidden = true
+        lockActivity.startAnimating()
         let lockTimeCmds = ToolsFuntion.querySYSTimeCode()
         BluetoothManager.getInstance()?.sendByteCommand(with: lockTimeCmds!, deviceID: self.deviceID(with: deviceInfo), sendType: .lock, success: { (data) in
-            sender.isEnabled = true
+            sender.isHidden = false
+            self.lockActivity.stopAnimating()
             self.timeLab.text = self.translateToDate(with: data!)
         }, fail: { (failCode) -> UInt in
-            sender.isEnabled = true
+            sender.isHidden = false
+            self.lockActivity.stopAnimating()
             let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
             alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
                 
@@ -154,14 +163,16 @@ class LockViewController: UITableViewController {
     }
     
     @IBAction func checkInTimeRetry(_ sender: UIButton) {
-        sender.isEnabled = false
-        
+        sender.isHidden = true
+        self.checkInActivity.startAnimating()
         let checkInTimeCmds = ToolsFuntion.queryCheckInTimeCode()
         BluetoothManager.getInstance()?.sendByteCommand(with: checkInTimeCmds!, deviceID: self.deviceID(with: deviceInfo), sendType: .lock, success: { (data) in
-            sender.isEnabled = true
+            sender.isHidden = false
+            self.checkInActivity.stopAnimating()
             self.checkInTimeLab.text = self.translateToDate(with: data!)
         }, fail: { (failCode) -> UInt in
-            sender.isEnabled = true
+            sender.isHidden = false
+            self.checkInActivity.stopAnimating()
             let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
             alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
                 
@@ -174,14 +185,16 @@ class LockViewController: UITableViewController {
     }
     
     @IBAction func checkOutTimeRetry(_ sender: UIButton) {
-        sender.isEnabled = false
-        
+        sender.isHidden = true
+        self.checkOutActivity.startAnimating()
         let checkOutTimeCmds = ToolsFuntion.queryCheckOutTimeCode()
         BluetoothManager.getInstance()?.sendByteCommand(with: checkOutTimeCmds!, deviceID: self.deviceID(with: deviceInfo), sendType: .lock, success: { (data) in
-            sender.isEnabled = true
+            sender.isHidden = false
+            self.checkOutActivity.stopAnimating()
             self.checkOutTimeLab.text = self.translateToDate(with: data!)
         }, fail: { (failCode) -> UInt in
-            sender.isEnabled = true
+            sender.isHidden = false
+            self.checkOutActivity.stopAnimating()
             let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
             alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
                 
@@ -195,16 +208,18 @@ class LockViewController: UITableViewController {
     
     
     @IBAction func batteryLife(_ sender: UIButton) {
-        sender.isEnabled = false
-        
+        sender.isHidden = true
+        self.batteryActivity.startAnimating()
         BluetoothManager.getInstance()?.queryDeviceStatus(self.deviceID(with: deviceInfo), success: { (data) in
-            sender.isEnabled = true
+            sender.isHidden = false
+            self.batteryActivity.stopAnimating()
             let dataStr  = NSString.data(toString: data) as NSString?
             self.batteryLifeLab.text = dataStr?.substring(with: NSMakeRange(8, 2))
             self.hardWareLab.text = dataStr?.substring(with: NSMakeRange(0, 2))
             self.versionLab.text = dataStr?.substring(with: NSMakeRange(2, 6))
         }, fail: { (failCode) -> UInt in
-            sender.isEnabled = true
+            sender.isHidden = false
+            self.batteryActivity.stopAnimating()
             let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode, preferredStyle: .alert)
             alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
                 
@@ -220,6 +235,7 @@ class LockViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView .deselectRow(at: indexPath, animated: true)
+        let cell  = tableView.cellForRow(at: indexPath)
         if indexPath.section==0{
             if indexPath.row == 4
             {
@@ -230,6 +246,7 @@ class LockViewController: UITableViewController {
             var APPOpertingEnterCommandPrefix: String = "00"
             var APPOpertingEnterCommandAll: String = ""
             
+            cell?.selectionStyle = .none
             
             if indexPath.row==0 {
                 //开
@@ -238,8 +255,9 @@ class LockViewController: UITableViewController {
                 APPOpertingEnterCommandAll = APPOpertingEnterCommandPrefix.appending(NSString.initWith(NSDate(timeIntervalSinceNow: 10000) as Date!, isRemote: false))
                 APPOpertingEnterCommandAll = APPOpertingEnterCommandAll.appending(NSString.convertPassWord(openPwdField.text))
                 BluetoothManager.getInstance()?.sendByteCommand(with: APPOpertingEnterCommandAll, deviceID: self.deviceID(with: deviceInfo), sendType: .lock, success: { (data) in
-                    
+                    cell?.selectionStyle = .default
                 }, fail: { (failCode) -> UInt in
+                    cell?.selectionStyle = .default
                     let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
                     alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
                         
@@ -257,8 +275,9 @@ class LockViewController: UITableViewController {
                 APPOpertingEnterCommandAll = APPOpertingEnterCommandPrefix.appending(NSString.initWith(NSDate(timeIntervalSinceNow: validTime!) as Date!, isRemote: false))
                 APPOpertingEnterCommandAll = APPOpertingEnterCommandAll.appending(NSString.convertPassWord(addPwdField.text))
                 BluetoothManager.getInstance()?.sendByteCommand(with: APPOpertingEnterCommandAll, deviceID: self.deviceID(with: deviceInfo), sendType: .lock, success: { (data) in
-                    
+                    cell?.selectionStyle = .default
                 }, fail: { (failCode) -> UInt in
+                    cell?.selectionStyle = .default
                     let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
                     alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
                         
@@ -276,8 +295,9 @@ class LockViewController: UITableViewController {
                 APPOpertingEnterCommandAll = APPOpertingEnterCommandAll.appending(NSString.convertPassWord("123456"))
                 
                 BluetoothManager.getInstance()?.sendByteCommand(with: APPOpertingEnterCommandAll, deviceID: self.deviceID(with: deviceInfo), sendType: .lock, success: { (data) in
-                    
+                    cell?.selectionStyle = .default
                 }, fail: { (failCode) -> UInt in
+                    cell?.selectionStyle = .default
                     let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
                     alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
                         
@@ -295,8 +315,9 @@ class LockViewController: UITableViewController {
                 APPOpertingEnterCommandAll.append("000000000")
                 
                 BluetoothManager.getInstance()?.sendByteCommand(with: APPOpertingEnterCommandAll, deviceID: self.deviceID(with: deviceInfo), sendType: .lock,success: { (data) in
-                    
+                    cell?.selectionStyle = .default
                 }, fail: { (failCode) -> UInt in
+                    cell?.selectionStyle = .default
                     let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
                     alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
                         
@@ -310,8 +331,9 @@ class LockViewController: UITableViewController {
             else if indexPath.row==4 {
                 APPOpertingEnterCommandAll = "100255255255255255255255255255"
                 BluetoothManager.getInstance()?.sendByteCommand(with: APPOpertingEnterCommandAll, deviceID: self.deviceID(with: deviceInfo), sendType: .lock,success: { (data) in
-                    
+                    cell?.selectionStyle = .default
                 }, fail: { (failCode) -> UInt in
+                    cell?.selectionStyle = .default
                     let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
                     alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
                         

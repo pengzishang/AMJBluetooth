@@ -30,6 +30,46 @@ class IRRemoteController: UIViewController , UIPickerViewDelegate , UIPickerView
         // Do any additional setup after loading the view.
     }
     
+    @IBAction func test(_ sender: Any) {
+        let deviceType = RemoteDevice.init(rawValue: UInt(deviceChoose.selectedRow(inComponent: 0)))
+        let deviceIndexStrings = ToolsFuntion.getAllDeviceNum(withDeviceType: deviceType!)
+        
+//        let deviceIndexString = codeIndex.text
+        
+        let functionsStrs = ToolsFuntion.getfuntionOrder(deviceType!)
+        let deviceID = self.deviceID(with: self.deviceInfo)
+        var commands = Array<String>.init()
+        deviceIndexStrings?.forEach({ (deviceIndexString) in
+            guard deviceIndexString != "125" && deviceIndexString != "158" && deviceIndexString != "023" else{
+                return
+            }
+            functionsStrs?.forEach({ (funStr) in
+                    autoreleasepool(invoking: { () -> Void in
+                        let codeString =  ToolsFuntion.getFastCodeDeviceIndex(deviceIndexString, deviceType: deviceType!, keynum: UInt(funStr)!)
+                        print(codeString!)
+                    })
+                    
+                
+//                let codeString =  ToolsFuntion.getFastCodeDeviceIndex(deviceIndexString, deviceType: deviceType!, keynum: UInt(funStr)!)
+//                print(codeString!)
+//                commands.append(codeString!)
+//                BluetoothManager.getInstance()?.sendByteCommand(with: codeString!, deviceID: deviceID!, sendType: .remoteNew, success: { (data) in
+//                    print(data!)
+//                }, fail: { (failcode) -> UInt in
+//                    return 0
+//                })
+            })
+        })
+        BluetoothManager.getInstance()?.sendMutiCommand(withSingleDeviceID: deviceID!, sendType: .remoteNew, commands: commands, success: { (deviceIndex, data) in
+            
+        }, fail: { (failCode) -> UInt in
+            return 0
+        }, finish: { (finish) in
+            
+        })
+        
+        
+    }
     
     @IBAction func sendFastCode(_ sender: UIButton) {
         let deviceType = RemoteDevice.init(rawValue: UInt(deviceChoose.selectedRow(inComponent: 0)))

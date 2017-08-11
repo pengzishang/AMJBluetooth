@@ -61,7 +61,7 @@
     "CH+" : "FF",
     "POWER" : "E2",
     "use_byte" : "01",
-    "custom_byte" : "02",
+    "custom_byte" : "02,00",
     "LEFT" : "7F",
     "PLAY" : "FF",
     "FF" : "FF",

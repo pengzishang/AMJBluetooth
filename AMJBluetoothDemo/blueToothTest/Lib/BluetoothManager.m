@@ -63,8 +63,8 @@ typedef void(^localFailReturn)(NSUInteger deviceIndex,NSUInteger failCode);
     NSUInteger _retryTime;
 }
 
-@property(copy, nonatomic, nonnull) localSuccessReturn partSuccess;
-@property(copy, nonatomic, nonnull) localFailReturn partFail;
+@property(copy, nonatomic, nullable) localSuccessReturn partSuccess;
+@property(copy, nonatomic, nullable) localFailReturn partFail;
 
 /**
  扫描的设备种类
@@ -339,6 +339,8 @@ NSString *_Nonnull const ScanTypeDescription[] = {
                 fail([NSString stringWithFormat:@"%zd",failCode]);
             }
             _curPeripheral = nil;
+            blockManger.partSuccess = nil;
+            blockManger.partFail = nil;
             if (finish) {
                 finish(YES);
             }
@@ -359,8 +361,11 @@ NSString *_Nonnull const ScanTypeDescription[] = {
                     fail([NSString stringWithFormat:@"%zd",failCode]);
                 }
                 _curPeripheral = nil;
+                blockManger.partSuccess = nil;
+                blockManger.partFail = nil;
                 if (finish) {
                     finish(YES);
+                    
                 }
             }
             
@@ -442,6 +447,8 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         else
         {
             _curPeripheral = nil;
+            blockManger.partSuccess = nil;
+            blockManger.partFail = nil;
             if (finish) {
                 finish(YES);
             }
@@ -473,6 +480,8 @@ NSString *_Nonnull const ScanTypeDescription[] = {
             else
             {
                 _curPeripheral = nil;
+                blockManger.partSuccess = nil;
+                blockManger.partFail = nil;
                 if (finish) {
                     finish(YES);
                 }
@@ -499,6 +508,8 @@ NSString *_Nonnull const ScanTypeDescription[] = {
                 else
                 {
                     _curPeripheral = nil;
+                    blockManger.partSuccess = nil;
+                    blockManger.partFail = nil;
                     if (finish) {
                         finish(YES);
                     }
@@ -792,30 +803,30 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 
     if (error) {
 //        if (!_stateData) {
-//            if (self.partFail) {
-//                self.partFail([self returnIndexOfDeviceWithPeripheral:peripheral], 107);
+            if (self.partFail) {
+                self.partFail([self returnIndexOfDeviceWithPeripheral:peripheral], 107);
                 NSLogMethodArgs(@"异常断开连接 --- %@,ID:%@", error,peripheral.name);
-//            }
+            }
 //        }
     } else {
         BOOL isResponse = NO;
         if (![[NSString stringWithFormat:@"%@", _stateData] hasPrefix:@"<ef"]) {//如果有ef,证明红外伴侣未响应
             isResponse = YES;
         }
-        if (_isDiscoverSuccess && _isWritingSuccess && isResponse &&_isConnectingSuccess) {
-            if ((_sendType == SendTypeQuery&&!_isGetValueSuccess)) {
-                if (self.partFail) {
-                    [self.centralManager cancelPeripheralConnection:peripheral];
-                    self.partFail([self returnIndexOfDeviceWithPeripheral:peripheral], 105);
-                }
+        if (_isDiscoverSuccess && _isWritingSuccess && isResponse &&_isConnectingSuccess &&_isGetValueSuccess) {
+//            if ((_sendType == SendTypeQuery&&!_isGetValueSuccess)) {
+//                if (self.partFail) {
+//                    [self.centralManager cancelPeripheralConnection:peripheral];
+//                    self.partFail([self returnIndexOfDeviceWithPeripheral:peripheral], 105);
+//                }
+//            }
+//            else
+//            {
+//                
+//            }
+            if (self.partSuccess) {
+                self.partSuccess([self returnIndexOfDeviceWithPeripheral:peripheral], _stateData);
             }
-            else
-            {
-                if (self.partSuccess) {
-                    self.partSuccess([self returnIndexOfDeviceWithPeripheral:peripheral], _stateData);
-                }
-            }
-            
         } else {
             if (!_isDiscoverSuccess) {//防止未发现服务提前中止造成正常连接的误报
                 if (self.partFail) {//已经前面终止了
@@ -834,6 +845,10 @@ NSString *_Nonnull const ScanTypeDescription[] = {
             } else if (!_isConnectingSuccess){
                 if (self.partFail) {
                     self.partFail([self returnIndexOfDeviceWithPeripheral:peripheral], 102);
+                }
+            } else if (!_isGetValueSuccess){
+                if (self.partFail) {
+                    self.partFail([self returnIndexOfDeviceWithPeripheral:peripheral], 105);
                 }
             }
         }
