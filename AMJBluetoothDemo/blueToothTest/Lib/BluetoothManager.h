@@ -18,7 +18,7 @@
 
 #define BlueToothMangerDidDiscoverNewItem  @"BlueToothMangerDidDiscoverNewItem"
 #define BlueToothMangerDidItemChangeInfo  @"BlueToothMangerDidItemChangeInfo"
-
+#define BlueToothMangerDidRefreshInfo  @"BlueToothMangerDidRefreshInfo"
 /**
  控制类型方式
 

@@ -27,6 +27,12 @@ class TestController: UIViewController,UITableViewDataSource,UITableViewDelegate
 //            print(notice.userInfo!)//userinfo内有信息
         }
         
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: BlueToothMangerDidRefreshInfo), object: nil, queue: nil) { (notice) in
+            self.devicesArray = notice.object as! Array<Dictionary<String, Any>>
+            self.mainTableView.reloadData()
+        }
+        
+        
     }
     @IBAction func test(_ sender: UIBarButtonItem) {
         BluetoothManager.getInstance()?.setScanMode(true)

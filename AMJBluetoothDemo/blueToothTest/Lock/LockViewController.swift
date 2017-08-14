@@ -66,7 +66,7 @@ class LockViewController: UITableViewController {
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.setEditing(false, animated: true)
+        self.view.endEditing(true)
     }
     
     @IBAction func refreshAll(_ sender: UIBarButtonItem) {
@@ -346,10 +346,8 @@ class LockViewController: UITableViewController {
             }
         }
         
-        
-        
-        
     }
+
     
     func deviceID(with infoDic:Dictionary<String, Any>) -> String! {
         let advdic=infoDic[AdvertisementData] as! NSDictionary

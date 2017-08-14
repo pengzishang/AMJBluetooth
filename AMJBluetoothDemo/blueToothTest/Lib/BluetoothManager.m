@@ -163,6 +163,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
  */
 -(void)refreshNearDevice:(NSTimer *)sender
 {
+    [self sortPeripheral];
     [self.centralManager scanForPeripheralsWithServices:nil options:sender.userInfo];
 }
 
@@ -225,6 +226,28 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 {
     _retryTime=retryTime;
 }
+
+-(void)sortPeripheral
+{
+    NSLock *lock = [[NSLock alloc] init];
+    [lock lock];
+    NSArray *testArray = [self.peripheralsInfo sortedArrayUsingComparator:^NSComparisonResult(NSDictionary *  _Nonnull obj1, NSDictionary *  _Nonnull obj2) {
+        NSInteger rssi1 =  [obj1[RSSI_VALUE] integerValue];
+        NSInteger rssi2 =  [obj2[RSSI_VALUE] integerValue];
+        if (rssi1 >= rssi2) {
+            return NSOrderedSame;
+        }
+        else
+        {
+            return NSOrderedDescending;
+        }
+    }];
+    self.peripheralsInfo = [NSMutableArray arrayWithArray:testArray];
+    [[NSNotificationCenter defaultCenter]postNotificationName:BlueToothMangerDidRefreshInfo object:self.peripheralsInfo];
+    [lock unlock];
+    
+}
+
 
 
 - (void)setScanMode:(BOOL)isFast
