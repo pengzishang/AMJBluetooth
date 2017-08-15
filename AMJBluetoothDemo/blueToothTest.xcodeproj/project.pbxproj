@@ -27,6 +27,7 @@
 		6446CA4B1F0CCFEC001F1CE5 /* LockUnionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E5A361F0B3B6A00B5B527 /* LockUnionList.swift */; };
 		6446CA4C1F0CCFF0001F1CE5 /* LockAddUnionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E5A381F0B3B6A00B5B527 /* LockAddUnionController.swift */; };
 		6447F4BD1F0F71A4007CB9C8 /* LockListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6447F4BC1F0F71A4007CB9C8 /* LockListController.swift */; };
+		646DFB291F42A8C3008F9076 /* BlueToothObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 646DFB281F42A8C3008F9076 /* BlueToothObject.m */; };
 		64A492E21F14B5B000DC9147 /* IRRemoteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A492E11F14B5B000DC9147 /* IRRemoteController.swift */; };
 		64DA151B1F0B413F008E76FE /* LockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DA151A1F0B408B008E76FE /* LockViewController.swift */; };
 /* End PBXBuildFile section */
@@ -57,6 +58,8 @@
 		64277D4E1F31A19E00A9E54B /* AUX.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AUX.json; sourceTree = "<group>"; };
 		64277D4F1F31A19F00A9E54B /* DVD.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DVD.json; sourceTree = "<group>"; };
 		6447F4BC1F0F71A4007CB9C8 /* LockListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockListController.swift; sourceTree = "<group>"; };
+		646DFB271F42A8C3008F9076 /* BlueToothObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlueToothObject.h; sourceTree = "<group>"; };
+		646DFB281F42A8C3008F9076 /* BlueToothObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlueToothObject.m; sourceTree = "<group>"; };
 		647E5A361F0B3B6A00B5B527 /* LockUnionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LockUnionList.swift; path = blueToothTest/Union/LockUnionList.swift; sourceTree = SOURCE_ROOT; };
 		647E5A381F0B3B6A00B5B527 /* LockAddUnionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LockAddUnionController.swift; path = blueToothTest/Union/LockAddUnionController.swift; sourceTree = SOURCE_ROOT; };
 		64A492E11F14B5B000DC9147 /* IRRemoteController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IRRemoteController.swift; sourceTree = "<group>"; };
@@ -165,6 +168,8 @@
 				3C74C9181EFB7B6E00E51CE4 /* NSString+StringOperation.h */,
 				3C74C9191EFB7B6E00E51CE4 /* NSString+StringOperation.m */,
 				3C74C91C1EFB7B7700E51CE4 /* DeviceTypeList.plist */,
+				646DFB271F42A8C3008F9076 /* BlueToothObject.h */,
+				646DFB281F42A8C3008F9076 /* BlueToothObject.m */,
 			);
 			path = Lib;
 			sourceTree = "<group>";
@@ -261,6 +266,7 @@
 				64277D4B1F317FED00A9E54B /* ToolsFuntion.m in Sources */,
 				64DA151B1F0B413F008E76FE /* LockViewController.swift in Sources */,
 				3C74C91A1EFB7B6E00E51CE4 /* BluetoothManager.m in Sources */,
+				646DFB291F42A8C3008F9076 /* BlueToothObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
