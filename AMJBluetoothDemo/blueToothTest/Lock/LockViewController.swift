@@ -41,22 +41,22 @@ class LockViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        BluetoothManager.getInstance()?.queryDeviceStatus(self.deviceID(with: deviceInfo), success: { (data) in
-            let dataStr  = NSString.data(toString: data) as NSString?
-            self.batteryLifeLab.text = dataStr?.substring(with: NSMakeRange(8, 2))
-            self.hardWareLab.text = dataStr?.substring(with: NSMakeRange(0, 2))
-            self.versionLab.text = dataStr?.substring(with: NSMakeRange(2, 6))
-            self.getTime()
-        }, fail: { (failCode) -> UInt in
-            self.getTime()
-            let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode, preferredStyle: .alert)
-            alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
-            }))
-            self.present(alert, animated: true, completion: {
-                
-            })
-            return 0
-        })
+//        BluetoothManager.getInstance()?.queryDeviceStatus(self.deviceID(with: deviceInfo), success: { (data) in
+//            let dataStr  = NSString.data(toString: data) as NSString?
+//            self.batteryLifeLab.text = dataStr?.substring(with: NSMakeRange(8, 2))
+//            self.hardWareLab.text = dataStr?.substring(with: NSMakeRange(0, 2))
+//            self.versionLab.text = dataStr?.substring(with: NSMakeRange(2, 6))
+////            self.getTime()
+//        }, fail: { (failCode) -> UInt in
+////            self.getTime()
+//            let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode, preferredStyle: .alert)
+//            alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
+//            }))
+//            self.present(alert, animated: true, completion: {
+//                
+//            })
+//            return 0
+//        })
         
     }
     

@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "BluetoothManager.h"
-#import "NSString+StringOperation.h"
+#import "BlueToothObject.h"
 @interface AppDelegate ()
 
 @end
@@ -19,6 +19,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     //不要在这里修改增加内容
     [[BluetoothManager getInstance] effect];
+    
+    
     
     // Override point for customization after application launch.
     return YES;

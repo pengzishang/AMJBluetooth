@@ -35,7 +35,14 @@ class TestController: UIViewController,UITableViewDataSource,UITableViewDelegate
         
     }
     @IBAction func test(_ sender: UIBarButtonItem) {
-        BluetoothManager.getInstance()?.setScanMode(true)
+        BluetoothManager.getInstance()?.sendMutiCommands(["192","192","192","192"], withMutiDevices: ["7CEC79486F6B","7CEC794873D7","7CEC794873DD","D0B5C2A405CF"], withSendTypes: [(0),(0),(0),(0)], report: { (index, isSuccess, userInfo) in
+            
+        }, finish: { (finish) in
+            print("完成")
+        })
+        
+        
+//        BluetoothManager.getInstance()?.setScanMode(true)
     }
     
     
