@@ -235,7 +235,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/IrRemote/IRRemoteController.swift"
-            timestampString = "524126587.462117"
+            timestampString = "524656151.607353"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "118"
@@ -251,11 +251,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/Lib/BluetoothManager.m"
-            timestampString = "524653043.953185"
+            timestampString = "524716726.810361"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "436"
-            endingLineNumber = "436"
+            startingLineNumber = "434"
+            endingLineNumber = "434"
             landmarkName = "-sendMutiCommands:withMutiDevices:withSendTypes:report:finish:"
             landmarkType = "7">
          </BreakpointContent>
@@ -267,11 +267,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/Lib/BluetoothManager.m"
-            timestampString = "524653044.012455"
+            timestampString = "524716726.811158"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "468"
-            endingLineNumber = "468"
+            startingLineNumber = "466"
+            endingLineNumber = "466"
             landmarkName = "-sendMutiCommands:withMutiDevices:withSendTypes:report:finish:"
             landmarkType = "7">
          </BreakpointContent>
@@ -283,11 +283,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/Lib/BluetoothManager.m"
-            timestampString = "524653044.013969"
+            timestampString = "524716726.811582"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "630"
-            endingLineNumber = "630"
+            startingLineNumber = "628"
+            endingLineNumber = "628"
             landmarkName = "-isContainSelectPreFix:"
             landmarkType = "7">
          </BreakpointContent>
@@ -299,13 +299,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/Lib/BluetoothManager.m"
-            timestampString = "524653044.015529"
+            timestampString = "524716726.811988"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "635"
-            endingLineNumber = "635"
-            landmarkName = "BluetoothManager"
-            landmarkType = "3">
+            startingLineNumber = "633"
+            endingLineNumber = "633"
+            landmarkName = "-isContainSelectPreFix:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -315,7 +315,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/TestController.swift"
-            timestampString = "524653044.017314"
+            timestampString = "524656151.617464"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "21"
@@ -327,11 +327,11 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/IrRemote/IRRemoteController.swift"
-            timestampString = "524126587.462877"
+            timestampString = "524656151.617658"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "79"
@@ -347,7 +347,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/Lib/ToolsFuntion.m"
-            timestampString = "524126587.463024"
+            timestampString = "524716726.812436"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "104"
@@ -363,7 +363,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/Lib/ToolsFuntion.m"
-            timestampString = "524126587.463091"
+            timestampString = "524716726.812518"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "174"
@@ -397,7 +397,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/Lib/ToolsFuntion.m"
-            timestampString = "524126587.463147"
+            timestampString = "524716726.812584"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "109"
@@ -445,7 +445,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/Lib/ToolsFuntion.m"
-            timestampString = "524126587.463222"
+            timestampString = "524716726.81265"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "211"
@@ -461,7 +461,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/Lib/ToolsFuntion.m"
-            timestampString = "524126587.463274"
+            timestampString = "524716726.8127"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "218"
@@ -477,7 +477,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/Lib/ToolsFuntion.m"
-            timestampString = "524126587.463325"
+            timestampString = "524716726.81275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "159"
@@ -493,7 +493,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/Lock/LockViewController.swift"
-            timestampString = "524653044.017596"
+            timestampString = "524656151.620859"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "257"
@@ -541,11 +541,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/Lib/BluetoothManager.m"
-            timestampString = "524653044.017692"
+            timestampString = "524716726.812822"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "484"
-            endingLineNumber = "484"
+            startingLineNumber = "482"
+            endingLineNumber = "482"
             landmarkName = "-sendMutiCommands:withMutiDevices:withSendTypes:report:finish:"
             landmarkType = "7">
          </BreakpointContent>
@@ -557,11 +557,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/Lib/BluetoothManager.m"
-            timestampString = "524653044.019628"
+            timestampString = "524716726.813315"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "844"
-            endingLineNumber = "844"
+            startingLineNumber = "770"
+            endingLineNumber = "770"
             landmarkName = "-peripheral:didUpdateValueForCharacteristic:error:"
             landmarkType = "7">
          </BreakpointContent>
@@ -573,13 +573,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/Lib/BluetoothManager.m"
-            timestampString = "524653044.020937"
+            timestampString = "524716726.814069"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "858"
-            endingLineNumber = "858"
-            landmarkName = "BluetoothManager"
-            landmarkType = "3">
+            startingLineNumber = "784"
+            endingLineNumber = "784"
+            landmarkName = "-peripheral:didUpdateValueForCharacteristic:error:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -589,11 +589,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/Lib/BluetoothManager.m"
-            timestampString = "524653044.022037"
+            timestampString = "524716726.814618"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "798"
-            endingLineNumber = "798"
+            startingLineNumber = "727"
+            endingLineNumber = "727"
             landmarkName = "-peripheral:didDiscoverCharacteristicsForService:error:"
             landmarkType = "7">
          </BreakpointContent>
@@ -605,11 +605,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/Lib/BluetoothManager.m"
-            timestampString = "524653044.02363"
+            timestampString = "524716726.815128"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "366"
-            endingLineNumber = "366"
+            startingLineNumber = "364"
+            endingLineNumber = "364"
             landmarkName = "-sendMutiCommandWithSingleDeviceID:sendType:commands:success:fail:finish:"
             landmarkType = "7">
          </BreakpointContent>
@@ -621,11 +621,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/Lib/BluetoothManager.m"
-            timestampString = "524653044.027577"
+            timestampString = "524716726.815533"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "333"
-            endingLineNumber = "333"
+            startingLineNumber = "331"
+            endingLineNumber = "331"
             landmarkName = "-sendMutiCommandWithSingleDeviceID:sendType:commands:success:fail:finish:"
             landmarkType = "7">
             <Locations>
@@ -637,12 +637,12 @@
                   moduleName = "blueToothTest"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/pzs/Desktop/%E4%BB%A3%E7%A0%81%E6%96%87%E4%BB%B6%E5%A4%B9/AMJBluetooth/AMJBluetoothDemo/blueToothTest/Lib/BluetoothManager.m"
-                  timestampString = "524646779.491057"
+                  timestampString = "524716395.451789"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "349"
-                  endingLineNumber = "349"
-                  offsetFromSymbolStart = "448">
+                  startingLineNumber = "331"
+                  endingLineNumber = "331"
+                  offsetFromSymbolStart = "416">
                </Location>
                <Location
                   shouldBeEnabled = "No"
@@ -652,11 +652,11 @@
                   moduleName = "blueToothTest"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/pzs/Desktop/%E4%BB%A3%E7%A0%81%E6%96%87%E4%BB%B6%E5%A4%B9/AMJBluetooth/AMJBluetoothDemo/blueToothTest/Lib/BluetoothManager.m"
-                  timestampString = "524646779.496186"
+                  timestampString = "524716395.458897"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "349"
-                  endingLineNumber = "349"
+                  startingLineNumber = "331"
+                  endingLineNumber = "331"
                   offsetFromSymbolStart = "160">
                </Location>
                <Location
@@ -667,11 +667,11 @@
                   moduleName = "blueToothTest"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/pzs/Desktop/%E4%BB%A3%E7%A0%81%E6%96%87%E4%BB%B6%E5%A4%B9/AMJBluetooth/AMJBluetoothDemo/blueToothTest/Lib/BluetoothManager.m"
-                  timestampString = "524646779.499286"
+                  timestampString = "524716395.463745"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "349"
-                  endingLineNumber = "349"
+                  startingLineNumber = "331"
+                  endingLineNumber = "331"
                   offsetFromSymbolStart = "84">
                </Location>
             </Locations>
@@ -684,11 +684,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "blueToothTest/Lib/BluetoothManager.m"
-            timestampString = "524653044.028957"
+            timestampString = "524716726.815919"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "449"
-            endingLineNumber = "449"
+            startingLineNumber = "447"
+            endingLineNumber = "447"
             landmarkName = "-sendMutiCommands:withMutiDevices:withSendTypes:report:finish:"
             landmarkType = "7">
             <Locations>
@@ -723,6 +723,70 @@
                   offsetFromSymbolStart = "24">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "blueToothTest/Lib/BluetoothManager.m"
+            timestampString = "524716726.816301"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "321"
+            endingLineNumber = "321"
+            landmarkName = "-sendMutiCommandWithSingleDeviceID:sendType:commands:success:fail:finish:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[BluetoothManager sendMutiCommandWithSingleDeviceID:sendType:commands:success:fail:finish:]"
+                  moduleName = "blueToothTest"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pzs/Desktop/%E4%BB%A3%E7%A0%81%E6%96%87%E4%BB%B6%E5%A4%B9/AMJBluetooth/AMJBluetoothDemo/blueToothTest/Lib/BluetoothManager.m"
+                  timestampString = "524716395.473136"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "322"
+                  endingLineNumber = "322"
+                  offsetFromSymbolStart = "476">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__92-[BluetoothManager sendMutiCommandWithSingleDeviceID:sendType:commands:success:fail:finish:]_block_invoke"
+                  moduleName = "blueToothTest"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pzs/Desktop/%E4%BB%A3%E7%A0%81%E6%96%87%E4%BB%B6%E5%A4%B9/AMJBluetooth/AMJBluetoothDemo/blueToothTest/Lib/BluetoothManager.m"
+                  timestampString = "524716395.476401"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "323"
+                  endingLineNumber = "323"
+                  offsetFromSymbolStart = "80">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "blueToothTest/Lib/ToolsFuntion.m"
+            timestampString = "524716726.816687"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
+            landmarkName = "+getJsonDicWithDeviceIndex:deviceType:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

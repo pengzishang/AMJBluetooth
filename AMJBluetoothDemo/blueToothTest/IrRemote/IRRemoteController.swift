@@ -37,7 +37,7 @@ class IRRemoteController: UIViewController , UIPickerViewDelegate , UIPickerView
 //        let deviceIndexString = codeIndex.text
         
         let functionsStrs = ToolsFuntion.getfuntionOrder(deviceType!)
-        let deviceID = self.deviceID(with: self.deviceInfo)
+        let deviceID = "IRRemoteControllerA"
         var commands = Array<String>.init()
         deviceIndexStrings?.forEach({ (deviceIndexString) in
             guard deviceIndexString != "125" && deviceIndexString != "158" && deviceIndexString != "023" else{
@@ -60,7 +60,7 @@ class IRRemoteController: UIViewController , UIPickerViewDelegate , UIPickerView
 //                })
             })
         })
-        BluetoothManager.getInstance()?.sendMutiCommand(withSingleDeviceID: deviceID!, sendType: .remoteNew, commands: commands, success: { (deviceIndex, data) in
+        BluetoothManager.getInstance()?.sendMutiCommand(withSingleDeviceID: deviceID, sendType: .remoteNew, commands: commands, success: { (deviceIndex, data) in
             
         }, fail: { (failCode) -> UInt in
             return 0
