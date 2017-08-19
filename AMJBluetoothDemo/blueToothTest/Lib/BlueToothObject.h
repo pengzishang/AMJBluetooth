@@ -8,6 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import "BluetoothManager.h"
+@class BlueToothObject;
+
+
+@protocol BlueToothObjectDelegate <NSObject>
+
+@required
+
+- (void)opertionTimeOut:(BlueToothObject *_Nonnull)obj;
+
+@end
+
 @interface BlueToothObject : NSObject
 /**
  每一个字典里面应该包含 当前设备控制的
@@ -30,7 +41,16 @@
 
 @property (nonatomic,assign)BOOL isGetValueSuccess;
 
+@property (nonatomic,assign)BOOL isNotTimeOut;
+
+@property (nonatomic,assign)BOOL isControlSuccess;
+
+/**
+ 是否是本设备最后一个指令
+ */
 @property (nonatomic,assign)BOOL isLast;
+
+@property (nonatomic,assign)BOOL isMarkedDevice;
 
 @property (nonatomic,assign)SendType sendType;
 
@@ -38,7 +58,7 @@
 
 @property (nonatomic,assign)NSUInteger deviceIndex;
 
-@property (nonatomic,nonnull,strong)NSTimer * timeOutTimer;
+@property (nonatomic,nullable,strong)NSTimer * timeOutTimer;
 
 @property (nonatomic,nonnull,strong)CBPeripheral *peripheral;
 
@@ -54,9 +74,13 @@
 
 @property (nonatomic,nonnull,strong)NSString *UUID;
 
--(instancetype _Nonnull )initWithDeviceID:(NSString *_Nonnull)deviceID command:(NSString *_Nonnull)command sendType:(SendType)sendType;
+@property (nonatomic,weak,nullable)id <BlueToothObjectDelegate> delegate;
 
-//- (CBPeripheral *_Nullable)isAvailable;
+- (instancetype _Nonnull )initWithDeviceID:(NSString *_Nonnull)deviceID command:(NSString *_Nonnull)command sendType:(SendType)sendType;
+
+- (void)startRunningTime;
+
+- (void)stopRunningTime;
 
 
 @end

@@ -8,6 +8,7 @@
 
 #import "BlueToothObject.h"
 #import "NSString+StringOperation.h"
+
 @implementation BlueToothObject
 
 
@@ -20,10 +21,11 @@
         _peripheral = [self isAvailable];
         _UUID = _peripheral.identifier.UUIDString;
         _failTime  = 0;
-//        _deviceIndex = NSUIntegerMax ;
+        _deviceIndex = NSUIntegerMax ;
         _sendType = sendType;
         _command = command;
         _commandData = [self commandDataWithObject];
+        _timeOutTimer = [self setTimeOutTimer];
     }
     return self;
 }
@@ -134,6 +136,28 @@
     }
 }
 
+- (NSTimer *)setTimeOutTimer{
+    NSTimer *timer = [NSTimer timerWithTimeInterval:3.0 target:self selector:@selector(timeOUT) userInfo:nil repeats:NO];
+    return timer;
+}
+
+-(void)timeOUT
+{
+    [self.timeOutTimer invalidate];
+    [_delegate opertionTimeOut:self];
+}
+
+
+-(void)startRunningTime
+{
+    [[NSRunLoop currentRunLoop] addTimer:self.timeOutTimer forMode:NSDefaultRunLoopMode];
+}
+
+-(void)stopRunningTime
+{
+    [self.timeOutTimer invalidate];
+    _isNotTimeOut = YES;
+}
 
 
 @end

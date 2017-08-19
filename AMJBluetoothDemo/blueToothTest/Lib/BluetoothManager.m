@@ -41,7 +41,7 @@ typedef void(^localSuccessReturn)(NSUInteger deviceIndex,NSData *feedbackCode);
 
 typedef void(^localFailReturn)(NSUInteger deviceIndex,NSUInteger failCode);
 
-@interface BluetoothManager () {
+@interface BluetoothManager ()<BlueToothObjectDelegate> {
     BOOL _scanFastSpeed;
     NSDate *_dataf;
     NSTimer *_timeOutTimer;
@@ -189,6 +189,8 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 
 - (void)disconnectPeriheral:(NSTimer *)sender {
     CBPeripheral *peripheral = (CBPeripheral *) sender.userInfo;
+    BlueToothObject *obj = [self returnWithPeripheral:peripheral];
+    obj.isNotTimeOut = YES;
     [self.centralManager cancelPeripheralConnection:peripheral];
     [sender invalidate];
 }
@@ -201,14 +203,24 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     NSLog(@"Step1:开始连接:%f  id:%@", time1, curPeripheral.name);
 }
 
+#pragma mark 代理:设备命令超时
+
+- (void)opertionTimeOut:(BlueToothObject *)obj
+{
+    CBPeripheral *peripheral = obj.peripheral;
+    [self.centralManager cancelPeripheralConnection:peripheral];
+}
+
+
+
 /**
  中断当前操作(还有问题)
  */
-- (void)interruptCurrentOpertion
-{
-    [self disconnectPeriheral:_timeOutTimer];
-//    _isMannelInterrupt = YES;
-}
+//- (void)interruptCurrentOpertion
+//{
+//    [self disconnectPeriheral:_timeOutTimer];
+////    _isMannelInterrupt = YES;
+//}
 
 
 -(void)setInterval:(NSTimeInterval)timeInterval
@@ -403,9 +415,12 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 
  @param bluetoothObj <#bluetoothObj description#>
  */
+#pragma mark 通用发送方法
 - (void)sendCommmandWithBlueToothObject:(BlueToothObject *)bluetoothObj
 {
+
     NSAssert(bluetoothObj.command.length % 3 == 0, @"命令位数不是3的倍数");
+//    bluetoothObj.delegate = self;
     NSLog(@"\n*******************************第%zd个设备(命令)*******************************\n",bluetoothObj.deviceIndex + 1);
     if (self.centralManager.state != CBCentralManagerStatePoweredOn) {
         if (self.partFail) {
@@ -413,8 +428,11 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         }
     }
     CBPeripheral *curPeripheral = bluetoothObj.peripheral;
+
     if (curPeripheral) {
+//                [bluetoothObj startRunningTime];
         [self connect2Peripheral:curPeripheral];
+
     } else {
         if (self.partFail) {
             self.partFail(bluetoothObj.deviceIndex, 404);
@@ -585,7 +603,6 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     }
     
     NSNumber *stateCodeCurrent = [self getStateCodeCurrent:deviceIDFromAdv];
-//    NSLog(@">>>>>>>%@ %@",deviceIDFromAdv,stateCodeCurrent);
     NSMutableDictionary *peripheralInfo = [self isContain:peripheral].mutableCopy;
     if (peripheralInfo) {
         //包括
@@ -738,8 +755,12 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 {
     __block BlueToothObject *item  = nil;
     [self.dataArr enumerateObjectsUsingBlock:^(BlueToothObject  *_Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj.peripheral isEqual:peripheral]) {
-            if (!obj.isGetValueSuccess&&obj.failTime!=NSUIntegerMax) {
+        if (obj.isMarkedDevice) {
+            *stop = YES;
+            item = obj;
+        }
+        else if ([obj.peripheral isEqual:peripheral]) {
+            if (!obj.isGetValueSuccess&&obj.failTime!=NSUIntegerMax) {//还未控制完成的
                 *stop = YES;
                 item = obj;
             }
@@ -766,7 +787,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
  这里不影响开关控制了
  **/
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
-    
+    //正常控制完成
     BlueToothObject *obj = [self returnWithPeripheral:peripheral];
     if (error) {
         NSLog(@"捕捉到错误:%@",error);
@@ -779,10 +800,14 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         NSLog(@"Step6:已经获取特征值%@,操作成功 单次全程控制时间:%f,ID:%@", obj.stateCode, time1,peripheral.name);
     }
     
+//    [obj stopRunningTime];
     [_timeOutTimer invalidate];
+    
     if (obj.isLast) {
+        obj.isMarkedDevice = YES;
         [self.centralManager cancelPeripheralConnection:peripheral];
     }
+    
     if (self.partSuccess) {
         self.partSuccess(obj.deviceIndex, obj.stateCode);
     }
@@ -802,49 +827,58 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
     double time1 = [[NSDate date] timeIntervalSinceDate:_dataf];
-    
+    BlueToothObject *obj = [self returnWithPeripheral:peripheral];
     if (error) {
         NSLogMethodArgs(@"异常断开连接 --- %@,ID:%@", error,peripheral.name);
+        if (self.partFail) {
+            self.partFail(obj.deviceIndex, 102);
+        }
     }
     else {//有隐藏错误的时候才进来
-        BlueToothObject *errorObj = [self returnWithPeripheral:peripheral];
-        if (!errorObj) {
-            NSLog(@"正常断开设备:%f,ID:%@", time1,peripheral.name);
-            return;
-        }
+        NSLog(@"正在断开设备:%f,ID:%@", time1,peripheral.name);
         BOOL isResponse = NO;
-        if (![[NSString stringWithFormat:@"%@", errorObj.stateCode] hasPrefix:@"<ef"]) {//如果有ef,证明红外伴侣未响应
+        if (![[NSString stringWithFormat:@"%@", obj.stateCode] hasPrefix:@"<ef"]) {//如果有ef,证明红外伴侣未响应
             isResponse = YES;
         }
-        if (!errorObj.isDiscoverSuccess) {//防止未发现服务提前中止造成正常连接的误报
-            if (self.partFail) {//已经前面终止了
-                self.partFail(errorObj.deviceIndex, 103);
+        if (obj.isNotTimeOut)
+        {
+            NSLog(@"超时");
+            if (self.partFail) {//超时
+                self.partFail(obj.deviceIndex, 101);
             }
-        } else if (!errorObj.isWritingSuccess) {
+        } else if (!obj.isWritingSuccess) {
             if (self.partFail) {//重写一次就好
-                self.partFail(errorObj.deviceIndex, 104);
+                self.partFail(obj.deviceIndex, 104);
+            }
+        } else if (!obj.isDiscoverSuccess) {//防止未发现服务提前中止造成正常连接的误报
+            if (self.partFail) {//已经前面终止了
+                self.partFail(obj.deviceIndex, 103);
             }
         } else if (!isResponse) {
             if (self.partFail) {
                 [self.centralManager cancelPeripheralConnection:peripheral];
-                self.partFail(errorObj.deviceIndex, 106);
+                self.partFail(obj.deviceIndex, 106);
             }
-        } else if (!errorObj.isConnectingSuccess){
+        } else if (!obj.isConnectingSuccess){
             if (self.partFail) {
-                self.partFail(errorObj.deviceIndex, 102);
+                self.partFail(obj.deviceIndex, 102);
             }
-        } else if (!errorObj.isGetValueSuccess){
+        } else if (!obj.isGetValueSuccess){
             if (self.partFail) {
-                self.partFail(errorObj.deviceIndex, 105);
+                self.partFail(obj.deviceIndex, 105);
             }
         }
     }
+    obj.isMarkedDevice = NO;
 }
 
-- (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
+- (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
+{
+    BlueToothObject *obj = [self returnWithPeripheral:peripheral];
+//    [obj stopRunningTime];
     if (error) {
         NSLogMethodArgs(@"连接失败 --- %@,ID:%@", error.localizedDescription,peripheral.name);
-        BlueToothObject *obj = [self returnWithPeripheral:peripheral];
+
         if (self.partFail) {
             self.partFail(obj.deviceIndex, 102);
         }

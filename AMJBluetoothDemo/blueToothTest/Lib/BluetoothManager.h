@@ -91,10 +91,10 @@ typedef NS_ENUM(NSUInteger, SendType) {
 
 
 
-/**
- 中断当前操作
- */
-- (void)interruptCurrentOpertion;
+///**
+// 中断当前操作
+// */
+//- (void)interruptCurrentOpertion;
 /**
  查询设备设备状态
 
