@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <UIKit/UIKit.h>
 typedef NS_ENUM(NSUInteger, RemoteDevice) {
     RemoteDeviceTV      =   0,
     RemoteDeviceDVD,
@@ -18,6 +18,13 @@ typedef NS_ENUM(NSUInteger, RemoteDevice) {
 @interface ToolsFuntion : NSObject
 
 //搞清楚远程控制的全过程
+
+
+/**
+ 弹出错误窗口
+ */
++ (void)openErrorAlertWithTarget:(UIViewController *)target errorCode:(NSString *)errorCode;
+
 
 /**
  得到喜爱频道码组

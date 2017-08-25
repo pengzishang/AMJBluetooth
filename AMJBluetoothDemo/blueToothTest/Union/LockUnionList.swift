@@ -53,7 +53,7 @@ class LockUnionList: UITableViewController {
         BluetoothManager.getInstance()?.sendByteCommand(with: command as String, deviceID: lockID!, sendType: .lock,  success: { (data) in
             
         }, fail: { (failCode) -> UInt in
-            
+            ToolsFuntion.openErrorAlert(withTarget: self, errorCode: failCode)
             return 0
         })
     }
@@ -80,13 +80,7 @@ class LockUnionList: UITableViewController {
             sender.isHidden = false
             acitionIndicator.stopAnimating()
         }, fail: { (failCode) -> UInt in
-            let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
-            alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
-                
-            }))
-            self.present(alert, animated: true, completion: {
-                
-            })
+            ToolsFuntion.openErrorAlert(withTarget: self, errorCode: failCode)
             sender.isHidden = false
             acitionIndicator.stopAnimating()
             return 0

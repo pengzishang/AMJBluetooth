@@ -32,22 +32,16 @@ class SendController: UIViewController {
             command.text = "203237038002002000001000000000"
             test?.sendByteCommand(with: command.text!, deviceID: deviceMACID, sendType: .sellMachine, success: { (data) in
                 print("成功后的返回值:" + (data?.description)!)
-            }, fail: { (failStr) -> UInt in
+            }, fail: { (failCode) -> UInt in
+                ToolsFuntion.openErrorAlert(withTarget: self, errorCode: failCode)
                 return 0
             })
         }
         else
         {
             test?.sendByteCommand(with: command.text!, deviceID: deviceID, sendType: SendType.single,success: { (stateCode) in
-                print(stateCode!)
-            }, fail: { (errorCode) -> UInt in
-                let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + errorCode!, preferredStyle: .alert)
-                alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
-                    
-                }))
-                self.present(alert, animated: true, completion: {
-                    
-                })
+            }, fail: { (failCode) -> UInt in
+                ToolsFuntion.openErrorAlert(withTarget: self, errorCode: failCode)
                 return 0
             })
         }

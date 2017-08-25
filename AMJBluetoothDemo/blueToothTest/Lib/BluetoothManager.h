@@ -67,6 +67,14 @@ typedef NS_ENUM(NSUInteger, SendType) {
  */
 - (void)effect;
 
+
+/**
+ 启用错误弹窗,默认启用
+
+ @param isOpen <#isOpen description#>
+ */
+- (void)enableErrorWarning:(BOOL)isOpen;
+
 /**
  设定间隔
 

@@ -46,7 +46,6 @@ class LockListController: UITableViewController {
         sender.isHidden = true
         let acitionIndicator = sender.superview?.superview?.viewWithTag(1003) as! UIActivityIndicatorView
         acitionIndicator.startAnimating()
-//        let deviceIndex = (sender.superview?.superview?.tag)! - 10000
         let unionID  = self.deviceID(with: self.deviceInfo)
         var lockID = (sender.superview?.superview?.viewWithTag(1001) as! UILabel).text! as NSString
         lockID = lockID.substring(from: 7) as NSString
@@ -56,13 +55,7 @@ class LockListController: UITableViewController {
             sender.isHidden = false
             acitionIndicator.stopAnimating()
         }, fail: { (failCode) -> UInt in
-            let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
-            alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
-                
-            }))
-            self.present(alert, animated: true, completion: {
-                
-            })
+            ToolsFuntion.openErrorAlert(withTarget: self, errorCode: failCode)
             sender.isHidden = false
             acitionIndicator.stopAnimating()
             return 0

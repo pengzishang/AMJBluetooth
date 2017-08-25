@@ -5,3 +5,4 @@
 #import "BluetoothManager.h"
 #import "NSString+StringOperation.h"
 #import "ToolsFuntion.h"
+#import "AppDelegate.h"

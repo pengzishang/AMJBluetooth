@@ -7,7 +7,6 @@
 //
 
 import UIKit
-
 class LockViewController: UITableViewController {
     @IBOutlet weak var navTitle: UINavigationItem!
     
@@ -40,7 +39,7 @@ class LockViewController: UITableViewController {
     @IBOutlet weak var refreshBtn: UIBarButtonItem!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.tableView.keyboardDismissMode = .onDrag
 //        BluetoothManager.getInstance()?.queryDeviceStatus(self.deviceID(with: deviceInfo), success: { (data) in
 //            let dataStr  = NSString.data(toString: data) as NSString?
 //            self.batteryLifeLab.text = dataStr?.substring(with: NSMakeRange(8, 2))
@@ -76,12 +75,9 @@ class LockViewController: UITableViewController {
     
 
     @IBAction func test1(_ sender: Any) {
-        let code = ToolsFuntion.queryOpenTimeCode()
-        BluetoothManager.getInstance()?.sendByteCommand(with: code!, deviceID: self.deviceID(with: deviceInfo), sendType: .lock, success: { (data) in
-            
-        }, fail: { (failCode) -> UInt in
-            return 0
-        })
+        
+//        UIApplication.shared.perform(#selector(AppDelegate.suspend))
+//        [[UIApplication sharedApplication] performSelector:@selector(suspend)];
         
     }
     
@@ -116,6 +112,7 @@ class LockViewController: UITableViewController {
                 
             }//12.8
         }, fail: { (failCode) -> UInt in
+            ToolsFuntion.openErrorAlert(withTarget: self, errorCode: failCode)
             return 0
         }, finish: { (finish) in
             if !self.refreshBtn.isEnabled {
@@ -150,13 +147,7 @@ class LockViewController: UITableViewController {
         }, fail: { (failCode) -> UInt in
             sender.isHidden = false
             self.lockActivity.stopAnimating()
-            let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
-            alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
-                
-            }))
-            self.present(alert, animated: true, completion: {
-                
-            })
+            ToolsFuntion.openErrorAlert(withTarget: self, errorCode: failCode)
             return 0
         })
         
@@ -173,13 +164,7 @@ class LockViewController: UITableViewController {
         }, fail: { (failCode) -> UInt in
             sender.isHidden = false
             self.checkInActivity.stopAnimating()
-            let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
-            alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
-                
-            }))
-            self.present(alert, animated: true, completion: {
-                
-            })
+            ToolsFuntion.openErrorAlert(withTarget: self, errorCode: failCode)
             return 0
         })
     }
@@ -195,13 +180,7 @@ class LockViewController: UITableViewController {
         }, fail: { (failCode) -> UInt in
             sender.isHidden = false
             self.checkOutActivity.stopAnimating()
-            let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
-            alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
-                
-            }))
-            self.present(alert, animated: true, completion: {
-                
-            })
+            ToolsFuntion.openErrorAlert(withTarget: self, errorCode: failCode)
             return 0
         })
     }
@@ -220,13 +199,7 @@ class LockViewController: UITableViewController {
         }, fail: { (failCode) -> UInt in
             sender.isHidden = false
             self.batteryActivity.stopAnimating()
-            let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode, preferredStyle: .alert)
-            alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
-                
-            }))
-            self.present(alert, animated: true, completion: {
-                
-            })
+            ToolsFuntion.openErrorAlert(withTarget: self, errorCode: failCode)
             return 0
         })
     }
@@ -258,13 +231,7 @@ class LockViewController: UITableViewController {
                     cell?.selectionStyle = .default
                 }, fail: { (failCode) -> UInt in
                     cell?.selectionStyle = .default
-                    let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
-                        
-                    }))
-                    self.present(alert, animated: true, completion: {
-                        
-                    })
+                    ToolsFuntion.openErrorAlert(withTarget: self, errorCode: failCode)
                     return 0
                 })
             }
@@ -278,13 +245,7 @@ class LockViewController: UITableViewController {
                     cell?.selectionStyle = .default
                 }, fail: { (failCode) -> UInt in
                     cell?.selectionStyle = .default
-                    let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
-                        
-                    }))
-                    self.present(alert, animated: true, completion: {
-                        
-                    })
+                    ToolsFuntion.openErrorAlert(withTarget: self, errorCode: failCode)
                     return 0
                 })
             }
@@ -298,13 +259,7 @@ class LockViewController: UITableViewController {
                     cell?.selectionStyle = .default
                 }, fail: { (failCode) -> UInt in
                     cell?.selectionStyle = .default
-                    let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
-                        
-                    }))
-                    self.present(alert, animated: true, completion: {
-                        
-                    })
+                    ToolsFuntion.openErrorAlert(withTarget: self, errorCode: failCode)
                     return 0
                 })
             }
@@ -318,13 +273,7 @@ class LockViewController: UITableViewController {
                     cell?.selectionStyle = .default
                 }, fail: { (failCode) -> UInt in
                     cell?.selectionStyle = .default
-                    let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
-                        
-                    }))
-                    self.present(alert, animated: true, completion: {
-                        
-                    })
+                    ToolsFuntion.openErrorAlert(withTarget: self, errorCode: failCode)
                     return 0
                 })
             }
@@ -334,13 +283,7 @@ class LockViewController: UITableViewController {
                     cell?.selectionStyle = .default
                 }, fail: { (failCode) -> UInt in
                     cell?.selectionStyle = .default
-                    let alert = UIAlertController.init(title: "发生错误", message: "错误代码:" + failCode!, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: { (action) in
-                        
-                    }))
-                    self.present(alert, animated: true, completion: {
-                        
-                    })
+                    ToolsFuntion.openErrorAlert(withTarget: self, errorCode: failCode)
                     return 0
                 })
             }

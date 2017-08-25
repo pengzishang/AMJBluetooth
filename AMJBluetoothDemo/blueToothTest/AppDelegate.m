@@ -19,7 +19,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     //不要在这里修改增加内容
     [[BluetoothManager getInstance] effect];
-    
+//    [[UIApplication sharedApplication] performSelector:@selector(suspend)];系统私有方法
     
     
     // Override point for customization after application launch.

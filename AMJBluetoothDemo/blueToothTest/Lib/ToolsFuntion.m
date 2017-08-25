@@ -12,6 +12,18 @@
 
 
 #pragma mark 共有方法
+
++ (void)openErrorAlertWithTarget:(UIViewController *)target errorCode:(NSString *)errorCode
+{
+    NSDictionary *errDic = @{@"403":@"蓝牙未开启",@"404":@"设备没有广播或者不在附近",@"101":@"设备连接超时断开",@"102":@"断开时候发生异常",@"103":@"设备服务列表加载失败",@"104":@"命令写入失败",@"105":@"设备没有获得反馈值",@"106":@"红外设备回应失败"};
+    NSString *note = [NSString stringWithFormat:@"错误代码:%@\n%@",errorCode,errDic[errorCode]] ;
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"错误提示" message:note preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }]];
+    [target presentViewController:alert animated:YES completion:nil];
+}
+
 + (NSString *)getTypeString:(RemoteDevice)deviceType {
     NSString *typeString = nil;
     switch (deviceType) {

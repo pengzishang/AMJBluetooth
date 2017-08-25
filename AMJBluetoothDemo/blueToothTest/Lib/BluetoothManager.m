@@ -10,6 +10,7 @@
 #import "BluetoothManager.h"
 #import "NSString+StringOperation.h"
 #import "BlueToothObject.h"
+
 /**
  扫描类型
  
@@ -47,7 +48,7 @@ typedef void(^localFailReturn)(NSUInteger deviceIndex,NSUInteger failCode);
     NSTimer *_timeOutTimer;
     CBCentralManager *_centralManager;
 //    CBPeripheral *_curPeripheral;
-    
+    BOOL _isWarningOpen;
     NSTimer *_refreshTimer;
     NSTimeInterval _timeInterval;
     NSUInteger _retryTime;
@@ -142,6 +143,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 - (void)initData {
     _retryTime = 3 ;
     _timeInterval = 0;
+    _isWarningOpen = YES;
     NSLogMethodArgs(@"%@", self.centralManager.isScanning?@"载入成功,开始扫描":@"正在载入");
 }
 
@@ -190,7 +192,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 - (void)disconnectPeriheral:(NSTimer *)sender {
     CBPeripheral *peripheral = (CBPeripheral *) sender.userInfo;
     BlueToothObject *obj = [self returnWithPeripheral:peripheral];
-    obj.isNotTimeOut = YES;
+    obj.isTimeOut = YES;
     [self.centralManager cancelPeripheralConnection:peripheral];
     [sender invalidate];
 }
@@ -208,6 +210,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 - (void)opertionTimeOut:(BlueToothObject *)obj
 {
     CBPeripheral *peripheral = obj.peripheral;
+    obj.isTimeOut = YES;
     [self.centralManager cancelPeripheralConnection:peripheral];
 }
 
@@ -222,6 +225,11 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 ////    _isMannelInterrupt = YES;
 //}
 
+
+- (void)enableErrorWarning:(BOOL)isOpen
+{
+    _isWarningOpen = isOpen;
+}
 
 -(void)setInterval:(NSTimeInterval)timeInterval
 {
@@ -252,6 +260,10 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     [[NSNotificationCenter defaultCenter]postNotificationName:BlueToothMangerDidRefreshInfo object:self.peripheralsInfo];
     [lock unlock];
     
+}
+
+- (void)openWarning
+{
 }
 
 
@@ -348,9 +360,8 @@ NSString *_Nonnull const ScanTypeDescription[] = {
             success(deviceIndex,feedbackCode);
         }
         deviceIndex = deviceIndex + 1;
-
         double time1 = [[NSDate date] timeIntervalSinceDate:startTime];
-        NSLog(@"\n*******************************成功控制第%zd个,总共花费时间:%f*******************************\n", deviceIndex,time1);
+        NSLog(@"\n*******************************成功控制第%zd个,总共花费时间:%f*******************************", deviceIndex,time1);
         if (deviceIndex<commands.count) {
             //加入时间间隔
             BlueToothObject *obj = blockManger.dataArr[deviceIndex];
@@ -364,7 +375,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         }
         else
         {
-            NSLog(@"\n*******************************控制完成*******************************\n");
+            NSLog(@"\n*******************************控制完成*******************************\n\n");
             if (finish) {
                 finish(YES);
             }
@@ -379,7 +390,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
             }
             blockManger.partSuccess = nil;
             blockManger.partFail = nil;
-            NSLog(@"\n*******************************控制完成*******************************\n");
+            NSLog(@"\n*******************************控制完成*******************************\n\n");
             if (finish) {
                 finish(YES);
             }
@@ -389,6 +400,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
             if (obj.failTime < retryTime) {//情况1,出错但是最后一个  情况2:发到一半出错,断开还是不断开?
                 obj.failTime += 1 ;
                 NSLog(@"\n*******************************第%zd次重试*******************************\n",obj.failTime);
+                obj.isTimeOut = NO;
                 [blockManger sendCommmandWithBlueToothObject:obj];
             }
             else
@@ -399,7 +411,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
                 }
                 blockManger.partSuccess = nil;
                 blockManger.partFail = nil;
-                NSLog(@"\n*******************************控制完成*******************************\n");
+                NSLog(@"\n*******************************控制完成*******************************\n\n");
                 if (finish) {
                     finish(YES);
                     
@@ -420,7 +432,6 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 {
 
     NSAssert(bluetoothObj.command.length % 3 == 0, @"命令位数不是3的倍数");
-//    bluetoothObj.delegate = self;
     NSLog(@"\n*******************************第%zd个设备(命令)*******************************\n",bluetoothObj.deviceIndex + 1);
     if (self.centralManager.state != CBCentralManagerStatePoweredOn) {
         if (self.partFail) {
@@ -430,9 +441,10 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     CBPeripheral *curPeripheral = bluetoothObj.peripheral;
 
     if (curPeripheral) {
-//                [bluetoothObj startRunningTime];
+//        bluetoothObj.delegate = self;
+//        [bluetoothObj startRunningTime];
         [self connect2Peripheral:curPeripheral];
-
+        
     } else {
         if (self.partFail) {
             self.partFail(bluetoothObj.deviceIndex, 404);
@@ -826,13 +838,18 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 
 
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
+
     double time1 = [[NSDate date] timeIntervalSinceDate:_dataf];
     BlueToothObject *obj = [self returnWithPeripheral:peripheral];
+    obj.delegate = nil;
     if (error) {
-        NSLogMethodArgs(@"异常断开连接 --- %@,ID:%@", error,peripheral.name);
-        if (self.partFail) {
-            self.partFail(obj.deviceIndex, 102);
+        if (!obj.isGetValueSuccess) {
+            if (self.partFail) {
+                self.partFail(obj.deviceIndex, 102);
+            }
+            
         }
+        NSLogMethodArgs(@"异常断开连接 --- %@,ID:%@", error,peripheral.name);
     }
     else {//有隐藏错误的时候才进来
         NSLog(@"正在断开设备:%f,ID:%@", time1,peripheral.name);
@@ -840,7 +857,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         if (![[NSString stringWithFormat:@"%@", obj.stateCode] hasPrefix:@"<ef"]) {//如果有ef,证明红外伴侣未响应
             isResponse = YES;
         }
-        if (obj.isNotTimeOut)
+        if (obj.isTimeOut)
         {
             NSLog(@"超时");
             if (self.partFail) {//超时

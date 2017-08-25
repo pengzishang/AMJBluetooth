@@ -26,6 +26,7 @@
         _command = command;
         _commandData = [self commandDataWithObject];
         _timeOutTimer = [self setTimeOutTimer];
+        
     }
     return self;
 }
@@ -137,8 +138,12 @@
 }
 
 - (NSTimer *)setTimeOutTimer{
-    NSTimer *timer = [NSTimer timerWithTimeInterval:3.0 target:self selector:@selector(timeOUT) userInfo:nil repeats:NO];
-    return timer;
+//    NSTimer *timer = [NSTimer timerWithTimeInterval:3.0 target:self selector:@selector(timeOUT) userInfo:nil repeats:NO];
+    NSTimer *timers = [NSTimer scheduledTimerWithTimeInterval:3.0 repeats:NO block:^(NSTimer * _Nonnull timer) {
+        [timer invalidate];
+        [_delegate opertionTimeOut:self];
+    }];
+    return timers;
 }
 
 -(void)timeOUT
@@ -150,13 +155,13 @@
 
 -(void)startRunningTime
 {
+//    [self.timeOutTimer fire];
     [[NSRunLoop currentRunLoop] addTimer:self.timeOutTimer forMode:NSDefaultRunLoopMode];
 }
 
 -(void)stopRunningTime
 {
     [self.timeOutTimer invalidate];
-    _isNotTimeOut = YES;
 }
 
 

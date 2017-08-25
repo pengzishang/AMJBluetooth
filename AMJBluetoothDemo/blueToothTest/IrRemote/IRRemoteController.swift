@@ -80,6 +80,7 @@ class IRRemoteController: UIViewController , UIPickerViewDelegate , UIPickerView
         BluetoothManager.getInstance()?.sendByteCommand(with: codeString!, deviceID: deviceID!, sendType: .remoteNew, success: { (data) in
             print(data!)
         }, fail: { (failcode) -> UInt in
+            ToolsFuntion.openErrorAlert(withTarget: self, errorCode: failcode)
             return 0
         })
     }
@@ -93,6 +94,7 @@ class IRRemoteController: UIViewController , UIPickerViewDelegate , UIPickerView
         BluetoothManager.getInstance()?.sendMutiCommand(withSingleDeviceID: deviceID!, sendType: .remoteNew, commands: codeStrings, success: { (deviceIndex, data) in
             
         }, fail: { (failcode) -> UInt in
+            ToolsFuntion.openErrorAlert(withTarget: self, errorCode: failcode)
             return 0
         }, finish: { (isFinish) in
             
@@ -120,6 +122,7 @@ class IRRemoteController: UIViewController , UIPickerViewDelegate , UIPickerView
             sender.isEnabled = true
         }, fail: { (failCode) -> UInt in
             sender.isEnabled = true
+            ToolsFuntion.openErrorAlert(withTarget: self, errorCode: failCode)
             return 0
         })
     }

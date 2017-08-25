@@ -41,7 +41,7 @@
 
 @property (nonatomic,assign)BOOL isGetValueSuccess;
 
-@property (nonatomic,assign)BOOL isNotTimeOut;
+@property (nonatomic,assign)BOOL isTimeOut;
 
 @property (nonatomic,assign)BOOL isControlSuccess;
 
