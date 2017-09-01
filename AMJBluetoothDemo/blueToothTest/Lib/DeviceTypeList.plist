@@ -143,6 +143,10 @@
 	<key>ScanTypeAll</key>
 	<array>
 		<dict>
+			<key>222</key>
+			<string></string>
+			<key>BB</key>
+			<string></string>
 			<key>IrRemoteControllerA</key>
 			<string></string>
 			<key>Name</key>

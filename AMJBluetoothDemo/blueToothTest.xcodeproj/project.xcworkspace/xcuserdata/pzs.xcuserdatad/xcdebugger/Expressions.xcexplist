@@ -3,6 +3,20 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "-[BluetoothManager centralManager:didDisconnectPeripheral:error:]:BluetoothManager.m">
+      </ContextState>
+      <ContextState
+         contextName = "mach_msg_trap:(null)">
+         <PersistentStrings>
+            <PersistentString
+               value = "">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "__81-[BluetoothManager sendMutiCommands:withMutiDevices:withSendTypes:report:finish:]_block_invoke.262:BluetoothManager.m">
+      </ContextState>
+      <ContextState
          contextName = "__81-[BluetoothManager sendMutiCommands:withMutiDevices:withSendTypes:report:finish:]_block_invoke.260:BluetoothManager.m">
          <PersistentStrings>
             <PersistentString
@@ -11,10 +25,13 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "__92-[BluetoothManager sendMutiCommandWithSingleDeviceID:sendType:commands:success:fail:finish:]_block_invoke:BluetoothManager.m">
+         contextName = "__92-[BluetoothManager sendMutiCommandWithSingleDeviceID:sendType:commands:success:fail:finish:]_block_invoke.186:BluetoothManager.m">
       </ContextState>
       <ContextState
-         contextName = "__92-[BluetoothManager sendMutiCommandWithSingleDeviceID:sendType:commands:success:fail:finish:]_block_invoke.186:BluetoothManager.m">
+         contextName = "-[BlueToothPeripheral peripheralManager:didReceiveWriteRequests:]:BlueToothPeripheral.m">
+      </ContextState>
+      <ContextState
+         contextName = "__92-[BluetoothManager sendMutiCommandWithSingleDeviceID:sendType:commands:success:fail:finish:]_block_invoke:BluetoothManager.m">
       </ContextState>
       <ContextState
          contextName = "-[BluetoothManager sendMutiCommands:withMutiDevices:withSendTypes:report:finish:]:BluetoothManager.m">
@@ -23,12 +40,6 @@
                value = "self.dataArr">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "-[BluetoothManager centralManager:didDisconnectPeripheral:error:]:BluetoothManager.m">
-      </ContextState>
-      <ContextState
-         contextName = "__81-[BluetoothManager sendMutiCommands:withMutiDevices:withSendTypes:report:finish:]_block_invoke.262:BluetoothManager.m">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

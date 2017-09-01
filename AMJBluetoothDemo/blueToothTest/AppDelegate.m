@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "BluetoothManager.h"
 #import "BlueToothObject.h"
+#import "BlueToothPeripheral.h"
 @interface AppDelegate ()
 
 @end
@@ -18,7 +19,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     //不要在这里修改增加内容
+    [[BlueToothPeripheral getInstance]effect];
     [[BluetoothManager getInstance] effect];
+    
 //    [[UIApplication sharedApplication] performSelector:@selector(suspend)];系统私有方法
     
     

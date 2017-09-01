@@ -24,7 +24,7 @@ class TestController: UIViewController,UITableViewDataSource,UITableViewDelegate
                 self.devicesArray.append(notice.userInfo as! [String : Any])
                 self.mainTableView.reloadData()
             }
-//            print(notice.userInfo!)//userinfo内有信息
+//            print(notice.userInfo!)//userinfo内有信息.≤
         }
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: BlueToothMangerDidRefreshInfo), object: nil, queue: nil) { (notice) in
@@ -35,16 +35,23 @@ class TestController: UIViewController,UITableViewDataSource,UITableViewDelegate
         
     }
     @IBAction func test(_ sender: UIBarButtonItem) {
-        BluetoothManager.getInstance()?.sendMutiCommands(["192","192","192","192"], withMutiDevices: ["7CEC79486F6B","7CEC794873D7","7CEC794873DD","D0B5C2A405CF"], withSendTypes: [(0),(0),(0),(0)], report: { (index, isSuccess, userInfo) in
+//        BluetoothManager.getInstance()?.sendMutiCommands(["192","192","192","192"], withMutiDevices: ["7CEC79486F6B","7CEC794873D7","7CEC794873DD","D0B5C2A405CF"], withSendTypes: [(0),(0),(0),(0)], report: { (index, isSuccess, userInfo) in
+//
+//        }, finish: { (finish) in
+//            print("完成")
+//        })
+        
+        BluetoothManager.getInstance()?.notify(withID: "BB2707-30_0010", success: {
             
-        }, finish: { (finish) in
-            print("完成")
+        }, fail: { (failCode) in
+            
         })
         
-        
-//        BluetoothManager.getInstance()?.setScanMode(true)
     }
     
+    @IBAction func startPeripheral(_ sender: UIBarButtonItem) {
+        BlueToothPeripheral.getInstance()?.startAdvise()
+    }
     
     
     
@@ -81,7 +88,9 @@ class TestController: UIViewController,UITableViewDataSource,UITableViewDelegate
         else if self.deviceFullID(with: deviceInfoDic) .contains("IrRemoteControllerA"){
             self .performSegue(withIdentifier: "irremote", sender: indexPath)
         }
-            
+        else if self.deviceFullID(with: deviceInfoDic).hasPrefix("BB") {
+            self .performSegue(withIdentifier: "sellmachine", sender: indexPath)
+        }
         else
         {
             self .performSegue(withIdentifier: "chooseVersion", sender: indexPath)
@@ -116,6 +125,11 @@ class TestController: UIViewController,UITableViewDataSource,UITableViewDelegate
         else if segue.identifier == "irremote" {
             let deviceInfo=devicesArray[(sender as! NSIndexPath).row]
             let target=segue.destination as! IRRemoteController
+            target.deviceInfo = deviceInfo
+        }
+        else if segue.identifier == "sellmachine" {
+            let deviceInfo=devicesArray[(sender as! NSIndexPath).row]
+            let target=segue.destination as! SellMachineController
             target.deviceInfo = deviceInfo
         }
 

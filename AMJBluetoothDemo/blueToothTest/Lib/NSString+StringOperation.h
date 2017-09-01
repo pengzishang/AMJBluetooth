@@ -10,7 +10,7 @@
 
 @interface NSString (StringOperation)
 
-@property (nonatomic,copy,readonly) NSString*        (^fullWithLengthCountBehide)(NSUInteger length);
+@property (nonatomic,copy,readonly) NSString *(^fullWithLengthCountBehide)(NSUInteger length);
 
 /**
  *  将字符往首位填0至指定位数
@@ -32,19 +32,18 @@
 
 
 
-/**
-  转成10进制
 
- @param hexStr <#hexStr description#>
+/**
+ 字符16进制转成10进制
+
  @return <#return value description#>
  */
--(NSUInteger)ToIntWithHex;
 
-
+- (NSUInteger)ToIntWithHex;
 
 
 /**
- 转16进制
+ 10进制数字转16进制
 
  @param tmpid <#tmpid description#>
  @return <#return value description#>

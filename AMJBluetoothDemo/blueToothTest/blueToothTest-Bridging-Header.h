@@ -6,3 +6,5 @@
 #import "NSString+StringOperation.h"
 #import "ToolsFuntion.h"
 #import "AppDelegate.h"
+#import "BlueToothMethoes.h"
+#import "BlueToothPeripheral.h"

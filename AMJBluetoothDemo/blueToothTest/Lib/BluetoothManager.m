@@ -46,9 +46,6 @@ typedef void(^localFailReturn)(NSUInteger deviceIndex,NSUInteger failCode);
     BOOL _scanFastSpeed;
     NSDate *_dataf;
     NSTimer *_timeOutTimer;
-    CBCentralManager *_centralManager;
-//    CBPeripheral *_curPeripheral;
-    BOOL _isWarningOpen;
     NSTimer *_refreshTimer;
     NSTimeInterval _timeInterval;
     NSUInteger _retryTime;
@@ -57,13 +54,14 @@ typedef void(^localFailReturn)(NSUInteger deviceIndex,NSUInteger failCode);
 @property(copy, nonatomic, nullable) localSuccessReturn partSuccess;
 @property(copy, nonatomic, nullable) localFailReturn partFail;
 
+
+@property(strong, nonatomic, nonnull)CBCentralManager *centralManager;
 /**
  扫描的设备种类
  */
 @property(strong, nonatomic, nullable) NSMutableArray<__kindof NSString *> *scaningPreFix;
 @property(strong, nonatomic, nullable , readwrite) NSMutableArray <__kindof NSDictionary <NSString *,id>*> *peripheralsInfo;
-
-
+@property(strong, nonatomic, nullable , readwrite) NSMutableArray <__kindof NSDictionary <NSString *,id>*> *onlinePeripheralsInfo;
 /**
  全部控制对象信息
  */
@@ -92,42 +90,9 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     return shareInstance;
 }
 
-
-- (NSMutableArray<NSString *> *)scaningPreFix {
-    if (!_scaningPreFix) {
-        _scaningPreFix = [NSMutableArray array];
-    }
-    return _scaningPreFix;
-}
-
-
--(NSMutableArray<BlueToothObject *> *)dataArr
-{
-    if (!_dataArr) {
-        _dataArr = [NSMutableArray array];
-    }
-    return _dataArr;
-}
-
-
-- (NSMutableArray<NSDictionary<NSString *,id> *> *)peripheralsInfo
-{
-    if (!_peripheralsInfo) {
-        _peripheralsInfo = [NSMutableArray array];
-    }
-    return _peripheralsInfo;
-}
-
-- (CBCentralManager *)centralManager {
-    if (!_centralManager) {
-        _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-    }
-    return _centralManager;
-}
-
 -(void)effect
 {
-    [[BluetoothManager getInstance] initData];
+    [BluetoothManager getInstance];
 }
 
 //+ (void)load
@@ -143,9 +108,14 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 - (void)initData {
     _retryTime = 3 ;
     _timeInterval = 0;
-    _isWarningOpen = YES;
-    NSLogMethodArgs(@"%@", self.centralManager.isScanning?@"载入成功,开始扫描":@"正在载入");
+    _scaningPreFix = [NSMutableArray array];
+    _dataArr = [NSMutableArray array];
+    _peripheralsInfo = [NSMutableArray array];
+    _onlinePeripheralsInfo = [NSMutableArray array];
+    _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+//    NSLogMethodArgs(@"%@", self.centralManager.isScanning?@"载入成功,开始扫描":@"正在载入");
 }
+
 
 - (void)scanPeriherals:(BOOL)isAllowDuplicates AllowPrefix:(NSArray<__kindof NSNumber *> *_Nullable)PrefixArr {
     /*****是否重复scan****/
@@ -197,12 +167,12 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     [sender invalidate];
 }
 
-- (void)connect2Peripheral:(CBPeripheral *)curPeripheral {
-    curPeripheral.delegate = self;
-    [self setTimeOutWithPeriheral:curPeripheral];
-    [self.centralManager connectPeripheral:curPeripheral options:nil];
+- (void)connect2Peripheral:(CBPeripheral *)cureripheral {
+    cureripheral.delegate = self;
+    [self setTimeOutWithPeriheral:cureripheral];
+    [self.centralManager connectPeripheral:cureripheral options:nil];
     double time1 = [[NSDate date] timeIntervalSinceDate:_dataf];
-    NSLog(@"Step1:开始连接:%f  id:%@", time1, curPeripheral.name);
+    NSLog(@"Step1:开始连接:%f  id:%@", time1, cureripheral.name);
 }
 
 #pragma mark 代理:设备命令超时
@@ -224,12 +194,6 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 //    [self disconnectPeriheral:_timeOutTimer];
 ////    _isMannelInterrupt = YES;
 //}
-
-
-- (void)enableErrorWarning:(BOOL)isOpen
-{
-    _isWarningOpen = isOpen;
-}
 
 -(void)setInterval:(NSTimeInterval)timeInterval
 {
@@ -259,7 +223,6 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     self.peripheralsInfo = [NSMutableArray arrayWithArray:testArray];
     [[NSNotificationCenter defaultCenter]postNotificationName:BlueToothMangerDidRefreshInfo object:self.peripheralsInfo];
     [lock unlock];
-    
 }
 
 - (void)openWarning
@@ -291,6 +254,66 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     _timeOutTimer = [NSTimer timerWithTimeInterval:3.0 target:self selector:@selector(disconnectPeriheral:) userInfo:periheral repeats:NO];
     [[NSRunLoop currentRunLoop] addTimer:_timeOutTimer forMode:NSDefaultRunLoopMode];
 }
+
+- (void)notifyWithID:(NSString *)deviceID success:(void (^ _Nullable)())success fail:(void (^ _Nullable)(NSString *_Nullable))fail
+{
+    __block BluetoothManager *blockManger = self;
+    NSUInteger retryTime = _retryTime;
+    BlueToothObject *obj = [[BlueToothObject alloc]initWithDeviceID:deviceID command:nil sendType:SendTypeSellMachine828];
+    obj.isLast = NO;
+    obj.deviceIndex = 0 ;
+    [self.dataArr removeAllObjects];
+    [self.dataArr addObject:obj];
+    
+    self.partSuccess = ^(NSUInteger deviceIndex, NSData *feedbackCode) {
+        if (success) {
+            success();
+        }
+    };
+    
+    
+    self.partFail = ^(NSUInteger deviceIndex, NSUInteger failCode) {
+        NSLog(@"\n*******************************发生错误,错误代码:%zd*******************************\n",failCode);
+        
+        if (failCode == 403 ||failCode == 404||failCode == 400||failCode == 204) {
+            if (fail) {
+                fail([NSString stringWithFormat:@"%zd",failCode]);
+            }
+            blockManger.partSuccess = nil;
+            blockManger.partFail = nil;
+            NSLog(@"\n*******************************控制完成*******************************\n\n");
+        }
+        
+        else {
+            BlueToothObject *obj = blockManger.dataArr[deviceIndex];
+            if (obj.failTime < retryTime) {//情况1,出错但是最后一个  情况2:发到一半出错,断开还是不断开?
+                obj.failTime += 1 ;
+                NSLog(@"\n*******************************第%zd次重试*******************************\n",obj.failTime);
+                obj.isTimeOut = NO;
+                [blockManger sendCommmandWithBlueToothObject:obj];
+            }
+            else
+            {
+                obj.failTime = NSUIntegerMax;
+                if (fail) {
+                    fail([NSString stringWithFormat:@"%zd",failCode]);
+                }
+                [blockManger.centralManager cancelPeripheralConnection:obj.peripheral];
+                blockManger.partSuccess = nil;
+                blockManger.partFail = nil;
+                NSLog(@"\n*******************************控制完成*******************************\n\n");
+            }
+        }
+};
+    
+    
+    
+    
+    
+    
+    [self sendCommmandWithBlueToothObject:obj];
+}
+
 
 #pragma mark 查询命令
 - (void)queryDeviceStatus:(NSString *)deviceID
@@ -343,18 +366,6 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     NSUInteger retryTime = _retryTime;
     [self.dataArr removeAllObjects];
     
-    [commands enumerateObjectsUsingBlock:^(__kindof NSString * _Nonnull command, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([command isEqualToString:@""]) {
-            command = nil;
-        }
-        BlueToothObject *obj = [[BlueToothObject alloc]initWithDeviceID:deviceID command:command sendType:sendType];
-        BOOL isLast = (commands.count -1 ==idx)?YES:NO;
-        obj.isLast = isLast;
-        obj.deviceIndex = idx;
-        [self.dataArr addObject:obj];
-    }];
-
-    
     self.partSuccess = ^(NSUInteger deviceIndex, NSData *feedbackCode) {
         if (success) {
             success(deviceIndex,feedbackCode);
@@ -362,7 +373,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         deviceIndex = deviceIndex + 1;
         double time1 = [[NSDate date] timeIntervalSinceDate:startTime];
         NSLog(@"\n*******************************成功控制第%zd个,总共花费时间:%f*******************************", deviceIndex,time1);
-        if (deviceIndex<commands.count) {
+        if (deviceIndex<self.dataArr.count) {
             //加入时间间隔
             BlueToothObject *obj = blockManger.dataArr[deviceIndex];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -383,8 +394,8 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     };
     self.partFail = ^(NSUInteger deviceIndex, NSUInteger failCode) {
         NSLog(@"\n*******************************发生错误,错误代码:%zd*******************************\n",failCode);
-        BlueToothObject *obj = blockManger.dataArr[deviceIndex];
-        if (failCode == 403 ||failCode == 404||failCode == 400) {
+        
+        if (failCode == 403 ||failCode == 404||failCode == 400||failCode == 204) {
             if (fail) {
                 fail([NSString stringWithFormat:@"%zd",failCode]);
             }
@@ -397,6 +408,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
         }
         
         else {
+            BlueToothObject *obj = blockManger.dataArr[deviceIndex];
             if (obj.failTime < retryTime) {//情况1,出错但是最后一个  情况2:发到一半出错,断开还是不断开?
                 obj.failTime += 1 ;
                 NSLog(@"\n*******************************第%zd次重试*******************************\n",obj.failTime);
@@ -409,6 +421,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
                 if (fail) {
                     fail([NSString stringWithFormat:@"%zd",failCode]);
                 }
+                [blockManger.centralManager cancelPeripheralConnection:obj.peripheral];
                 blockManger.partSuccess = nil;
                 blockManger.partFail = nil;
                 NSLog(@"\n*******************************控制完成*******************************\n\n");
@@ -419,7 +432,55 @@ NSString *_Nonnull const ScanTypeDescription[] = {
             }
         }
     };
-    [self sendCommmandWithBlueToothObject:self.dataArr.firstObject];
+    
+    //准备命令
+    if (sendType == SendTypeSellMachine828) {
+        __block BOOL isOnlineDeviceID = NO;
+        [self.onlinePeripheralsInfo enumerateObjectsUsingBlock:^(__kindof NSDictionary<NSString *,id> * _Nonnull currentDic, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSString *notifyDevice = currentDic[AdvertisementData][@"kCBAdvDataLocalName"];
+            if ([notifyDevice containsString:deviceID]) {
+                isOnlineDeviceID = YES;
+                *stop = YES;
+            }
+        }];
+        
+        if (isOnlineDeviceID) {
+            [commands enumerateObjectsUsingBlock:^(__kindof NSString * _Nonnull command, NSUInteger idx, BOOL * _Nonnull stop) {
+                if ([command isEqualToString:@""]) {
+                    command = nil;
+                }
+                BlueToothObject *obj = [[BlueToothObject alloc]initWithDeviceID:deviceID command:command sendType:sendType isNotify:YES];
+                obj.isLast = NO;
+                obj.deviceIndex = idx;
+                [self.dataArr addObject:obj];
+            }];
+            //订阅设备发送命令
+        }
+        else
+        {//订阅一体化
+            if (self.partFail) {
+                self.partFail(0, 204);//未订阅设备不能发命令,弹出错误,结束
+            }
+        }
+    }
+    else
+    {
+        [commands enumerateObjectsUsingBlock:^(__kindof NSString * _Nonnull command, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([command isEqualToString:@""]) {
+                command = nil;
+            }
+            BlueToothObject *obj = [[BlueToothObject alloc]initWithDeviceID:deviceID command:command sendType:sendType];
+            BOOL isLast = (commands.count -1 ==idx)?YES:NO;
+            obj.isLast = isLast;
+            obj.deviceIndex = idx;
+            [self.dataArr addObject:obj];
+        }];
+    }
+    
+    if (self.dataArr.count>0) {
+        [self sendCommmandWithBlueToothObject:self.dataArr.firstObject];
+    }
+    
 }
 
 /**
@@ -469,8 +530,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     [self.dataArr removeAllObjects];
     [commands enumerateObjectsUsingBlock:^(__kindof NSString * _Nonnull command, NSUInteger idx, BOOL * _Nonnull stop) {
         BlueToothObject *obj = [[BlueToothObject alloc]initWithDeviceID:devices[idx] command:command sendType:(SendType)sendTypes[idx].integerValue];
-        BOOL isLast = YES;
-        obj.isLast = isLast;
+        obj.isLast = YES;
         obj.deviceIndex = idx;
         [self.dataArr addObject:obj];
     }];
@@ -552,8 +612,9 @@ NSString *_Nonnull const ScanTypeDescription[] = {
             
         }
     };
-    BlueToothObject *obj = self.dataArr[0];
-    [self sendCommmandWithBlueToothObject:obj];
+    if (self.dataArr.count>0) {
+        [self sendCommmandWithBlueToothObject:self.dataArr.firstObject];
+    }
 }
 
 
@@ -716,14 +777,14 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 #pragma mark -  CBPeripheralDelegate methodes 主要是控制
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error {
+    BlueToothObject *obj = [self returnWithPeripheral:peripheral];
     double time1 = [[NSDate date] timeIntervalSinceDate:_dataf];
     NSLog(@"Step3:已经发现服务 寻找特征字:%f,ID:%@", time1,peripheral.name);
     for (CBService *service in peripheral.services) {
         NSString *serviceID = service.UUID.UUIDString;
-        if ([serviceID isEqualToString:@"FFF0"]) {
-            CBUUID *FFF1 = [CBUUID UUIDWithString:@"FFF1"];
-            CBUUID *FFF6 = [CBUUID UUIDWithString:@"FFF6"];
-            NSArray *characteristics = @[FFF1, FFF6];
+        if ([serviceID isEqualToString:obj.seviceID]) {
+            CBUUID * characterID = [CBUUID UUIDWithString:obj.characterID];
+            NSArray *characteristics = @[characterID];
             [peripheral discoverCharacteristics:characteristics forService:service];
             break;
         }
@@ -734,31 +795,48 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error {
     BlueToothObject *obj = [self returnWithPeripheral:peripheral];
     obj.isDiscoverSuccess = YES;
+    //订阅服务在此有所区别
     double time1 = [[NSDate date] timeIntervalSinceDate:_dataf];
     NSLog(@"Step4:已经发现特征字,准备写入值:%f,ID:%@", time1,peripheral.name);
     for (CBCharacteristic *character in service.characteristics) {
         NSString *characterID = character.UUID.UUIDString;
-        
-        NSData *controlData = obj.commandData;
-        if ([characterID isEqualToString:@"FFF1"] && [controlData length] == 1) {//短数据
-            NSLog(@"写入1bit数据:%@",controlData);
-            [peripheral writeValue:controlData forCharacteristic:character type:CBCharacteristicWriteWithResponse];
-            obj.isWritingSuccess = YES;
-            break;
+        if (![characterID isEqualToString:obj.characterID]) {
+            continue;
         }
-        else if ([characterID isEqualToString:@"FFF6"]) {
-            if ([controlData length] == 10||[controlData length] == 20||[controlData length] == 19) {//长数据
-                //进行长数据写入
-                NSLog(@"写入%zdbit长数据Data:%@", controlData.length,controlData);
-                [peripheral writeValue:controlData forCharacteristic:character type:CBCharacteristicWriteWithResponse];
+        NSData *controlData = obj.commandData;
+        obj.isWritingSuccess = YES;
+        if (obj.sendType ==SendTypeSellMachine828)
+        {
+            if (obj.isNotifySuccess) {
+                NSLog(@"订阅模式写入%zdbit长数据Data:%@", controlData.length,controlData);
+                [peripheral writeValue:controlData forCharacteristic:character type:CBCharacteristicWriteWithoutResponse];
+                obj.isGetValueSuccess = YES;
+                obj.isMarkedDevice = YES;
+                [_timeOutTimer invalidate];//写成功再结束,这里要改
             }
-            else {
-                //进行查询数据
+            else
+            {//没订阅成功就订阅
+                [peripheral setNotifyValue:YES forCharacteristic:character];
+            }
+        }
+        else
+        {
+            if ([controlData length] == 1) {//短数据
+                NSLog(@"普通写入1bit数据:%@",controlData);
+                [peripheral writeValue:controlData forCharacteristic:character type:CBCharacteristicWriteWithResponse];
+                break;
+            }
+            else if ([controlData length] == 10||[controlData length] == 20||[controlData length] == 19) {
+                //进行长数据写入
+                    NSLog(@"普通模式写入%zdbit长数据Data:%@", controlData.length,controlData);
+                    [peripheral writeValue:controlData forCharacteristic:character type:CBCharacteristicWriteWithResponse];
+            }
+            else if(!controlData){
+                NSLog(@"进行查询数据");
                 [peripheral readValueForCharacteristic:character];
             }
-            obj.isWritingSuccess = YES;
-            break;
         }
+        break;
     }
 }
 
@@ -772,7 +850,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
             item = obj;
         }
         else if ([obj.peripheral isEqual:peripheral]) {
-            if (!obj.isGetValueSuccess&&obj.failTime!=NSUIntegerMax) {//还未控制完成的
+            if ((!obj.isGetValueSuccess&&obj.failTime!=NSUIntegerMax)||!obj.isNotifySuccess) {//还未控制完成的
                 *stop = YES;
                 item = obj;
             }
@@ -787,7 +865,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     if (!error) {
         [peripheral readValueForCharacteristic:characteristic];
         double time1 = [[NSDate date] timeIntervalSinceDate:_dataf];
-        NSLog(@"Step5:写入特征字成功 等待读取特征值:%f,ID:%@", time1,peripheral.name);
+        NSLog(@"Step5:写入特征字成功 等待回调:%f,ID:%@", time1,peripheral.name);
     } else {
         NSLogMethodArgs(@"写操作失败");
     }
@@ -801,29 +879,79 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
     //正常控制完成
     BlueToothObject *obj = [self returnWithPeripheral:peripheral];
+        obj.stateCode = characteristic.value;
+    NSLog(@"收到新的订阅信息:%@",obj.stateCode);
     if (error) {
         NSLog(@"捕捉到错误:%@",error);
     }
     double time1 = [[NSDate date] timeIntervalSinceDate:_dataf];
-    obj.stateCode = characteristic.value;
-    
-    if (obj.stateCode) {
-        obj.isGetValueSuccess = YES;
-        NSLog(@"Step6:已经获取特征值%@,操作成功 单次全程控制时间:%f,ID:%@", obj.stateCode, time1,peripheral.name);
+
+    if (obj.sendType == SendTypeSellMachine828) {
+        [[NSNotificationCenter defaultCenter]postNotificationName:BlueToothMangerNotifyNewData object:characteristic.value userInfo:@{@"Type":@"SellMachine"}];
+        if (self.partSuccess) {
+            self.partSuccess(obj.deviceIndex, obj.stateCode);
+        }
+    }
+    else
+    {
+        if (obj.stateCode) {
+            obj.isGetValueSuccess = YES;
+            NSLog(@"Step6:已经获取特征值%@,操作成功 单次全程控制时间:%f,ID:%@", obj.stateCode, time1,peripheral.name);
+        }
+        //    [obj stopRunningTime];
+        [_timeOutTimer invalidate];
+        
+        if (obj.isLast) {
+            obj.isMarkedDevice = YES;
+            [self.centralManager cancelPeripheralConnection:peripheral];
+        }
+        
+        if (self.partSuccess) {
+            self.partSuccess(obj.deviceIndex, obj.stateCode);
+        }
     }
     
-//    [obj stopRunningTime];
-    [_timeOutTimer invalidate];
-    
-    if (obj.isLast) {
+}
+
+-(void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
+{
+    BlueToothObject *obj = [self returnWithPeripheral:peripheral];
+    obj.isGetValueSuccess = YES;
+    if (!error) {
+        [_timeOutTimer invalidate];//连接时钟停止计时
+        obj.isNotifySuccess = YES;
+        __block BOOL isContain = NO;
+        [self.onlinePeripheralsInfo enumerateObjectsUsingBlock:^(__kindof NSDictionary<NSString *,id> * _Nonnull onlineObj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSString *deviceID = onlineObj[AdvertisementData][@"kCBAdvDataLocalName"];
+            if ([deviceID isEqualToString:obj.deviceID]) {
+                isContain = YES;
+                *stop = YES;
+            }
+        }];
+        if (!isContain) {
+            [self.peripheralsInfo enumerateObjectsUsingBlock:^(__kindof NSDictionary<NSString *,id> * _Nonnull currentDic, NSUInteger idx, BOOL * _Nonnull stop) {
+                NSString *deviceID = currentDic[AdvertisementData][@"kCBAdvDataLocalName"];
+                if ([deviceID isEqualToString:obj.deviceID]) {
+                    [self.onlinePeripheralsInfo addObject:currentDic];
+                    *stop = YES;
+                }
+            }];
+        }
+        if (self.partSuccess) {
+            self.partSuccess(obj.deviceIndex, nil);
+        }
+        NSLog(@"成功订阅!控制字:%@",obj.characterID);
+    }
+    else
+    {
+        NSLog(@"订阅时候发生错误:%@",error);//错误201
+        [_timeOutTimer invalidate];
         obj.isMarkedDevice = YES;
         [self.centralManager cancelPeripheralConnection:peripheral];
     }
     
-    if (self.partSuccess) {
-        self.partSuccess(obj.deviceIndex, obj.stateCode);
-    }
 }
+
 
 #pragma mark 连接回调
 
@@ -832,9 +960,10 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     BlueToothObject *obj = [self returnWithPeripheral:peripheral];
     obj.isConnectingSuccess = YES;
     NSLog(@"Step2:连接设备成功,开始寻找服务:%f,ID:%@", time1,peripheral.name);
-    CBUUID *uuid = [CBUUID UUIDWithString:@"FFF0"];
+    CBUUID *uuid = [CBUUID UUIDWithString:obj.seviceID];
     [peripheral discoverServices:@[uuid]];
 }
+
 
 
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
@@ -843,11 +972,20 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     BlueToothObject *obj = [self returnWithPeripheral:peripheral];
     obj.delegate = nil;
     if (error) {
+        if (obj.sendType == SendTypeSellMachine828) {//从在线设备中删除
+            obj.isNotifySuccess = NO;
+            [self.onlinePeripheralsInfo enumerateObjectsUsingBlock:^(__kindof NSDictionary<NSString *,id> * _Nonnull onlineObj, NSUInteger idx, BOOL * _Nonnull stop) {
+                NSString *deviceID = onlineObj[AdvertisementData][@"kCBAdvDataLocalName"];
+                if ([deviceID isEqualToString:obj.deviceID]) {
+                    [self.onlinePeripheralsInfo removeObject:onlineObj];
+                    *stop = YES;
+                }
+            }];
+        }
         if (!obj.isGetValueSuccess) {
             if (self.partFail) {
                 self.partFail(obj.deviceIndex, 102);
             }
-            
         }
         NSLogMethodArgs(@"异常断开连接 --- %@,ID:%@", error,peripheral.name);
     }
@@ -884,6 +1022,10 @@ NSString *_Nonnull const ScanTypeDescription[] = {
             if (self.partFail) {
                 self.partFail(obj.deviceIndex, 105);
             }
+        } else if (obj.sendType == SendTypeSellMachine828&&!obj.isNotifySuccess){
+            if (self.partFail) {
+                self.partFail(obj.deviceIndex, 201);//订阅失败
+            }
         }
     }
     obj.isMarkedDevice = NO;
@@ -895,7 +1037,6 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 //    [obj stopRunningTime];
     if (error) {
         NSLogMethodArgs(@"连接失败 --- %@,ID:%@", error.localizedDescription,peripheral.name);
-
         if (self.partFail) {
             self.partFail(obj.deviceIndex, 102);
         }
@@ -904,8 +1045,46 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     {
         NSLogMethodArgs(@"无错误的102");
     }
-    
 }
 
 
+-(void)centralManager:(CBCentralManager *)central willRestoreState:(NSDictionary<NSString *,id> *)dict
+{
+    NSLog(@"willRestoreState");
+}
+
+- (void)peripheralDidUpdateName:(CBPeripheral *)peripheral NS_AVAILABLE(10_9, 6_0)
+{
+    
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didModifyServices:(NSArray<CBService *> *)invalidatedServices NS_AVAILABLE(10_9, 7_0)
+{
+    
+}
+
+- (void)peripheralDidUpdateRSSI:(CBPeripheral *)peripheral error:(nullable NSError *)error NS_DEPRECATED(10_7, 10_13, 5_0, 8_0)
+{
+    
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(nullable NSError *)error NS_AVAILABLE(10_13, 8_0)
+{
+    
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didDiscoverIncludedServicesForService:(CBService *)service error:(nullable NSError *)error
+{
+    
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didDiscoverDescriptorsForCharacteristic:(CBCharacteristic *)characteristic error:(nullable NSError *)error
+{
+    
+}
+
+- (void)peripheralIsReadyToSendWriteWithoutResponse:(CBPeripheral *)peripheral
+{
+    
+}
 @end

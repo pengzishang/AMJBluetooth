@@ -50,7 +50,16 @@
  */
 @property (nonatomic,assign)BOOL isLast;
 
+
+/**
+ 用来标记断开的设备
+ */
 @property (nonatomic,assign)BOOL isMarkedDevice;
+
+/**
+ 订阅设备
+ */
+@property (nonatomic,assign)BOOL isNotifySuccess;
 
 @property (nonatomic,assign)SendType sendType;
 
@@ -74,9 +83,15 @@
 
 @property (nonatomic,nonnull,strong)NSString *UUID;
 
+@property (nonatomic,nonnull,strong)NSString *seviceID;
+
+@property (nonatomic,nonnull,strong)NSString *characterID;
+
 @property (nonatomic,weak,nullable)id <BlueToothObjectDelegate> delegate;
 
-- (instancetype _Nonnull )initWithDeviceID:(NSString *_Nonnull)deviceID command:(NSString *_Nonnull)command sendType:(SendType)sendType;
+- (instancetype _Nonnull )initWithDeviceID:(NSString *_Nonnull)deviceID command:(NSString *_Nullable)command sendType:(SendType)sendType;
+
+- (instancetype _Nonnull )initWithDeviceID:(NSString *_Nonnull)deviceID command:(NSString *_Nullable)command sendType:(SendType)sendType isNotify:(BOOL)isNotify;
 
 - (void)startRunningTime;
 

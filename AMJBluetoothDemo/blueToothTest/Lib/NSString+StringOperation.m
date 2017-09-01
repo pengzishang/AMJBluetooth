@@ -93,10 +93,14 @@
     for (NSInteger i=self.length-1; i>=0; i--) {
         NSInteger j = self.length - i-1;
         NSInteger ascllCode = [self characterAtIndex:i];
-        if (ascllCode >=65) {//字母
+        if (ascllCode >=65&&ascllCode<=70) {//大写字母
             finally +=  (ascllCode - 65 + 10)*pow(16, j);
         }
-        else
+        else if (ascllCode >=97&&ascllCode<=102)
+        {
+            finally +=  (ascllCode - 97 + 10)*pow(16, j);
+        }
+        else if (ascllCode >=48&&ascllCode<=57)
         {
             finally +=  (ascllCode - 48)*pow(16, j);
         }
@@ -104,7 +108,7 @@
     return finally;
 }
 
-+(NSString *)ToHex:(NSUInteger)tmpid
++ (NSString *)ToHex:(NSUInteger)tmpid
 {
     NSString *nLetterValue;
     NSString *str =@"";

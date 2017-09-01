@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
-
+@class BlueToothObject;
 
 #define Peripheral         @"peripheral"
 #define AdvertisementData  @"advertisementData"
@@ -19,6 +19,7 @@
 #define BlueToothMangerDidDiscoverNewItem  @"BlueToothMangerDidDiscoverNewItem"
 #define BlueToothMangerDidItemChangeInfo  @"BlueToothMangerDidItemChangeInfo"
 #define BlueToothMangerDidRefreshInfo  @"BlueToothMangerDidRefreshInfo"
+#define BlueToothMangerNotifyNewData  @"BlueToothMangerNotifyNewData"
 /**
  控制类型方式
 
@@ -43,7 +44,9 @@ typedef NS_ENUM(NSUInteger, SendType) {
     SendTypeRemote = 6,
     SendTypeRemoteTemp = 7,
     SendTypeSellMachine = 8,
-    SendTypeRemoteNew = 9
+    SendTypeRemoteNew = 9,
+    SendTypeWithNoVerify = 10,
+    SendTypeSellMachine828 = 11,
 };
 
 
@@ -51,9 +54,15 @@ typedef NS_ENUM(NSUInteger, SendType) {
 
 
 /**
- 周围设备
+ 周围所有设备
  */
 @property(strong, nonatomic, nullable , readonly) NSMutableArray <__kindof NSDictionary <NSString *,id>*> *peripheralsInfo;
+
+
+/**
+ 所有在线,处于订阅状态的设备
+ */
+@property(strong, nonatomic, nullable , readonly) NSMutableArray <__kindof NSDictionary <NSString *,id>*> *onlinePeripheralsInfo;
 
 /**
  初始化
@@ -68,12 +77,12 @@ typedef NS_ENUM(NSUInteger, SendType) {
 - (void)effect;
 
 
-/**
- 启用错误弹窗,默认启用
-
- @param isOpen <#isOpen description#>
- */
-- (void)enableErrorWarning:(BOOL)isOpen;
+///**
+// 启用错误弹窗,默认启用
+//
+// @param isOpen <#isOpen description#>
+// */
+//- (void)enableErrorWarning:(BOOL)isOpen;
 
 /**
  设定间隔
@@ -103,6 +112,18 @@ typedef NS_ENUM(NSUInteger, SendType) {
 // 中断当前操作
 // */
 //- (void)interruptCurrentOpertion;
+
+
+/**
+ 订阅设备
+
+ @param deviceID <#deviceID description#>
+ @param success <#success description#>
+ @param fail <#fail description#>
+ */
+- (void)notifyWithID:(NSString * __nonnull)deviceID success:(void (^ _Nullable)())success fail:(void (^ _Nullable)(NSString *_Nullable))fail;
+
+
 /**
  查询设备设备状态
 

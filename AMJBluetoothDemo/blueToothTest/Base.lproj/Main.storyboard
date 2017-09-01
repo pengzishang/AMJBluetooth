@@ -92,6 +92,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="全部设备" id="vFn-61-R2t">
+                        <barButtonItem key="leftBarButtonItem" title="模拟" id="8Zi-IX-Wy1">
+                            <connections>
+                                <action selector="startPeripheral:" destination="XPG-ag-luF" id="fpo-I3-h8y"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="测试" id="kfk-3r-Qf4">
                             <connections>
                                 <action selector="test:" destination="XPG-ag-luF" id="Wvt-ph-Eiu"/>
@@ -104,6 +109,7 @@
                         <segue destination="fD7-2W-Ji9" kind="show" identifier="viewLock" id="aF3-bG-5T0"/>
                         <segue destination="X1W-eo-Q85" kind="show" identifier="union" id="6aA-86-3w2"/>
                         <segue destination="6jY-er-bl4" kind="show" identifier="irremote" id="6XG-N4-hLN"/>
+                        <segue destination="sJe-yq-NpR" kind="show" identifier="sellmachine" id="Bt4-Hr-O0R"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hSa-AC-UXe" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1103,6 +1109,90 @@ Ctrl: 参考APP控制开关对应的控制字，
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fpk-hB-Zbk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1154" y="262"/>
+        </scene>
+        <!--售货机-->
+        <scene sceneID="cdS-yB-sdg">
+            <objects>
+                <viewController id="sJe-yq-NpR" customClass="SellMachineController" customModule="blueToothTest" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8oz-Cc-Fzj"/>
+                        <viewControllerLayoutGuide type="bottom" id="NpV-E0-sz6"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="G45-V4-D6H">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Lj-Cj-jzv">
+                                <rect key="frame" x="0.0" y="64" width="375" height="216"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="sJe-yq-NpR" id="6yE-1c-HCR"/>
+                                    <outlet property="delegate" destination="sJe-yq-NpR" id="aUy-Op-Rh0"/>
+                                </connections>
+                            </pickerView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="tip:买东西只能开一个,补货可以补多个" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qjy-jj-zNk">
+                                <rect key="frame" x="59.5" y="374" width="256" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ALN-tq-YKd">
+                                <rect key="frame" x="228" y="320.5" width="37" height="37"/>
+                                <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="2" minimumValue="2" maximumValue="17" translatesAutoresizingMaskIntoConstraints="NO" id="8lo-Tg-c0N">
+                                <rect key="frame" x="140" y="285" width="94" height="29"/>
+                                <connections>
+                                    <action selector="countOfBox:" destination="sJe-yq-NpR" eventType="valueChanged" id="4SA-Kr-agJ"/>
+                                </connections>
+                            </stepper>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="操作箱子个数:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ywY-1d-cWw">
+                                <rect key="frame" x="40" y="291.5" width="90" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="snN-h3-Vqw">
+                                <rect key="frame" x="156" y="324" width="62" height="30"/>
+                                <state key="normal" title="发送命令"/>
+                                <connections>
+                                    <action selector="sendCommand:" destination="sJe-yq-NpR" eventType="touchUpInside" id="Qda-X6-KKm"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ywY-1d-cWw" firstAttribute="centerY" secondItem="8lo-Tg-c0N" secondAttribute="centerY" id="3yt-QU-Kxx"/>
+                            <constraint firstAttribute="trailing" secondItem="9Lj-Cj-jzv" secondAttribute="trailing" id="BCp-dA-YZZ"/>
+                            <constraint firstItem="8lo-Tg-c0N" firstAttribute="top" secondItem="9Lj-Cj-jzv" secondAttribute="bottom" constant="5" id="GyZ-QV-6JH"/>
+                            <constraint firstItem="snN-h3-Vqw" firstAttribute="centerX" secondItem="G45-V4-D6H" secondAttribute="centerX" id="LLl-FT-S30"/>
+                            <constraint firstItem="Qjy-jj-zNk" firstAttribute="top" secondItem="snN-h3-Vqw" secondAttribute="bottom" constant="20" id="Mfb-rq-asp"/>
+                            <constraint firstItem="snN-h3-Vqw" firstAttribute="top" secondItem="8lo-Tg-c0N" secondAttribute="bottom" constant="10" id="PWB-RT-gga"/>
+                            <constraint firstItem="ALN-tq-YKd" firstAttribute="leading" secondItem="snN-h3-Vqw" secondAttribute="trailing" constant="10" id="QBZ-FY-gLv"/>
+                            <constraint firstItem="Qjy-jj-zNk" firstAttribute="centerX" secondItem="snN-h3-Vqw" secondAttribute="centerX" id="Rmx-n6-2MS"/>
+                            <constraint firstItem="9Lj-Cj-jzv" firstAttribute="top" secondItem="8oz-Cc-Fzj" secondAttribute="bottom" id="eCC-gi-gvb"/>
+                            <constraint firstItem="ALN-tq-YKd" firstAttribute="centerY" secondItem="snN-h3-Vqw" secondAttribute="centerY" id="ekk-Xa-EU2"/>
+                            <constraint firstItem="8lo-Tg-c0N" firstAttribute="leading" secondItem="ywY-1d-cWw" secondAttribute="trailing" constant="10" id="i0R-3n-dsJ"/>
+                            <constraint firstItem="9Lj-Cj-jzv" firstAttribute="leading" secondItem="G45-V4-D6H" secondAttribute="leading" id="jUE-DJ-ibz"/>
+                            <constraint firstItem="8lo-Tg-c0N" firstAttribute="centerX" secondItem="G45-V4-D6H" secondAttribute="centerX" id="mEt-J1-nJk"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="售货机" id="syE-v6-5cC">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="测试" id="rUz-Cw-SRu">
+                            <connections>
+                                <action selector="test:" destination="sJe-yq-NpR" id="nUL-EW-lVI"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="activity" destination="ALN-tq-YKd" id="g11-wb-xp8"/>
+                        <outlet property="dataLab" destination="Qjy-jj-zNk" id="lhw-JQ-EbC"/>
+                        <outlet property="methoes" destination="9Lj-Cj-jzv" id="QqG-aK-9Z4"/>
+                        <outlet property="stepper" destination="8lo-Tg-c0N" id="aOr-WY-948"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c1Q-Rp-1eF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1177" y="1057"/>
         </scene>
     </scenes>
 </document>

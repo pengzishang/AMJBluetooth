@@ -13,7 +13,7 @@
 
 
 
--(instancetype _Nonnull )initWithDeviceID:(NSString *_Nonnull)deviceID command:(NSString * _Nonnull)command sendType:(SendType)sendType;
+-(instancetype _Nonnull )initWithDeviceID:(NSString *_Nonnull)deviceID command:(NSString * _Nullable)command sendType:(SendType)sendType;
 {
     self = [super init];
     if (self) {
@@ -30,6 +30,13 @@
     }
     return self;
 }
+
+- (instancetype)initWithDeviceID:(NSString *)deviceID command:(NSString *)command sendType:(SendType)sendType isNotify:(BOOL)isNotify
+{
+    self.isNotifySuccess = isNotify;
+    return [self initWithDeviceID:deviceID command:command sendType:sendType];
+}
+
 
 - (CBPeripheral *_Nullable)isAvailable
 {
@@ -55,35 +62,72 @@
     NSData *commandData = nil;
     if (_sendType==SendTypeLock)
     {//无验证码,校验
+        self.seviceID = @"FFF0";
+        self.characterID = @"FFF6";
         commandData = [self returnLockControl:_command];
     }
     else if (_sendType==SendTypeInfrared)
     {//有校验位
+        self.seviceID = @"FFF0";
+        self.characterID = @"FFF6";
         commandData = [self returnInfrareControl:_command];
     }
     else if (_sendType==SendTypeSingle)
     {
+        self.seviceID = @"FFF0";
+        self.characterID = @"FFF1";
         commandData = [self returnSwitchControl:_command];
     }
     else if (_sendType==SendTypeRemote)
     {
+        self.seviceID = @"FFF0";
+        self.characterID = @"FFF6";
         commandData = [self returnRemote:_command length:20];
     }
     else if (_sendType==SendTypeRemoteTemp)
     {
+        self.seviceID = @"FFF0";
+        self.characterID = @"FFF6";
         commandData = [self returnRemote:_command length:10];
     }
     else if (_sendType==SendTypeSellMachine)
     {
+        self.seviceID = @"FFF0";
+        self.characterID = @"FFF6";
         commandData = [self returnRemote:_command length:10];
     }
     else if (_sendType==SendTypeRemoteNew)
     {
+        self.seviceID = @"FFF0";
+        self.characterID = @"FFF6";
         commandData = [self returnRemote:_command length:19];
     }
     else if (_sendType==SendTypeQuery)
     {
+        self.seviceID = @"FFF0";
+        self.characterID = @"FFF6";
         commandData = nil;
+    }
+    else if (_sendType==SendTypeWithNoVerify)
+    {//无验证码,校验
+        self.seviceID = @"FFF0";
+        self.characterID = @"FFF6";
+        commandData = [self returnLockControl:_command];
+    }
+    else if (_sendType==SendTypeSellMachine828)
+    {//无验证码,校验
+        if (!_isNotifySuccess) {
+            self.seviceID = @"FF00";
+            self.characterID = @"FF02";
+            commandData = nil;
+        }
+        else
+        {
+            self.seviceID = @"FF00";
+            self.characterID = @"FF01";
+            commandData = [self returnLockControl:_command];
+        }
+        
     }
     return commandData;
 }
