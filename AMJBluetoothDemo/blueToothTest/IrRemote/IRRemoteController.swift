@@ -104,7 +104,13 @@ class IRRemoteController: UIViewController , UIPickerViewDelegate , UIPickerView
     
     @IBAction func sendfFavorite(_ sender: UIButton) {
         let deviceType = RemoteDevice.init(rawValue: UInt(deviceChoose.selectedRow(inComponent: 0)))
-        ToolsFuntion.getFavoriteCode(withDeviceIndex: "255", deviceType: deviceType!, channelIndex: favoriteNum.text!)
+        let deviceID = self.deviceID(with: self.deviceInfo)
+        let favoriteCode =  ToolsFuntion.getFavoriteCode(withDeviceIndex: "255", deviceType: deviceType!, channelIndex: favoriteNum.text!)
+        BluetoothManager.getInstance()?.sendByteCommand(with: favoriteCode!, deviceID: deviceID!, sendType: .remoteNew, success: { (data) in
+            
+        }, fail: { (failcode) -> UInt in
+            return 0
+        })
     }
     
     
@@ -116,7 +122,7 @@ class IRRemoteController: UIViewController , UIPickerViewDelegate , UIPickerView
 
     @IBAction func foundRemote(_ sender: UIButton) {
         sender.isEnabled = false
-        let command = ("254168" as NSString).full(withLengthCountBehide: 57)
+        let command = ("254162" as NSString).full(withLengthCountBehide: 57)
         let deviceID = self.deviceID(with: self.deviceInfo)
         BluetoothManager.getInstance()?.sendMutiCommand(withSingleDeviceID: deviceID!, sendType: .remoteNew, commands: [command!], success: { (data) in
             sender.isEnabled = true

@@ -1033,7 +1033,7 @@ Ctrl: 参考APP控制开关对应的控制字，
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="255" borderStyle="roundedRect" placeholder="码组号(3位)" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Asi-ln-YY6">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="026" borderStyle="roundedRect" placeholder="码组号(3位)" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Asi-ln-YY6">
                                 <rect key="frame" x="239" y="279" width="97.5" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1053,7 +1053,7 @@ Ctrl: 参考APP控制开关对应的控制字，
                                     <action selector="sendfFavorite:" destination="6jY-er-bl4" eventType="touchUpInside" id="qmG-m5-fCC"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cgd-2B-Nwi">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="923" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cgd-2B-Nwi">
                                 <rect key="frame" x="266" y="444" width="50" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="BBm-vU-QC5"/>
@@ -1091,7 +1091,7 @@ Ctrl: 参考APP控制开关对应的控制字，
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="遥控器命令发送" id="pXX-du-vvr">
-                        <barButtonItem key="rightBarButtonItem" title="测试所有" id="h1B-pF-QsE">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="测试所有" id="h1B-pF-QsE">
                             <connections>
                                 <action selector="test:" destination="6jY-er-bl4" id="SC5-DG-Tyh"/>
                             </connections>

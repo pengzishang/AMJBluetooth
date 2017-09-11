@@ -54,7 +54,7 @@
 }
 
 + (NSString *)getDeviceNum:(RemoteDevice)deviceType {
-    return [@((NSUInteger)deviceType).stringValue fullWithLengthCount:3];
+    return [@((NSUInteger)deviceType+1).stringValue fullWithLengthCount:3];
 }
 
 /**
@@ -363,13 +363,20 @@
 
 + (NSString *)getFavoriteCodeWithDeviceIndex:(NSString *)deviceIndexStr deviceType:(RemoteDevice)deviceType channelIndex:(NSString *)channel
 {
+    NSString *prefix = @"254";
     NSString *mode_num = @"161";
     NSString *dev_num = [self getDeviceNum:deviceType];
     NSUInteger highBit =[@(channel.integerValue/100).stringValue ToIntWithHex];
     NSString *highBitStr = [@(highBit).stringValue fullWithLengthCount:3];
     NSUInteger lowBit =[@(channel.integerValue%100).stringValue ToIntWithHex];
     NSString *lowBitString =[@(lowBit).stringValue fullWithLengthCount:3];
-    return [[NSString stringWithFormat:@"%@%@%@%@",mode_num,dev_num,highBitStr,lowBitString] fullWithLengthCountBehide:3];
+    
+    NSUInteger highDeviceIndexBit =[@(deviceIndexStr.integerValue/100).stringValue ToIntWithHex];
+    NSString *highDeviceIndexBitStr = [@(highDeviceIndexBit).stringValue fullWithLengthCount:3];
+    NSUInteger lowDeviceIndexBit =[@(deviceIndexStr.integerValue%100).stringValue ToIntWithHex];
+    NSString *lowDeviceIndexBitString =[@(lowDeviceIndexBit).stringValue fullWithLengthCount:3];
+    
+    return [[NSString stringWithFormat:@"%@%@%@%@%@%@%@",prefix,mode_num,dev_num,highDeviceIndexBitStr,lowDeviceIndexBitString,highBitStr,lowBitString] fullWithLengthCountBehide:57];
     
 }
 

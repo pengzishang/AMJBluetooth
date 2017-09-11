@@ -850,7 +850,11 @@ NSString *_Nonnull const ScanTypeDescription[] = {
             item = obj;
         }
         else if ([obj.peripheral isEqual:peripheral]) {
-            if ((!obj.isGetValueSuccess&&obj.failTime!=NSUIntegerMax)||!obj.isNotifySuccess) {//还未控制完成的
+            if (obj.sendType == SendTypeSellMachine828&&!obj.isNotifySuccess) {
+                *stop = YES;
+                item = obj;
+            }
+            else if(!obj.isGetValueSuccess&&obj.failTime!=NSUIntegerMax){
                 *stop = YES;
                 item = obj;
             }
@@ -880,7 +884,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     //正常控制完成
     BlueToothObject *obj = [self returnWithPeripheral:peripheral];
         obj.stateCode = characteristic.value;
-    NSLog(@"收到新的订阅信息:%@",obj.stateCode);
+    NSLog(@"收到新的信息:%@",obj.stateCode);
     if (error) {
         NSLog(@"捕捉到错误:%@",error);
     }
