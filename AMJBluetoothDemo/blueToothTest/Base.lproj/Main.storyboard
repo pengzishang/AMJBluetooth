@@ -1143,7 +1143,7 @@ Ctrl: 参考APP控制开关对应的控制字，
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="密码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JIw-rP-9IP">
+                            <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="ttsamj802" borderStyle="roundedRect" placeholder="密码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JIw-rP-9IP">
                                 <rect key="frame" x="112.5" y="273" width="150" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="0r4-Uk-i7u"/>
@@ -1165,6 +1165,12 @@ Ctrl: 参考APP控制开关对应的控制字，
                                 <rect key="frame" x="169" y="403" width="37" height="37"/>
                                 <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="结果" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jle-kK-Hqx">
+                                <rect key="frame" x="167" y="460" width="41" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1174,20 +1180,22 @@ Ctrl: 参考APP控制开关对应的控制字，
                             <constraint firstItem="WMj-yQ-8J6" firstAttribute="top" secondItem="qpO-dd-jDZ" secondAttribute="bottom" constant="10" id="Ec2-uH-qag"/>
                             <constraint firstItem="NJH-u8-aVE" firstAttribute="centerX" secondItem="tme-b3-X94" secondAttribute="centerX" id="Fbs-Q8-aTb"/>
                             <constraint firstItem="JIw-rP-9IP" firstAttribute="top" secondItem="WMj-yQ-8J6" secondAttribute="bottom" constant="20" id="GFp-CT-jc3"/>
+                            <constraint firstItem="Jle-kK-Hqx" firstAttribute="centerX" secondItem="NJH-u8-aVE" secondAttribute="centerX" id="L4M-tO-QgR"/>
                             <constraint firstItem="wFr-II-s0B" firstAttribute="top" secondItem="Z7C-Jm-K7Q" secondAttribute="bottom" constant="30" id="SeN-0Y-yYI"/>
                             <constraint firstItem="NJH-u8-aVE" firstAttribute="top" secondItem="tme-b3-X94" secondAttribute="bottom" constant="10" id="Ul4-Mu-Aun"/>
                             <constraint firstItem="tme-b3-X94" firstAttribute="top" secondItem="JIw-rP-9IP" secondAttribute="bottom" constant="20" id="etO-zo-LbV"/>
                             <constraint firstItem="JIw-rP-9IP" firstAttribute="centerX" secondItem="dtX-cY-5iz" secondAttribute="centerX" id="jMY-ui-7tb"/>
                             <constraint firstItem="tme-b3-X94" firstAttribute="centerX" secondItem="JIw-rP-9IP" secondAttribute="centerX" id="jRn-ox-clz"/>
                             <constraint firstItem="WMj-yQ-8J6" firstAttribute="centerX" secondItem="dtX-cY-5iz" secondAttribute="centerX" id="jvK-KI-MwB"/>
+                            <constraint firstItem="Jle-kK-Hqx" firstAttribute="top" secondItem="NJH-u8-aVE" secondAttribute="bottom" constant="20" id="k7z-v0-6RW"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="远程控制工具" id="HiK-mZ-zp1"/>
                     <connections>
-                        <outlet property="activity" destination="NJH-u8-aVE" id="lmU-8L-xcG"/>
                         <outlet property="activtion" destination="NJH-u8-aVE" id="xVo-tn-JEW"/>
                         <outlet property="deviceLab" destination="wFr-II-s0B" id="IwF-BZ-z45"/>
                         <outlet property="pwd" destination="JIw-rP-9IP" id="TYD-XJ-B85"/>
+                        <outlet property="resultLab" destination="Jle-kK-Hqx" id="Rov-CY-KJp"/>
                         <outlet property="startBtn" destination="tme-b3-X94" id="RPL-0U-lGM"/>
                     </connections>
                 </viewController>

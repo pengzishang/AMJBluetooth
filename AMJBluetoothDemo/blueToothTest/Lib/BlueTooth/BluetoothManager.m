@@ -819,6 +819,13 @@ NSString *_Nonnull const ScanTypeDescription[] = {
                 [peripheral setNotifyValue:YES forCharacteristic:character];
             }
         }
+        else if (obj.sendType ==SendTypeWifi)
+        {
+//            obj.isGetValueSuccess = YES;
+            obj.isMarkedDevice = YES;
+            [_timeOutTimer invalidate];
+            [peripheral writeValue:controlData forCharacteristic:character type:CBCharacteristicWriteWithResponse];
+        }
         else
         {
             if ([controlData length] == 1) {//短数据
@@ -986,10 +993,20 @@ NSString *_Nonnull const ScanTypeDescription[] = {
                 }
             }];
         }
-        if (!obj.isGetValueSuccess) {
-            if (self.partFail) {
-                self.partFail(obj.deviceIndex, 102);
+        if (!obj.isGetValueSuccess) {//未得到值得
+            if (obj.sendType != SendTypeWifi) {
+                if (self.partFail) {
+                    self.partFail(obj.deviceIndex, 102);
+                }
             }
+            else
+            {//异常断开算成功的
+                if (self.partSuccess) {
+                    self.partSuccess(obj.deviceIndex, obj.commandData);
+                }
+            }
+            
+            
         }
         NSLogMethodArgs(@"异常断开连接 --- %@,ID:%@", error,peripheral.name);
     }

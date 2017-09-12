@@ -129,6 +129,12 @@
         }
         
     }
+    else if (_sendType==SendTypeWifi)
+    {
+        self.seviceID = @"FFF0";
+        self.characterID = @"FFF1";
+        commandData = [self returnSwitchControl:_command];
+    }
     return commandData;
 }
 

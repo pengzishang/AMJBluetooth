@@ -8,7 +8,22 @@
 
 import UIKit
 
-class WIFIController: UIViewController {
+class WIFIController: UIViewController ,HiJoineDelegate{
+    func hiJoineWiFiSucceed(_ succeed: String!) {
+        activtion.stopAnimating()
+        startBtn.isEnabled = true
+    }
+    
+    func hiJoineWiFiError(_ error: String!) {
+        activtion.stopAnimating()
+        startBtn.isEnabled = true
+    }
+    
+    func hiJoineWiFiTimeOut() {
+        activtion.stopAnimating()
+        startBtn.isEnabled = true
+    }
+    
 
     var deviceInfo = Dictionary<String, Any>.init()
     
@@ -21,6 +36,9 @@ class WIFIController: UIViewController {
     
     @IBOutlet weak var startBtn: UIButton!
     
+    @IBOutlet weak var resultLab: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.deviceLab.text = self.deviceID(with: self.deviceInfo)
@@ -29,9 +47,15 @@ class WIFIController: UIViewController {
     
     
     @IBAction func startOpertion(_ sender: UIButton) {
+        self.resultLab.text = "结果"
+        sender.isEnabled = false
+        self.activtion.startAnimating()
+        self.pwd.endEditing(true)
         let manger = HiJoine.init()
+        manger.delegate = self
         manger.setBoardDataWithPassword(self.pwd.text!) { (result, message) in
-            print(result.description + "  :  " + message!)
+            self.resultLab.text = result.description + " :  " + message!
+            
         }
         
     }
@@ -40,14 +64,17 @@ class WIFIController: UIViewController {
     
     @IBAction func changeMode(_ sender: UIButton) {
         sender.isEnabled = false
-        BluetoothManager.getInstance()?.sendByteCommand(with: "01", deviceID: self.deviceID(with: self.deviceInfo), sendType: .single, success: { (data) in
+        self.activtion.startAnimating()
+        BluetoothManager.getInstance()?.sendByteCommand(with: "01", deviceID: self.deviceID(with: self.deviceInfo), sendType: .wifi, success: { (data) in
             sender.isEnabled = false
             sender.setTitle("已经切换", for: .normal)
             self.startBtn.isEnabled = true
             self.pwd.isEnabled = true
+            self.activtion.stopAnimating()
         }, fail: { (failCode) -> UInt in
             sender.setTitle("请重试", for: .normal)
             sender.isEnabled = true
+            self.activtion.stopAnimating()
             return 0
         })
     }
@@ -55,9 +82,7 @@ class WIFIController: UIViewController {
     func deviceID(with infoDic:Dictionary<String, Any>) -> String! {
         let advdic=infoDic[AdvertisementData] as! NSDictionary
         let deviceID =  advdic.object(forKey: "kCBAdvDataLocalName") as! String
-        let indexOfDeviceID = deviceID.index(deviceID.startIndex, offsetBy: 7)
-        let deviceMACID = deviceID.substring(from: indexOfDeviceID)
-        return deviceMACID
+        return deviceID
     }
     
     

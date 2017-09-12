@@ -35,18 +35,19 @@
  SendTypeRemoteNew 最新无需升级硬件的对吗机
  */
 typedef NS_ENUM(NSUInteger, SendType) {
-    SendTypeSingle = 0,
-    SendTypeMuti = 1,
-    SendTypeSyncdevice = 2,
-    SendTypeInfrared = 3,
-    SendTypeLock = 4,
-    SendTypeQuery = 5,
-    SendTypeRemote = 6,
-    SendTypeRemoteTemp = 7,
-    SendTypeSellMachine = 8,
-    SendTypeRemoteNew = 9,
-    SendTypeWithNoVerify = 10,
-    SendTypeSellMachine828 = 11,
+    SendTypeSingle          =   0,
+    SendTypeMuti            =   1,
+    SendTypeSyncdevice      =   2,
+    SendTypeInfrared        =   3,
+    SendTypeLock            =   4,
+    SendTypeQuery           =   5,
+    SendTypeRemote          =   6,
+    SendTypeRemoteTemp      =   7,
+    SendTypeSellMachine     =   8,
+    SendTypeRemoteNew       =   9,
+    SendTypeWithNoVerify    =   10,
+    SendTypeSellMachine828  =   11,
+    SendTypeWifi            =   12
 };
 
 
