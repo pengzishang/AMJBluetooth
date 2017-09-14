@@ -9,3 +9,4 @@
 #import "BlueToothMethoes.h"
 #import "BlueToothPeripheral.h"
 #import <HiJoine/HiJoine.h>
+#import "NewRemote.h"

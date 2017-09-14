@@ -17,6 +17,10 @@
 		3C74C91B1EFB7B6E00E51CE4 /* NSString+StringOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C74C9191EFB7B6E00E51CE4 /* NSString+StringOperation.m */; };
 		3C74C91D1EFB7B7700E51CE4 /* DeviceTypeList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3C74C91C1EFB7B7700E51CE4 /* DeviceTypeList.plist */; };
 		3C7C454B1DE8403200A5718C /* SendController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7C454A1DE8403100A5718C /* SendController.swift */; };
+		641A86271F6A5D9D000E3694 /* RemoteTestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641A86261F6A5D9D000E3694 /* RemoteTestController.swift */; };
+		641A862A1F6A5DE9000E3694 /* ChooseRemoteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641A86291F6A5DE9000E3694 /* ChooseRemoteController.swift */; };
+		641A862C1F6A5E02000E3694 /* ChooseServiceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641A862B1F6A5E02000E3694 /* ChooseServiceController.swift */; };
+		641A862E1F6A5E40000E3694 /* RemoteSendController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641A862D1F6A5E40000E3694 /* RemoteSendController.swift */; };
 		641C20801F38782400430854 /* LockHistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641C207F1F38782300430854 /* LockHistoryController.swift */; };
 		641CCC2A1F186BFC006B18AC /* InfraredBrandList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 641CCC291F186BFC006B18AC /* InfraredBrandList.plist */; };
 		64277D4B1F317FED00A9E54B /* ToolsFuntion.m in Sources */ = {isa = PBXBuildFile; fileRef = 64277D4A1F317FED00A9E54B /* ToolsFuntion.m */; };
@@ -74,6 +78,10 @@
 		641A86221F6A2BD1000E3694 /* RemoteObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RemoteObject.m; sourceTree = "<group>"; };
 		641A86231F6A2BE0000E3694 /* NewRemote.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewRemote.h; sourceTree = "<group>"; };
 		641A86241F6A2BE0000E3694 /* NewRemote.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewRemote.m; sourceTree = "<group>"; };
+		641A86261F6A5D9D000E3694 /* RemoteTestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteTestController.swift; sourceTree = "<group>"; };
+		641A86291F6A5DE9000E3694 /* ChooseRemoteController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseRemoteController.swift; sourceTree = "<group>"; };
+		641A862B1F6A5E02000E3694 /* ChooseServiceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseServiceController.swift; sourceTree = "<group>"; };
+		641A862D1F6A5E40000E3694 /* RemoteSendController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSendController.swift; sourceTree = "<group>"; };
 		641C207F1F38782300430854 /* LockHistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockHistoryController.swift; sourceTree = "<group>"; };
 		641CCC291F186BFC006B18AC /* InfraredBrandList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = InfraredBrandList.plist; sourceTree = "<group>"; };
 		64277D491F317FED00A9E54B /* ToolsFuntion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToolsFuntion.h; sourceTree = "<group>"; };
@@ -95,6 +103,19 @@
 		649A30E81F55426100BEFA37 /* BlueToothPeripheral.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlueToothPeripheral.h; sourceTree = "<group>"; };
 		649A30E91F55426100BEFA37 /* BlueToothPeripheral.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlueToothPeripheral.m; sourceTree = "<group>"; };
 		64A492E11F14B5B000DC9147 /* IRRemoteController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IRRemoteController.swift; sourceTree = "<group>"; };
+		64C2D9581F6A88AE00887A45 /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
+		64C2D9591F6A88AE00887A45 /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFHTTPSessionManager.m; sourceTree = "<group>"; };
+		64C2D95A1F6A88AE00887A45 /* AFNetworkReachabilityManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AFNetworkReachabilityManager.h; sourceTree = "<group>"; };
+		64C2D95B1F6A88AE00887A45 /* AFNetworkReachabilityManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFNetworkReachabilityManager.m; sourceTree = "<group>"; };
+		64C2D95C1F6A88AE00887A45 /* AFNetworking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
+		64C2D95D1F6A88AE00887A45 /* AFSecurityPolicy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AFSecurityPolicy.h; sourceTree = "<group>"; };
+		64C2D95E1F6A88AE00887A45 /* AFSecurityPolicy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFSecurityPolicy.m; sourceTree = "<group>"; };
+		64C2D95F1F6A88AE00887A45 /* AFURLRequestSerialization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AFURLRequestSerialization.h; sourceTree = "<group>"; };
+		64C2D9601F6A88AE00887A45 /* AFURLRequestSerialization.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFURLRequestSerialization.m; sourceTree = "<group>"; };
+		64C2D9611F6A88AE00887A45 /* AFURLResponseSerialization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AFURLResponseSerialization.h; sourceTree = "<group>"; };
+		64C2D9621F6A88AE00887A45 /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
+		64C2D9631F6A88AE00887A45 /* AFURLSessionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
+		64C2D9641F6A88AE00887A45 /* AFURLSessionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
 		64DA151A1F0B408B008E76FE /* LockViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LockViewController.swift; path = blueToothTest/Lock/LockViewController.swift; sourceTree = SOURCE_ROOT; };
 		64DA151D1F0B435E008E76FE /* AppDelegate+BlueTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+BlueTest.m"; sourceTree = "<group>"; };
 		64DA151E1F0B435E008E76FE /* AppDelegate+BlueTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+BlueTest.h"; sourceTree = "<group>"; };
@@ -132,6 +153,7 @@
 		3C009E4B1DE8150F002F15BE /* blueToothTest */ = {
 			isa = PBXGroup;
 			children = (
+				641A86251F6A5CA2000E3694 /* Remote */,
 				648ADB571F668507004168D3 /* WIFI */,
 				648ADB561F668394004168D3 /* IRRemote */,
 				648ADB551F668369004168D3 /* SellMachine */,
@@ -169,6 +191,17 @@
 				641A86241F6A2BE0000E3694 /* NewRemote.m */,
 				641A86211F6A2BD1000E3694 /* RemoteObject.h */,
 				641A86221F6A2BD1000E3694 /* RemoteObject.m */,
+			);
+			path = Remote;
+			sourceTree = "<group>";
+		};
+		641A86251F6A5CA2000E3694 /* Remote */ = {
+			isa = PBXGroup;
+			children = (
+				641A86261F6A5D9D000E3694 /* RemoteTestController.swift */,
+				641A86291F6A5DE9000E3694 /* ChooseRemoteController.swift */,
+				641A862B1F6A5E02000E3694 /* ChooseServiceController.swift */,
+				641A862D1F6A5E40000E3694 /* RemoteSendController.swift */,
 			);
 			path = Remote;
 			sourceTree = "<group>";
@@ -254,9 +287,30 @@
 			path = WIFI;
 			sourceTree = "<group>";
 		};
+		64C2D9571F6A88AE00887A45 /* AFNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				64C2D9581F6A88AE00887A45 /* AFHTTPSessionManager.h */,
+				64C2D9591F6A88AE00887A45 /* AFHTTPSessionManager.m */,
+				64C2D95A1F6A88AE00887A45 /* AFNetworkReachabilityManager.h */,
+				64C2D95B1F6A88AE00887A45 /* AFNetworkReachabilityManager.m */,
+				64C2D95C1F6A88AE00887A45 /* AFNetworking.h */,
+				64C2D95D1F6A88AE00887A45 /* AFSecurityPolicy.h */,
+				64C2D95E1F6A88AE00887A45 /* AFSecurityPolicy.m */,
+				64C2D95F1F6A88AE00887A45 /* AFURLRequestSerialization.h */,
+				64C2D9601F6A88AE00887A45 /* AFURLRequestSerialization.m */,
+				64C2D9611F6A88AE00887A45 /* AFURLResponseSerialization.h */,
+				64C2D9621F6A88AE00887A45 /* AFURLResponseSerialization.m */,
+				64C2D9631F6A88AE00887A45 /* AFURLSessionManager.h */,
+				64C2D9641F6A88AE00887A45 /* AFURLSessionManager.m */,
+			);
+			path = AFNetworking;
+			sourceTree = "<group>";
+		};
 		64DA151C1F0B42D4008E76FE /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				64C2D9571F6A88AE00887A45 /* AFNetworking */,
 				641A86201F6A2B72000E3694 /* Remote */,
 				648ADB531F6680E7004168D3 /* WIFI */,
 				648ADB521F6680C2004168D3 /* DeviceDataBase */,
@@ -353,7 +407,10 @@
 				3C009E681DE8179A002F15BE /* TestController.swift in Sources */,
 				64A492E21F14B5B000DC9147 /* IRRemoteController.swift in Sources */,
 				3C7C454B1DE8403200A5718C /* SendController.swift in Sources */,
+				641A86271F6A5D9D000E3694 /* RemoteTestController.swift in Sources */,
 				3C009E511DE81510002F15BE /* AppDelegate.m in Sources */,
+				641A862C1F6A5E02000E3694 /* ChooseServiceController.swift in Sources */,
+				641A862E1F6A5E40000E3694 /* RemoteSendController.swift in Sources */,
 				3C009E4E1DE81510002F15BE /* main.m in Sources */,
 				6446CA4B1F0CCFEC001F1CE5 /* LockUnionList.swift in Sources */,
 				6447F4BD1F0F71A4007CB9C8 /* LockListController.swift in Sources */,
@@ -362,6 +419,7 @@
 				648ADB591F668534004168D3 /* WIFIController.swift in Sources */,
 				64DA151B1F0B413F008E76FE /* LockViewController.swift in Sources */,
 				3C74C91A1EFB7B6E00E51CE4 /* BluetoothManager.m in Sources */,
+				641A862A1F6A5DE9000E3694 /* ChooseRemoteController.swift in Sources */,
 				646DFB291F42A8C3008F9076 /* BlueToothObject.m in Sources */,
 				643508ED1F53C43D00E63030 /* BlueToothMethoes.m in Sources */,
 				643508F01F54030500E63030 /* SellMachineController.swift in Sources */,

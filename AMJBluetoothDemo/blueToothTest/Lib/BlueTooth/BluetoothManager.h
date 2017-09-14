@@ -78,6 +78,10 @@ typedef NS_ENUM(NSUInteger, SendType) {
 - (void)effect;
 
 
+/**
+ 清除周边设备信息
+ */
+- (void)cleanAllPeripheralsInfo;
 ///**
 // 启用错误弹窗,默认启用
 //

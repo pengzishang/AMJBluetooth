@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13189.4" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="HeL-nk-Vck">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="hSm-EP-7h4">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13165.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller-->
+        <!--蓝牙-->
         <scene sceneID="3b5-eQ-7I1">
             <objects>
-                <navigationController id="HeL-nk-Vck" sceneMemberID="viewController">
+                <navigationController hidesBottomBarWhenPushed="YES" id="HeL-nk-Vck" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="蓝牙" id="Ndp-R3-epO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="wYf-lV-MsC">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -27,7 +28,25 @@
             </objects>
             <point key="canvasLocation" x="-822" y="125"/>
         </scene>
-        <!--全部设备-->
+        <!--Tab Bar Controller-->
+        <scene sceneID="HWn-iP-fJJ">
+            <objects>
+                <tabBarController id="hSm-EP-7h4" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Af7-fk-6wh">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="HeL-nk-Vck" kind="relationship" relationship="viewControllers" id="ipf-za-8Z8"/>
+                        <segue destination="0dk-xm-dM7" kind="relationship" relationship="viewControllers" id="387-g0-oeP"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c19-XB-zsO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1991" y="1907"/>
+        </scene>
+        <!--蓝牙测试-->
         <scene sceneID="3Xz-Ec-jLJ">
             <objects>
                 <viewController id="XPG-ag-luF" customClass="TestController" customModule="blueToothTest" customModuleProvider="target" sceneMemberID="viewController">
@@ -40,7 +59,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OS7-pJ-wC2">
-                                <rect key="frame" x="16" y="64" width="359" height="603"/>
+                                <rect key="frame" x="16" y="0.0" width="359" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="iY3-ud-cgx">
                                     <rect key="frame" x="0.0" y="78" width="359" height="0.0"/>
@@ -86,12 +105,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="OS7-pJ-wC2" firstAttribute="leading" secondItem="c10-ra-qyn" secondAttribute="leadingMargin" id="FMY-jr-sFR"/>
-                            <constraint firstItem="OS7-pJ-wC2" firstAttribute="top" secondItem="c10-ra-qyn" secondAttribute="topMargin" id="HRg-Le-NxZ"/>
-                            <constraint firstItem="JUe-k5-BPQ" firstAttribute="top" secondItem="OS7-pJ-wC2" secondAttribute="bottom" id="Mc8-cf-rHL"/>
+                            <constraint firstItem="OS7-pJ-wC2" firstAttribute="top" secondItem="c10-ra-qyn" secondAttribute="top" id="L8U-UC-R4m"/>
                             <constraint firstAttribute="trailing" secondItem="OS7-pJ-wC2" secondAttribute="trailing" id="jnI-Cy-baq"/>
+                            <constraint firstAttribute="bottom" secondItem="OS7-pJ-wC2" secondAttribute="bottom" id="w4K-ll-laZ"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="全部设备" id="vFn-61-R2t">
+                    <navigationItem key="navigationItem" title="蓝牙测试" id="vFn-61-R2t">
                         <barButtonItem key="leftBarButtonItem" title="模拟" id="8Zi-IX-Wy1">
                             <connections>
                                 <action selector="startPeripheral:" destination="XPG-ag-luF" id="fpo-I3-h8y"/>
@@ -120,7 +139,7 @@
         <!--锁界面-->
         <scene sceneID="cfH-TI-nRh">
             <objects>
-                <tableViewController id="fD7-2W-Ji9" customClass="LockViewController" customModule="blueToothTest" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="fD7-2W-Ji9" customClass="LockViewController" customModule="blueToothTest" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="40" sectionFooterHeight="28" id="ETP-KH-pHd">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -642,7 +661,7 @@
         <!--联动列表-->
         <scene sceneID="Lau-t9-ENK">
             <objects>
-                <tableViewController id="X1W-eo-Q85" customClass="LockUnionList" customModule="blueToothTest" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="X1W-eo-Q85" customClass="LockUnionList" customModule="blueToothTest" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="o2k-TM-3cB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -891,7 +910,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="100" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cW1-a4-ATt">
-                                <rect key="frame" x="36" y="84" width="319" height="563"/>
+                                <rect key="frame" x="36" y="84" width="319" height="514"/>
                                 <string key="text">97—控制某一路关闭           113—控制某一路打开
 98—控制某二路关闭           114—控制某二路打开
 100—控制某三路关闭          116—控制某三路打开
@@ -922,7 +941,7 @@ Ctrl: 参考APP控制开关对应的控制字，
         <!--发送命令-->
         <scene sceneID="9hr-W1-E4a">
             <objects>
-                <viewController title="发送命令" id="vR3-hl-7to" customClass="SendController" customModule="blueToothTest" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="发送命令" hidesBottomBarWhenPushed="YES" id="vR3-hl-7to" customClass="SendController" customModule="blueToothTest" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="iLW-CF-bq0"/>
                         <viewControllerLayoutGuide type="bottom" id="ObZ-dI-bE0"/>
@@ -977,7 +996,7 @@ Ctrl: 参考APP控制开关对应的控制字，
         <!--遥控器命令发送-->
         <scene sceneID="BIQ-OG-ZaH">
             <objects>
-                <viewController id="6jY-er-bl4" customClass="IRRemoteController" customModule="blueToothTest" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="6jY-er-bl4" customClass="IRRemoteController" customModule="blueToothTest" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="p06-dI-Jyv"/>
                         <viewControllerLayoutGuide type="bottom" id="Xut-EA-2mn"/>
@@ -1114,7 +1133,7 @@ Ctrl: 参考APP控制开关对应的控制字，
         <!--远程控制工具-->
         <scene sceneID="8Nz-5K-eYS">
             <objects>
-                <viewController id="rOR-Lt-mJr" customClass="WIFIController" customModule="blueToothTest" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="rOR-Lt-mJr" customClass="WIFIController" customModule="blueToothTest" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Z7C-Jm-K7Q"/>
                         <viewControllerLayoutGuide type="bottom" id="2sz-1B-ZfJ"/>
@@ -1203,10 +1222,240 @@ Ctrl: 参考APP控制开关对应的控制字，
             </objects>
             <point key="canvasLocation" x="-4" y="1057"/>
         </scene>
+        <!--远程测试-->
+        <scene sceneID="75J-ui-utB">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0hn-Rv-paq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewController id="clg-pi-WoH" customClass="RemoteTestController" customModule="blueToothTest" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="3dA-rP-vzL">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="remotecell" id="x4h-A3-j3V">
+                                <rect key="frame" x="0.0" y="28" width="375" height="60"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="x4h-A3-j3V" id="20f-nb-IcM">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1000" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设备名" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X5d-Dq-bCO">
+                                            <rect key="frame" x="38" y="19.5" width="52" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="X5d-Dq-bCO" firstAttribute="centerY" secondItem="20f-nb-IcM" secondAttribute="centerY" id="Kcc-Ie-koF"/>
+                                        <constraint firstItem="X5d-Dq-bCO" firstAttribute="leading" secondItem="20f-nb-IcM" secondAttribute="leadingMargin" constant="30" id="hkr-vl-Xlz"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="clg-pi-WoH" id="vil-e6-wLl"/>
+                            <outlet property="delegate" destination="clg-pi-WoH" id="OGm-cP-rhL"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="远程测试" id="Gtl-Jh-gOS">
+                        <barButtonItem key="leftBarButtonItem" title="设定远程" id="NZA-Hu-xPL">
+                            <connections>
+                                <segue destination="5jy-40-iHZ" kind="show" identifier="chooseremote" id="ayr-yo-qHr"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="服务器" id="hdD-Jr-9xa">
+                            <connections>
+                                <segue destination="TME-Rw-EZo" kind="show" id="fjm-kS-oIv"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="0hA-NV-A6f" kind="show" identifier="testremote" id="gVI-9l-4zV"/>
+                    </connections>
+                </tableViewController>
+            </objects>
+            <point key="canvasLocation" x="-4" y="1908"/>
+        </scene>
+        <!--命令编辑-->
+        <scene sceneID="Yc6-fW-X5I">
+            <objects>
+                <viewController title="命令编辑" hidesBottomBarWhenPushed="YES" id="0hA-NV-A6f" customClass="RemoteSendController" customModule="blueToothTest" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="IvU-7q-2cD"/>
+                        <viewControllerLayoutGuide type="bottom" id="Cf7-Cw-qbn"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="OiY-P3-knw">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SaA-5a-QMJ">
+                                <rect key="frame" x="127.5" y="213.5" width="120" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="NR4-59-QQh"/>
+                                    <constraint firstAttribute="width" constant="120" id="zT1-t5-OBW"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="编辑命令" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="su8-iA-Ijh">
+                                <rect key="frame" x="152.5" y="182.5" width="69.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UN2-2a-Yrt">
+                                <rect key="frame" x="171.5" y="273.5" width="31" height="30"/>
+                                <state key="normal" title="发送"/>
+                                <connections>
+                                    <action selector="sendCommand:" destination="0hA-NV-A6f" eventType="touchUpInside" id="Vvb-vL-qMV"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="SaA-5a-QMJ" firstAttribute="centerX" secondItem="OiY-P3-knw" secondAttribute="centerX" id="3hs-BV-Qui"/>
+                            <constraint firstItem="UN2-2a-Yrt" firstAttribute="top" secondItem="SaA-5a-QMJ" secondAttribute="bottom" constant="20" id="Jy8-zt-tQC"/>
+                            <constraint firstItem="SaA-5a-QMJ" firstAttribute="top" secondItem="su8-iA-Ijh" secondAttribute="bottom" constant="10" id="Ltx-Xa-mWQ"/>
+                            <constraint firstItem="UN2-2a-Yrt" firstAttribute="centerX" secondItem="SaA-5a-QMJ" secondAttribute="centerX" id="O2h-Yf-vUC"/>
+                            <constraint firstItem="SaA-5a-QMJ" firstAttribute="centerY" secondItem="OiY-P3-knw" secondAttribute="centerY" constant="-100" id="eHK-w8-ldk"/>
+                            <constraint firstItem="su8-iA-Ijh" firstAttribute="centerX" secondItem="OiY-P3-knw" secondAttribute="centerX" id="pFq-0l-WNG"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="commandText" destination="SaA-5a-QMJ" id="E2E-PK-kOi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OiT-cc-ECD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="874" y="1907"/>
+        </scene>
+        <!--选择远程-->
+        <scene sceneID="cDP-lh-aeO">
+            <objects>
+                <tableViewController title="选择远程" hidesBottomBarWhenPushed="YES" id="5jy-40-iHZ" customClass="ChooseRemoteController" customModule="blueToothTest" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="oq4-eZ-iRi">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="remotecell" id="Etw-9a-PI5">
+                                <rect key="frame" x="0.0" y="28" width="375" height="60"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Etw-9a-PI5" id="2M6-uN-gmp">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1000" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设备名" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qor-h6-T0K">
+                                            <rect key="frame" x="38" y="19.5" width="52" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="qor-h6-T0K" firstAttribute="centerY" secondItem="2M6-uN-gmp" secondAttribute="centerY" id="Y3k-Wr-hVa"/>
+                                        <constraint firstItem="qor-h6-T0K" firstAttribute="leading" secondItem="2M6-uN-gmp" secondAttribute="leadingMargin" constant="30" id="jg8-FE-UQ2"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="5jy-40-iHZ" id="Dwk-Rz-cWo"/>
+                            <outlet property="delegate" destination="5jy-40-iHZ" id="ExI-BD-6Hr"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AsQ-Ji-kKx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-425" y="2775"/>
+        </scene>
+        <!--选择服务器-->
+        <scene sceneID="muz-NE-5x5">
+            <objects>
+                <tableViewController title="选择服务器" hidesBottomBarWhenPushed="YES" id="TME-Rw-EZo" customClass="ChooseServiceController" customModule="blueToothTest" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="tx5-lC-lLl">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <sections>
+                            <tableViewSection id="NBv-XF-ajS">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="5ub-OK-g0T">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5ub-OK-g0T" id="kGg-in-E90">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="120.24.223.86(正式)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zBI-Wv-jku">
+                                                    <rect key="frame" x="109" y="19.5" width="157" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="zBI-Wv-jku" firstAttribute="centerY" secondItem="kGg-in-E90" secondAttribute="centerY" id="VIt-Nd-FWD"/>
+                                                <constraint firstItem="zBI-Wv-jku" firstAttribute="centerX" secondItem="kGg-in-E90" secondAttribute="centerX" id="wem-An-8Ku"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="WDD-cD-P1B">
+                                        <rect key="frame" x="0.0" y="60" width="375" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WDD-cD-P1B" id="mll-Yd-SZA">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="120.76.74.87(测试)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MdH-V1-ImX">
+                                                    <rect key="frame" x="115" y="19.5" width="144.5" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="MdH-V1-ImX" firstAttribute="centerX" secondItem="mll-Yd-SZA" secondAttribute="centerX" id="9l1-j6-23n"/>
+                                                <constraint firstItem="MdH-V1-ImX" firstAttribute="centerY" secondItem="mll-Yd-SZA" secondAttribute="centerY" id="J41-yG-i1R"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="TME-Rw-EZo" id="fTl-x2-Hy3"/>
+                            <outlet property="delegate" destination="TME-Rw-EZo" id="IvR-1Y-Jil"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TkE-pU-9UF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="508" y="2775"/>
+        </scene>
+        <!--远程-->
+        <scene sceneID="1Dg-4e-nCg">
+            <objects>
+                <navigationController hidesBottomBarWhenPushed="YES" id="0dk-xm-dM7" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="远程" id="Cgz-VM-fbr"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ypb-fe-8rA">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="clg-pi-WoH" kind="relationship" relationship="rootViewController" id="kUH-vt-EFT"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aTV-f3-zc5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-823" y="1908"/>
+        </scene>
         <!--售货机-->
         <scene sceneID="cdS-yB-sdg">
             <objects>
-                <viewController id="sJe-yq-NpR" customClass="SellMachineController" customModule="blueToothTest" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="sJe-yq-NpR" customClass="SellMachineController" customModule="blueToothTest" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8oz-Cc-Fzj"/>
                         <viewControllerLayoutGuide type="bottom" id="NpV-E0-sz6"/>
