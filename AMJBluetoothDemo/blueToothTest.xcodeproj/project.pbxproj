@@ -31,6 +31,9 @@
 		6447F4BD1F0F71A4007CB9C8 /* LockListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6447F4BC1F0F71A4007CB9C8 /* LockListController.swift */; };
 		646DFB291F42A8C3008F9076 /* BlueToothObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 646DFB281F42A8C3008F9076 /* BlueToothObject.m */; };
 		648ADB591F668534004168D3 /* WIFIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648ADB581F668534004168D3 /* WIFIController.swift */; };
+		648ADB5A1F668DC0004168D3 /* HiJoine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 648ADB541F668131004168D3 /* HiJoine.framework */; };
+		648ADB5E1F6698DE004168D3 /* HiJoine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 648ADB541F668131004168D3 /* HiJoine.framework */; };
+		648ADB5F1F6698DE004168D3 /* HiJoine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 648ADB541F668131004168D3 /* HiJoine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		649A30EA1F55426100BEFA37 /* BlueToothPeripheral.m in Sources */ = {isa = PBXBuildFile; fileRef = 649A30E91F55426100BEFA37 /* BlueToothPeripheral.m */; };
 		64A492E21F14B5B000DC9147 /* IRRemoteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A492E11F14B5B000DC9147 /* IRRemoteController.swift */; };
 		64DA151B1F0B413F008E76FE /* LockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DA151A1F0B408B008E76FE /* LockViewController.swift */; };
@@ -43,6 +46,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				648ADB5F1F6698DE004168D3 /* HiJoine.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -66,6 +70,10 @@
 		3C74C9191EFB7B6E00E51CE4 /* NSString+StringOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+StringOperation.m"; sourceTree = "<group>"; };
 		3C74C91C1EFB7B7700E51CE4 /* DeviceTypeList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DeviceTypeList.plist; sourceTree = "<group>"; };
 		3C7C454A1DE8403100A5718C /* SendController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendController.swift; sourceTree = "<group>"; };
+		641A86211F6A2BD1000E3694 /* RemoteObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RemoteObject.h; sourceTree = "<group>"; };
+		641A86221F6A2BD1000E3694 /* RemoteObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RemoteObject.m; sourceTree = "<group>"; };
+		641A86231F6A2BE0000E3694 /* NewRemote.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewRemote.h; sourceTree = "<group>"; };
+		641A86241F6A2BE0000E3694 /* NewRemote.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewRemote.m; sourceTree = "<group>"; };
 		641C207F1F38782300430854 /* LockHistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockHistoryController.swift; sourceTree = "<group>"; };
 		641CCC291F186BFC006B18AC /* InfraredBrandList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = InfraredBrandList.plist; sourceTree = "<group>"; };
 		64277D491F317FED00A9E54B /* ToolsFuntion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToolsFuntion.h; sourceTree = "<group>"; };
@@ -82,6 +90,7 @@
 		646DFB281F42A8C3008F9076 /* BlueToothObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlueToothObject.m; sourceTree = "<group>"; };
 		647E5A361F0B3B6A00B5B527 /* LockUnionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LockUnionList.swift; path = blueToothTest/Union/LockUnionList.swift; sourceTree = SOURCE_ROOT; };
 		647E5A381F0B3B6A00B5B527 /* LockAddUnionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LockAddUnionController.swift; path = blueToothTest/Union/LockAddUnionController.swift; sourceTree = SOURCE_ROOT; };
+		648ADB541F668131004168D3 /* HiJoine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HiJoine.framework; sourceTree = "<group>"; };
 		648ADB581F668534004168D3 /* WIFIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WIFIController.swift; sourceTree = "<group>"; };
 		649A30E81F55426100BEFA37 /* BlueToothPeripheral.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlueToothPeripheral.h; sourceTree = "<group>"; };
 		649A30E91F55426100BEFA37 /* BlueToothPeripheral.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlueToothPeripheral.m; sourceTree = "<group>"; };
@@ -96,6 +105,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				648ADB5A1F668DC0004168D3 /* HiJoine.framework in Frameworks */,
+				648ADB5E1F6698DE004168D3 /* HiJoine.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,6 +162,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		641A86201F6A2B72000E3694 /* Remote */ = {
+			isa = PBXGroup;
+			children = (
+				641A86231F6A2BE0000E3694 /* NewRemote.h */,
+				641A86241F6A2BE0000E3694 /* NewRemote.m */,
+				641A86211F6A2BD1000E3694 /* RemoteObject.h */,
+				641A86221F6A2BD1000E3694 /* RemoteObject.m */,
+			);
+			path = Remote;
+			sourceTree = "<group>";
+		};
 		6447F4BB1F0F67FA007CB9C8 /* Union */ = {
 			isa = PBXGroup;
 			children = (
@@ -203,6 +225,7 @@
 		648ADB531F6680E7004168D3 /* WIFI */ = {
 			isa = PBXGroup;
 			children = (
+				648ADB541F668131004168D3 /* HiJoine.framework */,
 			);
 			path = WIFI;
 			sourceTree = "<group>";
@@ -234,6 +257,7 @@
 		64DA151C1F0B42D4008E76FE /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				641A86201F6A2B72000E3694 /* Remote */,
 				648ADB531F6680E7004168D3 /* WIFI */,
 				648ADB521F6680C2004168D3 /* DeviceDataBase */,
 				648ADB511F668069004168D3 /* BlueTooth */,

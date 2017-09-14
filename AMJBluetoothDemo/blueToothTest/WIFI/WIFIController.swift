@@ -24,7 +24,6 @@ class WIFIController: UIViewController ,HiJoineDelegate{
         startBtn.isEnabled = true
     }
     
-    //的点点滴滴多多
 
     var deviceInfo = Dictionary<String, Any>.init()
     
