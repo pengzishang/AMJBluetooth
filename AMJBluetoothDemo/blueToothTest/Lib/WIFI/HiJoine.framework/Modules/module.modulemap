@@ -1,6 +1,0 @@
-framework module HiJoine {
-  umbrella header "HiJoine.h"
-
-  export *
-  module * { export * }
-}
