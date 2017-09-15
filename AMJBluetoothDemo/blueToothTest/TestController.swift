@@ -16,7 +16,6 @@ class TestController: UIViewController,UITableViewDataSource,UITableViewDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        BluetoothManager.getInstance()?.setScanMode(true)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: BlueToothMangerDidDiscoverNewItem), object: nil, queue: nil) { (notice) in
             let infoDic = notice.userInfo;
             let isContain = (infoDic?["isContain"] as! NSNumber).boolValue
@@ -24,16 +23,23 @@ class TestController: UIViewController,UITableViewDataSource,UITableViewDelegate
                 self.devicesArray.append(notice.userInfo as! [String : Any])
                 self.mainTableView.reloadData()
             }
-//            print(notice.userInfo!)//userinfo内有信息.≤
+//            print(notice.userInfo!)//userinfo内有信息
         }
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: BlueToothMangerDidRefreshInfo), object: nil, queue: nil) { (notice) in
             self.devicesArray = notice.object as! Array<Dictionary<String, Any>>
             self.mainTableView.reloadData()
         }
-        
-        
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        BluetoothManager.getInstance()?.cleanAllPeripheralsInfo()
+        self.devicesArray.removeAll()
+        self.mainTableView.reloadData()
+    }
+    
+    
+    
     @IBAction func test(_ sender: UIBarButtonItem) {
 //        BluetoothManager.getInstance()?.sendMutiCommands(["192","192","192","192"], withMutiDevices: ["7CEC79486F6B","7CEC794873D7","7CEC794873DD","D0B5C2A405CF"], withSendTypes: [(0),(0),(0),(0)], report: { (index, isSuccess, userInfo) in
 //
@@ -74,6 +80,10 @@ class TestController: UIViewController,UITableViewDataSource,UITableViewDelegate
         let rssi = deviceInfoDic[RSSI_VALUE] as!NSNumber
         lab2.text = rssi.stringValue;
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "附近的设备"
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

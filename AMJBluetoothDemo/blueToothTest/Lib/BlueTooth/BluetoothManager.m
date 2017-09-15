@@ -95,6 +95,10 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     [BluetoothManager getInstance];
 }
 
+- (void)cleanAllPeripheralsInfo
+{
+    [self.peripheralsInfo removeAllObjects];
+}
 //+ (void)load
 //{
 //    __block id observer = [[NSNotificationCenter defaultCenter]addObserverForName:UIApplicationDidFinishLaunchingNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
@@ -241,7 +245,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     NSDictionary *optionsDic = @{CBCentralManagerScanOptionAllowDuplicatesKey: @(isFast)};
     
     [_refreshTimer invalidate];
-    _refreshTimer=[NSTimer scheduledTimerWithTimeInterval:4 target:self selector:@selector(refreshNearDevice:) userInfo:optionsDic repeats:YES];
+    _refreshTimer=[NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(refreshNearDevice:) userInfo:optionsDic repeats:YES];
     [_refreshTimer fire];
     
     [self.centralManager scanForPeripheralsWithServices:nil options:optionsDic];
@@ -977,7 +981,8 @@ NSString *_Nonnull const ScanTypeDescription[] = {
 
 
 
-- (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
+- (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
+{
 
     double time1 = [[NSDate date] timeIntervalSinceDate:_dataf];
     BlueToothObject *obj = [self returnWithPeripheral:peripheral];

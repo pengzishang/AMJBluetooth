@@ -50,8 +50,8 @@ typedef void(^localFailReturn)(NSUInteger deviceIndex,NSString * failCode);
     if (!urlStr) {
         urlStr = @"http://120.24.223.86/PMSWebService/services/";//默认正式服
     }
-    NSString *url = [urlStr stringByAppendingString:[NSString stringWithFormat:@"%@?wsdl", interfaceStr]];
-    [self sendDataToServerWithUrlstr:url interface:interfaceStr requestBody:body success:success fail:fail];
+//    NSString *url = [urlStr stringByAppendingString:[NSString stringWithFormat:@"%@?wsdl", interfaceStr]];
+    [self sendDataToServerWithUrlstr:urlStr interface:interfaceStr requestBody:body success:success fail:fail];
 }
 
 
@@ -116,14 +116,10 @@ typedef void(^localFailReturn)(NSUInteger deviceIndex,NSString * failCode);
 - (NSDictionary *)translateFromData:(NSData *)responseObject {
     NSString *resp = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
     NSRegularExpression *result = [[NSRegularExpression alloc] initWithPattern:@"(?<=return\\>).*(?=</return)" options:NSRegularExpressionCaseInsensitive error:nil];
-    
     __block NSDictionary *dict = [NSDictionary dictionary];
     NSArray *resultArr = [result matchesInString:resp options:0 range:NSMakeRange(0, resp.length)];
     [resultArr enumerateObjectsUsingBlock:^(NSTextCheckingResult *_Nonnull checkingResult, NSUInteger idx, BOOL *_Nonnull stop) {
-        
         dict = [NSJSONSerialization JSONObjectWithData:[[resp substringWithRange:checkingResult.range] dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
-        
-        
     }];
     return dict;
 }
@@ -148,7 +144,10 @@ typedef void(^localFailReturn)(NSUInteger deviceIndex,NSString * failCode);
 - (void)lockControlWithPassword:(NSString *)password deviceID:(NSString *)deviceID endtime:(NSString *)endtime success:(void (^)(id _Nullable))success fail:(void (^)(NSString * _Nullable))fail
 {
     RemoteObject *obj = [[RemoteObject alloc]initWithControlCommand:password type:24 deviceID:deviceID];
-    obj.requestBody = @{@"cmd": @"24",@"cmdContent":password,@"time":endtime};
+    obj.requestBody = @{@"cmd": @"24",
+                        @"cmdContent":password,
+                        @"time":endtime,
+                        @"deviceAddress":deviceID};
     obj.interface = @"InsertDevicetrol";
     obj.objIndex = 0;
     
@@ -283,7 +282,8 @@ typedef void(^localFailReturn)(NSUInteger deviceIndex,NSString * failCode);
             self.partSuccess(obj.objIndex, requestDic[@"resultType"]);
         }
         
-    }else if ([requestDic[@"Status"] isEqualToString:@"00"]||[requestDic[@"Status"] isEqualToString:@"01"]) {
+    }else if ([requestDic[@"Status"] isEqualToString:@"00"]||
+              [requestDic[@"Status"] isEqualToString:@"01"]) {
         _thresholdValue ++;
         if (_thresholdValue >5) {//大于两秒
             [_timeoutTimer invalidate];
@@ -299,7 +299,7 @@ typedef void(^localFailReturn)(NSUInteger deviceIndex,NSString * failCode);
         }
     }else
     {
-        NSLog(@"%@",requestDic[@"Status"]);
+        NSLog(@">>>>>>未知错误:%@",requestDic[@"Status"]);
         [_timeoutTimer invalidate];
         if (self.partFail) {
             self.partFail(obj.objIndex, requestDic[@"Status"]);//状态:未配置对应的远程控制器/控制器没有心跳
