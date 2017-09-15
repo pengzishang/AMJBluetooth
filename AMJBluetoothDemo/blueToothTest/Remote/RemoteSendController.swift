@@ -12,11 +12,18 @@ class RemoteSendController: UIViewController {
     
     public var deviceInfo = Dictionary<String, Any>.init()
     
+    @IBOutlet weak var targetServer: UILabel!
+    @IBOutlet weak var targetRemote: UILabel!
+    @IBOutlet weak var targetDevice: UILabel!
     @IBOutlet weak var commandText: UITextField!
+    @IBOutlet weak var sendBtn: UIButton!
+    @IBOutlet weak var resultLab: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        let deviceID =  (deviceInfo["advertisementData"] as! Dictionary<String, Any>)["kCBAdvDataLocalName"] as! String
+        targetDevice.text = deviceID
+        targetRemote.text = "远程控制器:" + (UserDefaults.standard.object(forKey: "Remote") as! String)
+        targetServer.text = "服务器:" + (UserDefaults.standard.object(forKey: "Server") as! String)
     }
 
     override func didReceiveMemoryWarning() {
@@ -28,7 +35,6 @@ class RemoteSendController: UIViewController {
         let serverAdd  = UserDefaults.standard.object(forKey: "Server") as? String
         let wifiMac  = UserDefaults.standard.object(forKey: "Remote") as? String
         var servicesURL = ""
-//        servicesURL
         if serverAdd != nil {
             servicesURL = "http://" + serverAdd! + "/PMSWebService/services/"
             UserDefaults.standard.set(servicesURL, forKey: "servicesURL")
@@ -44,8 +50,8 @@ class RemoteSendController: UIViewController {
             self.sendCommand(with: wifiMac!)
         }
         else {
-            let alert = UIAlertController.init(title: "", message: "", preferredStyle: .alert)
-            alert.addAction(UIAlertAction.init(title: "", style: .default, handler: { (action) in
+            let alert = UIAlertController.init(title: "错误", message: "没有绑定远程控制器", preferredStyle: .alert)
+            alert.addAction(UIAlertAction.init(title: "好的", style: .default, handler: { (action) in
                 return
             }))
             self.dismiss(animated: true, completion: {
@@ -56,10 +62,15 @@ class RemoteSendController: UIViewController {
     }
     
     func sendCommand(with wifiMac:String) -> Void {
-        NewRemote.getInstance()?.lockControl(withPassword: "123456", deviceID: "", endtime: "", success: { (data) in
-            
+        var deviceID =  (deviceInfo["advertisementData"] as! Dictionary<String, Any>)["kCBAdvDataLocalName"] as! NSString
+        deviceID = deviceID.substring(from: 7) as NSString
+        sendBtn.isEnabled = false
+        NewRemote.getInstance()?.lockControl(withPassword: commandText.text!, deviceID: deviceID as String, endtime: "2018-09-13 00:00:00", success: { (data) in
+            self.resultLab.text = data as? String
+            self.sendBtn.isEnabled = true
         }, fail: { (failCode) in
-            
+            self.resultLab.text = failCode!
+            self.sendBtn.isEnabled = true
         })
     }
     

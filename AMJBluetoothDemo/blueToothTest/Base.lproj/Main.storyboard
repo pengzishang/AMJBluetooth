@@ -1225,7 +1225,6 @@ Ctrl: 参考APP控制开关对应的控制字，
         <!--远程测试-->
         <scene sceneID="75J-ui-utB">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0hn-Rv-paq" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="clg-pi-WoH" customClass="RemoteTestController" customModule="blueToothTest" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="3dA-rP-vzL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -1274,6 +1273,7 @@ Ctrl: 参考APP控制开关对应的控制字，
                         <segue destination="0hA-NV-A6f" kind="show" identifier="testremote" id="gVI-9l-4zV"/>
                     </connections>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0hn-Rv-paq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-4" y="1908"/>
         </scene>
@@ -1289,8 +1289,8 @@ Ctrl: 参考APP控制开关对应的控制字，
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SaA-5a-QMJ">
-                                <rect key="frame" x="127.5" y="213.5" width="120" height="40"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="123456" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SaA-5a-QMJ">
+                                <rect key="frame" x="127.5" y="273.5" width="120" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="NR4-59-QQh"/>
                                     <constraint firstAttribute="width" constant="120" id="zT1-t5-OBW"/>
@@ -1300,31 +1300,68 @@ Ctrl: 参考APP控制开关对应的控制字，
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="编辑命令" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="su8-iA-Ijh">
-                                <rect key="frame" x="152.5" y="182.5" width="69.5" height="21"/>
+                                <rect key="frame" x="152.5" y="242.5" width="69.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UN2-2a-Yrt">
-                                <rect key="frame" x="171.5" y="273.5" width="31" height="30"/>
+                                <rect key="frame" x="171.5" y="333.5" width="31" height="30"/>
                                 <state key="normal" title="发送"/>
                                 <connections>
                                     <action selector="sendCommand:" destination="0hA-NV-A6f" eventType="touchUpInside" id="Vvb-vL-qMV"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AzB-eE-kJU">
+                                <rect key="frame" x="164" y="104" width="46.5" height="23"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9S7-jP-Yj0">
+                                <rect key="frame" x="166" y="147" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N8V-tE-ixy">
+                                <rect key="frame" x="166" y="188" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gGT-q8-5K8">
+                                <rect key="frame" x="166" y="383.5" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="gGT-q8-5K8" firstAttribute="centerX" secondItem="OiY-P3-knw" secondAttribute="centerX" id="3bx-7J-o6E"/>
                             <constraint firstItem="SaA-5a-QMJ" firstAttribute="centerX" secondItem="OiY-P3-knw" secondAttribute="centerX" id="3hs-BV-Qui"/>
+                            <constraint firstItem="9S7-jP-Yj0" firstAttribute="centerX" secondItem="OiY-P3-knw" secondAttribute="centerX" id="5Pk-7o-8fx"/>
+                            <constraint firstItem="N8V-tE-ixy" firstAttribute="centerX" secondItem="OiY-P3-knw" secondAttribute="centerX" id="Iyx-7R-cCQ"/>
                             <constraint firstItem="UN2-2a-Yrt" firstAttribute="top" secondItem="SaA-5a-QMJ" secondAttribute="bottom" constant="20" id="Jy8-zt-tQC"/>
                             <constraint firstItem="SaA-5a-QMJ" firstAttribute="top" secondItem="su8-iA-Ijh" secondAttribute="bottom" constant="10" id="Ltx-Xa-mWQ"/>
                             <constraint firstItem="UN2-2a-Yrt" firstAttribute="centerX" secondItem="SaA-5a-QMJ" secondAttribute="centerX" id="O2h-Yf-vUC"/>
-                            <constraint firstItem="SaA-5a-QMJ" firstAttribute="centerY" secondItem="OiY-P3-knw" secondAttribute="centerY" constant="-100" id="eHK-w8-ldk"/>
+                            <constraint firstItem="9S7-jP-Yj0" firstAttribute="top" secondItem="AzB-eE-kJU" secondAttribute="bottom" constant="20" id="cps-5L-Bal"/>
+                            <constraint firstItem="SaA-5a-QMJ" firstAttribute="centerY" secondItem="OiY-P3-knw" secondAttribute="centerY" constant="-40" id="eHK-w8-ldk"/>
+                            <constraint firstItem="N8V-tE-ixy" firstAttribute="top" secondItem="9S7-jP-Yj0" secondAttribute="bottom" constant="20" id="f9I-er-25X"/>
+                            <constraint firstItem="AzB-eE-kJU" firstAttribute="top" secondItem="IvU-7q-2cD" secondAttribute="bottom" constant="40" id="fRX-kz-c3b"/>
+                            <constraint firstItem="gGT-q8-5K8" firstAttribute="top" secondItem="UN2-2a-Yrt" secondAttribute="bottom" constant="20" id="nPY-Nu-YLV"/>
                             <constraint firstItem="su8-iA-Ijh" firstAttribute="centerX" secondItem="OiY-P3-knw" secondAttribute="centerX" id="pFq-0l-WNG"/>
+                            <constraint firstItem="AzB-eE-kJU" firstAttribute="centerX" secondItem="OiY-P3-knw" secondAttribute="centerX" id="tcl-Mc-Iop"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="commandText" destination="SaA-5a-QMJ" id="E2E-PK-kOi"/>
+                        <outlet property="resultLab" destination="gGT-q8-5K8" id="hwl-dh-swE"/>
+                        <outlet property="sendBtn" destination="UN2-2a-Yrt" id="7cr-Bd-2Cj"/>
+                        <outlet property="targetDevice" destination="AzB-eE-kJU" id="HRl-P7-zeE"/>
+                        <outlet property="targetRemote" destination="9S7-jP-Yj0" id="p8H-4d-Ktp"/>
+                        <outlet property="targetServer" destination="N8V-tE-ixy" id="Ie0-jb-9G4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OiT-cc-ECD" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1465,36 +1502,36 @@ Ctrl: 参考APP控制开关对应的控制字，
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Lj-Cj-jzv">
-                                <rect key="frame" x="0.0" y="64" width="375" height="216"/>
+                                <rect key="frame" x="0.0" y="104" width="375" height="216"/>
                                 <connections>
                                     <outlet property="dataSource" destination="sJe-yq-NpR" id="6yE-1c-HCR"/>
                                     <outlet property="delegate" destination="sJe-yq-NpR" id="aUy-Op-Rh0"/>
                                 </connections>
                             </pickerView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="tip:买东西只能开一个,补货可以补多个" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qjy-jj-zNk">
-                                <rect key="frame" x="59.5" y="374" width="256" height="18"/>
+                                <rect key="frame" x="59.5" y="414" width="256" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ALN-tq-YKd">
-                                <rect key="frame" x="228" y="320.5" width="37" height="37"/>
+                                <rect key="frame" x="228" y="360.5" width="37" height="37"/>
                                 <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="2" minimumValue="2" maximumValue="17" translatesAutoresizingMaskIntoConstraints="NO" id="8lo-Tg-c0N">
-                                <rect key="frame" x="140" y="285" width="94" height="29"/>
+                                <rect key="frame" x="140" y="325" width="94" height="29"/>
                                 <connections>
                                     <action selector="countOfBox:" destination="sJe-yq-NpR" eventType="valueChanged" id="4SA-Kr-agJ"/>
                                 </connections>
                             </stepper>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="操作箱子个数:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ywY-1d-cWw">
-                                <rect key="frame" x="40" y="291.5" width="90" height="17"/>
+                                <rect key="frame" x="40" y="331.5" width="90" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="snN-h3-Vqw">
-                                <rect key="frame" x="156" y="324" width="62" height="30"/>
+                                <rect key="frame" x="156" y="364" width="62" height="30"/>
                                 <state key="normal" title="发送命令"/>
                                 <connections>
                                     <action selector="sendCommand:" destination="sJe-yq-NpR" eventType="touchUpInside" id="Qda-X6-KKm"/>
