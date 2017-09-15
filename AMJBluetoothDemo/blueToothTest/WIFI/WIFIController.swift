@@ -8,7 +8,9 @@
 
 import UIKit
 
-class WIFIController: UIViewController ,HiJoineDelegate{
+class WIFIController: UIViewController
+//    ,HiJoineDelegate
+{
     func hiJoineWiFiSucceed(_ succeed: String!) {
         activtion.stopAnimating()
         startBtn.isEnabled = true
@@ -51,12 +53,12 @@ class WIFIController: UIViewController ,HiJoineDelegate{
         sender.isEnabled = false
         self.activtion.startAnimating()
         self.pwd.endEditing(true)
-        let manger = HiJoine.init()
-        manger.delegate = self
-        manger.setBoardDataWithPassword(self.pwd.text!) { (result, message) in
-            self.resultLab.text = result.description + " :  " + message!
-            
-        }
+//        let manger = HiJoine.init()
+//        manger.delegate = self
+//        manger.setBoardDataWithPassword(self.pwd.text!) { (result, message) in
+//            self.resultLab.text = result.description + " :  " + message!
+//            
+//        }
         
     }
     
