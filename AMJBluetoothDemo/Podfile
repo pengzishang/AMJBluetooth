@@ -1,0 +1,5 @@
+platform :ios, '9.3'
+target 'blueToothTest' do
+    pod 'Bugly'
+    pod 'AFNetworking'
+end
