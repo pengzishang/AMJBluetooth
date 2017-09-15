@@ -101,9 +101,9 @@ class TestController: UIViewController,UITableViewDataSource,UITableViewDelegate
         else if self.deviceFullID(with: deviceInfoDic).hasPrefix("BB") {
             self .performSegue(withIdentifier: "sellmachine", sender: indexPath)
         }
-        else if self.deviceFullID(with: deviceInfoDic).hasPrefix("WIFI") {
-            self .performSegue(withIdentifier: "wifi", sender: indexPath)
-        }
+//        else if self.deviceFullID(with: deviceInfoDic).hasPrefix("WIFI") {
+//            self .performSegue(withIdentifier: "wifi", sender: indexPath)
+//        }
         else
         {
             self .performSegue(withIdentifier: "chooseVersion", sender: indexPath)
