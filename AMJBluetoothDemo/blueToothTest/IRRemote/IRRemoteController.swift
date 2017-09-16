@@ -124,13 +124,20 @@ class IRRemoteController: UIViewController , UIPickerViewDelegate , UIPickerView
         sender.isEnabled = false
         let command = ("254162" as NSString).full(withLengthCountBehide: 57)
         let deviceID = self.deviceID(with: self.deviceInfo)
-        BluetoothManager.getInstance()?.sendMutiCommand(withSingleDeviceID: deviceID!, sendType: .remoteNew, commands: [command!], success: { (data) in
+        BluetoothManager.getInstance()?.sendByteCommand(with: command!, deviceID: deviceID!, sendType: .remoteNew, success: { (data) in
             sender.isEnabled = true
         }, fail: { (failCode) -> UInt in
             sender.isEnabled = true
             ToolsFuntion.openErrorAlert(withTarget: self, errorCode: failCode)
             return 0
         })
+//        BluetoothManager.getInstance()?.sendMutiCommand(withSingleDeviceID: deviceID!, sendType: .remoteNew, commands: [command!], success: { (data) in
+//            sender.isEnabled = true
+//        }, fail: { (failCode) -> UInt in
+//            sender.isEnabled = true
+//            ToolsFuntion.openErrorAlert(withTarget: self, errorCode: failCode)
+//            return 0
+//        })
     }
     
     

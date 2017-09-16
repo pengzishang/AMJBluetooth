@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "BluetoothManager.h"
 #import "BlueToothObject.h"
 #import "BlueToothPeripheral.h"
 #import <Bugly/Bugly.h>

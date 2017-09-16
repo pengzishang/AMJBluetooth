@@ -126,7 +126,7 @@ typedef NS_ENUM(NSUInteger, SendType) {
  @param success <#success description#>
  @param fail <#fail description#>
  */
-- (void)notifyWithID:(NSString * __nonnull)deviceID success:(void (^ _Nullable)())success fail:(void (^ _Nullable)(NSString *_Nullable))fail;
+- (void)notifyWithID:(NSString * __nonnull)deviceID success:(void (^ _Nullable)(void))success fail:(void (^ _Nullable)(NSString *_Nullable))fail;
 
 
 /**

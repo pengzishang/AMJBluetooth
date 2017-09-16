@@ -7,7 +7,6 @@
 //
 
 //如果寻找设备过久,很容易导致控制失败
-#import "BluetoothManager.h"
 #import "NSString+StringOperation.h"
 #import "BlueToothObject.h"
 
@@ -259,7 +258,7 @@ NSString *_Nonnull const ScanTypeDescription[] = {
     [[NSRunLoop currentRunLoop] addTimer:_timeOutTimer forMode:NSDefaultRunLoopMode];
 }
 
-- (void)notifyWithID:(NSString *)deviceID success:(void (^ _Nullable)())success fail:(void (^ _Nullable)(NSString *_Nullable))fail
+- (void)notifyWithID:(NSString *)deviceID success:(void (^ _Nullable)(void))success fail:(void (^ _Nullable)(NSString *_Nullable))fail
 {
     __block BluetoothManager *blockManger = self;
     NSUInteger retryTime = _retryTime;
