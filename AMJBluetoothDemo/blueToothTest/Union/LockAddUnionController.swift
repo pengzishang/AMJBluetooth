@@ -27,7 +27,8 @@ class LockAddUnionController: UITableViewController {
             if Int(deviceTypeString!) != nil
             {
                 let deviceTypeInt = Int(deviceTypeString!)
-                guard deviceTypeInt! <= 5 else
+                
+                guard (deviceTypeInt! <= 5 || (deviceTypeInt! <= 13&&deviceTypeInt! >= 11) || (deviceTypeInt! <= 23&&deviceTypeInt! >= 21))else
                 {
                     return
                 }
