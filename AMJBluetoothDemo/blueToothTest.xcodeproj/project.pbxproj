@@ -173,6 +173,18 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		3CAAFE3022D6E4690042AD34 /* Tools&&DataBase */ = {
+			isa = PBXGroup;
+			children = (
+				64277D491F317FED00A9E54B /* ToolsFuntion.h */,
+				64277D4A1F317FED00A9E54B /* ToolsFuntion.m */,
+				648ADB521F6680C2004168D3 /* DeviceDataBase */,
+				3C74C9181EFB7B6E00E51CE4 /* NSString+StringOperation.h */,
+				3C74C9191EFB7B6E00E51CE4 /* NSString+StringOperation.m */,
+			);
+			path = "Tools&&DataBase";
+			sourceTree = "<group>";
+		};
 		641A86201F6A2B72000E3694 /* Remote */ = {
 			isa = PBXGroup;
 			children = (
@@ -219,14 +231,10 @@
 			children = (
 				649A30E81F55426100BEFA37 /* BlueToothPeripheral.h */,
 				649A30E91F55426100BEFA37 /* BlueToothPeripheral.m */,
-				3C74C9161EFB7B6E00E51CE4 /* BluetoothManager.h */,
-				3C74C9171EFB7B6E00E51CE4 /* BluetoothManager.m */,
 				646DFB271F42A8C3008F9076 /* BlueToothObject.h */,
 				646DFB281F42A8C3008F9076 /* BlueToothObject.m */,
 				643508EB1F53C43D00E63030 /* BlueToothMethoes.h */,
 				643508EC1F53C43D00E63030 /* BlueToothMethoes.m */,
-				64277D491F317FED00A9E54B /* ToolsFuntion.h */,
-				64277D4A1F317FED00A9E54B /* ToolsFuntion.m */,
 			);
 			path = BlueTooth;
 			sourceTree = "<group>";
@@ -242,13 +250,6 @@
 				3C74C91C1EFB7B7700E51CE4 /* DeviceTypeList.plist */,
 			);
 			path = DeviceDataBase;
-			sourceTree = "<group>";
-		};
-		648ADB531F6680E7004168D3 /* WIFI */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = WIFI;
 			sourceTree = "<group>";
 		};
 		648ADB551F668369004168D3 /* SellMachine */ = {
@@ -278,12 +279,11 @@
 		64DA151C1F0B42D4008E76FE /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				3C74C9161EFB7B6E00E51CE4 /* BluetoothManager.h */,
+				3C74C9171EFB7B6E00E51CE4 /* BluetoothManager.m */,
+				3CAAFE3022D6E4690042AD34 /* Tools&&DataBase */,
 				641A86201F6A2B72000E3694 /* Remote */,
-				648ADB531F6680E7004168D3 /* WIFI */,
-				648ADB521F6680C2004168D3 /* DeviceDataBase */,
 				648ADB511F668069004168D3 /* BlueTooth */,
-				3C74C9181EFB7B6E00E51CE4 /* NSString+StringOperation.h */,
-				3C74C9191EFB7B6E00E51CE4 /* NSString+StringOperation.m */,
 			);
 			path = Lib;
 			sourceTree = "<group>";
@@ -351,6 +351,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
